@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
+import PartnerBadge from "@/components/partner/PartnerBadge";
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
@@ -18,11 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen bg-black">
           <Navbar />
           <main className="flex-grow">{children}</main>
           <Footer />
         </div>
+        <PartnerBadge />
       </body>
     </html>
   )

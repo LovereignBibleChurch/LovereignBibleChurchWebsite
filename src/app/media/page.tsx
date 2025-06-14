@@ -1,10 +1,17 @@
+import Hero from "@/components/home/Hero";
+import { MediaheroData} from "@/data/heroData";
+import StreamingPlatforms from "@/components/media/streamingPlatforms";
+import SermonMessages from "@/components/media/SermonMessages";
+import PhotoGallery from "@/components/media/photoGallery";
 
 
 export default function Media() {
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-8">Media</h1>
-
+    <div className="">
+        <Hero items={MediaheroData} />
+        <StreamingPlatforms />
+        <SermonMessages />
+        <PhotoGallery />
     </div>
   )
 }

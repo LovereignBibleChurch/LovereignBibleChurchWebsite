@@ -1,12 +1,31 @@
+"use client"
 
+import { Suspense } from "react"
+import { useSearchParams } from "next/navigation"
+import BookDetails from "@/components/books/BooksDetails";
+import BooksList from "@/components/books/BooksLists";
 
-export default function Books() {
-  return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-8">Books & Publications</h1>
-      {/*<FeaturedBook />*/}
-      {/*<BookCategories />*/}
-      {/*<BooksList />*/}
-    </div>
-  )
+function BooksContent() {
+    const searchParams = useSearchParams()
+    const bookId = searchParams.get("id")
+
+    if (bookId) {
+        return <BookDetails bookId={Number.parseInt(bookId)} />
+    }
+
+    return <BooksList />
+}
+
+export default function BooksPage() {
+    return (
+        <Suspense
+            fallback={
+                <div className="min-h-screen bg-black flex items-center justify-center">
+                    <div className="text-gray-300">Loading...</div>
+                </div>
+            }
+        >
+            <BooksContent />
+        </Suspense>
+    )
 }

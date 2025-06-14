@@ -1,10 +1,13 @@
+import Hero from "@/components/home/Hero";
+import {heroData} from "@/data/heroData";
+import DonationMethods from "@/components/DonationMethods";
 
 
 export default function Give() {
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-8">Give</h1>
-
+    <div className="py-12">
+        <Hero items={heroData} />
+        <DonationMethods />
     </div>
   )
 }
