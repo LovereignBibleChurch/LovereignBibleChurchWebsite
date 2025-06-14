@@ -148,7 +148,7 @@ export default function TestimonyCorner() {
 
                             {/* Testimony Text */}
                             <blockquote className="text-xl md:text-2xl text-gray-700 font-light leading-relaxed mb-8 italic">
-                                "{testimonyData[currentIndex].testimony}"
+                                &#34;{testimonyData[currentIndex].testimony}&#34;
                             </blockquote>
 
                             {/* Author Info */}
@@ -213,7 +213,7 @@ export default function TestimonyCorner() {
                                     </div>
                                 </div>
 
-                                <p className="text-gray-700 text-sm leading-relaxed line-clamp-4 mb-4">"{testimony.testimony}"</p>
+                                <p className="text-gray-700 text-sm leading-relaxed line-clamp-4 mb-4">&#34;{testimony.testimony}&#34;</p>
 
                                 <div className="flex justify-between items-center text-xs text-gray-500">
                                     <span>{testimony.date}</span>
@@ -270,22 +270,13 @@ export default function TestimonyCorner() {
                         <span>Share Your Story</span>
                     </motion.button>
 
-                    <p className="text-sm text-gray-500 mt-4 font-light">We'd love to hear how God is working in your life</p>
+                    <p className="text-sm text-gray-500 mt-4 font-light">We&#39;d love to hear how God is working in your life</p>
                 </motion.div>
 
                 {/* Testimony Submission Form Modal */}
                 <TestimonySubmissionForm isOpen={isSubmissionFormOpen} onClose={() => setIsSubmissionFormOpen(false)} />
             </motion.div>
 
-            <style jsx>{`
-                .scrollbar-hide {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-            `}</style>
         </section>
     )
 }

@@ -26,6 +26,7 @@ const PodbeanIcon = ({ className }: { className?: string }) => (
 )
 
 // CountUp component for animating numbers
+// @ts-ignore
 const CountUp = ({ end, duration = 2000, prefix = "", suffix = "" }) => {
     const [count, setCount] = useState(0)
 

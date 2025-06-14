@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion"
 import { Clock, MapPin, Calendar, Sparkles, Sun, Moon } from "lucide-react"
+import {services} from "@/data/serviceData";
 
 export default function ServiceTimes() {
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -27,42 +29,6 @@ export default function ServiceTimes() {
     },
   }
 
-  const services = [
-    {
-      id: 1,
-      title: "Tuesday Midweek Service",
-      time: "6:00 PM - 8:30 PM",
-      description: "Prayer & Bible Study",
-      location: "Main Sanctuary",
-      icon: Calendar,
-      gradient: "from-blue-500 to-blue-600",
-      bgGradient: "from-blue-50 to-blue-100/50",
-      iconBg: "from-blue-100 to-blue-200",
-    },
-    {
-      id: 2,
-      title: "Friday Service",
-      time: "6:00 PM - 8:30 PM",
-      description: "Supernatural Encounter Night",
-      location: "Main Sanctuary",
-      icon: Sparkles,
-      gradient: "from-purple-500 to-purple-600",
-      bgGradient: "from-purple-50 to-purple-100/50",
-      iconBg: "from-purple-100 to-purple-200",
-    },
-    {
-      id: 3,
-      title: "Sunday Services",
-      time: "8:00 AM • 10:30 AM • 5:00 PM",
-      description: "Three Services Available",
-      location: "Main Sanctuary",
-      icon: Sun,
-      gradient: "from-amber-500 to-orange-500",
-      bgGradient: "from-amber-50 to-orange-100/50",
-      iconBg: "from-amber-100 to-orange-200",
-      featured: true,
-    },
-  ]
 
   return (
       <section className="py-20 relative overflow-hidden">
@@ -106,7 +72,7 @@ export default function ServiceTimes() {
             />
 
             <p className="text-lg text-gray-600 mt-6 max-w-2xl mx-auto font-light">
-              Experience God's presence with us throughout the week
+              Experience God&#39;s presence with us throughout the week
             </p>
           </motion.div>
 
@@ -209,7 +175,7 @@ export default function ServiceTimes() {
               <span>Plan Your Visit</span>
             </motion.button>
 
-            <p className="text-sm text-gray-500 mt-4 font-light">We can't wait to worship with you</p>
+            <p className="text-sm text-gray-500 mt-4 font-light">We can&#39;t wait to worship with you</p>
           </motion.div>
 
           {/* Floating Decorative Elements */}

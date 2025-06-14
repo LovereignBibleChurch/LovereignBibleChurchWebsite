@@ -10,7 +10,7 @@ import TestimonyCorner from "@/components/home/TestimonyCorner";
 
 export default function Home() {
   return (
-    <div className=" mx-auto px-4">
+    <div className="">
         <Hero items={heroData} />
         <EventsSlider events={eventsData} autoSlideInterval={6000} slidesToShow={{ mobile: 1, tablet: 2, desktop: 3 }} />
       <WelcomeMessage />
