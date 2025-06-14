@@ -1,12 +1,12 @@
 import Contact from "@/components/contact/contact";
 import Hero from "@/components/home/Hero";
-import {heroData} from "@/data/heroData";
+import {ContactheroData} from "@/data/heroData";
 
 
 export default function ContactUs() {
   return (
       <div className="py-12">
-          <Hero items={heroData} />
+          <Hero items={ContactheroData} />
           <Contact />
       </div>
       )

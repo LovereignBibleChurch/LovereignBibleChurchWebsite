@@ -413,10 +413,10 @@ export default function DonationMethods({ className = ""}: DonationMethodsProps)
                                     <p className="text-white/60 text-sm italic">
                                         For any questions about donations, please contact our finance team at{" "}
                                         <a
-                                            href="mailto:finance@lovereign.org"
+                                            href="mailto:info@lovereignBibleChurch.org"
                                             className="text-amber-400 hover:text-amber-300 transition-colors"
                                         >
-                                            finance@lovereign.org
+                                            info@lovereignBibleChurch.org
                                         </a>
                                     </p>
                                 </motion.div>

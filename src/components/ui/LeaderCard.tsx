@@ -65,7 +65,7 @@ export default function LeaderCard({ leader, index }: LeaderCardProps) {
                         </div>
                     )}
                     <Image
-                        src={leader.image || "/images/leaders/no-picture.png"}
+                        src={leader.image || "/church_leaders/noPic.png"}
                         alt={leader.name}
                         fill
                         className="object-cover"

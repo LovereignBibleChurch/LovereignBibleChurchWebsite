@@ -1,5 +1,4 @@
 import Hero from "@/components/home/Hero"
-import UpcomingEvents from "@/components/home/UpcomingEvents"
 import WelcomeMessage from "@/components/home/WelcomeMessage"
 import ServiceTimes from "@/components/home/ServiceTimes"
 import {heroData} from "@/data/heroData";

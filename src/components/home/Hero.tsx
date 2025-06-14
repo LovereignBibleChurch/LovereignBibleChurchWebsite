@@ -48,7 +48,7 @@ export default function Hero({
   const goToSlide = (index: number) => {
     setCurrentIndex(index)
     setIsAutoPlaying(false)
-    setTimeout(() => setIsAutoPlaying(true), 5000)
+    setTimeout(() => setIsAutoPlaying(true), 3000)
   }
 
   const goToPrevious = () => {
@@ -181,14 +181,6 @@ export default function Hero({
                   {currentItem.subtitle}
                 </span>
                 </p>
-                <motion.div
-                    className="mt-3 text-sm md:text-base text-gray-300/80 font-light italic"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.8, duration: 0.6 }}
-                >
-                  Where faith meets community
-                </motion.div>
               </motion.div>
 
               {/* Enhanced Buttons */}

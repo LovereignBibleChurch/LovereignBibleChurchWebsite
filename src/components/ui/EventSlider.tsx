@@ -31,7 +31,6 @@ export default function EventsSlider({
     const [slidesPerView, setSlidesPerView] = useState(slidesToShow.desktop)
     const sliderRef = useRef<HTMLDivElement>(null)
 
-    // Handle responsive slides per view
     useEffect(() => {
         const handleResize = () => {
             const width = window.innerWidth
@@ -49,7 +48,6 @@ export default function EventsSlider({
         return () => window.removeEventListener("resize", handleResize)
     }, [slidesToShow])
 
-    // Auto-slide functionality
     useEffect(() => {
         if (!isAutoPlaying || events.length <= slidesPerView) return
 
@@ -87,7 +85,7 @@ export default function EventsSlider({
     return (
         <section className="py-16 bg-gradient-to-b from-black/80 to-black">
             <div className="container mx-auto px-4">
-                {/* Header */}
+
                 <motion.div
                     className="text-center mb-12"
                     initial={{ opacity: 0, y: 20 }}
@@ -95,23 +93,21 @@ export default function EventsSlider({
                     transition={{ duration: 0.6 }}
                 >
                     <div className="flex items-center justify-center mb-4">
-                        <Calendar className="h-8 w-8 text-blue-600 mr-3" />
-                        <h2 className="text-3xl md:text-4xl font-bold text-blue-500">{title}</h2>
+                        <Calendar className="h-8 w-8 text-gray-100 mr-3" />
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-white to-teal-300 mb-2">
+                            {title}</h2>
                     </div>
                     <p className="text-lg text-white max-w-2xl mx-auto">{subtitle}</p>
 
-                    {/* Decorative Line */}
                     <motion.div
-                        className="w-24 h-1 bg-gradient-to-r from-blue-600 to-blue-400 mx-auto mt-6 rounded-full"
+                        className="w-24 h-1 bg-gradient-to-r from-teal-300 via-white to-teal-300 mx-auto mt-6 rounded-full"
                         initial={{ width: 0 }}
                         animate={{ width: 96 }}
                         transition={{ delay: 0.3, duration: 0.8 }}
                     />
                 </motion.div>
 
-                {/* Slider Container */}
                 <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                    {/* Events Grid */}
                     <div className="overflow-hidden" ref={sliderRef}>
                         <motion.div
                             className="flex gap-6"
@@ -140,7 +136,7 @@ export default function EventsSlider({
                         </motion.div>
                     </div>
 
-                    {/* Navigation Arrows */}
+
                     {events.length > slidesPerView && (
                         <>
                             <button
@@ -162,7 +158,6 @@ export default function EventsSlider({
                     )}
                 </div>
 
-                {/* Dots Indicator */}
                 {events.length > slidesPerView && (
                     <div className="flex justify-center mt-8 gap-2">
                         {Array.from({ length: maxIndex + 1 }).map((_, index) => (

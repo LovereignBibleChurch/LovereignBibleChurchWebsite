@@ -17,7 +17,7 @@ export const eventsData: EventItem[] = [
         time: "9:00 AM",
         image: "/church_flyers/midweek.jpeg",
         description: "Join us for our weekly worship service filled with praise, prayer, and the Word of God.",
-        location: "Main Sanctuary",
+        location: "Wellspring, Achimota Ghana",
         category: "Worship",
     },
     {
@@ -27,8 +27,8 @@ export const eventsData: EventItem[] = [
         time: "7:00 PM",
         image: "/church_flyers/sen.jpeg",
         description: "A dynamic Bible study session designed specifically for our youth community.",
-        location: "Youth Center",
-        category: "Youth",
+        location: "Wellspring, Achimota Ghana",
+        category: "Prayer",
     },
     {
         id: 3,
@@ -37,7 +37,7 @@ export const eventsData: EventItem[] = [
         time: "10:00 AM",
         image:"/church_flyers/sunday.jpeg",
         description: "Join us as we serve our local community with love and compassion.",
-        location: "Community Center",
-        category: "Outreach",
+        location: "Wellspring, Achimota Ghana",
+        category: "Service",
     },
 ]

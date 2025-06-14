@@ -183,7 +183,7 @@ export default function TestimonyCorner() {
                 <motion.div className="relative" variants={itemVariants}>
                     <div
                         ref={scrollContainerRef}
-                        className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
+                        className="flex gap-4 overflow-x-auto scrollbar-hide items-center justify-center pb-4 snap-x snap-mandatory"
                         onScroll={handleScroll}
                         onMouseDown={() => setIsDragging(true)}
                         onMouseUp={() => setIsDragging(false)}

@@ -30,7 +30,7 @@ export default function EventCard({ event, index, isActive = false }: EventCardP
     return (
         <motion.div
             className={`relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 group ${
-                isActive ? "ring-2 ring-blue-500 ring-opacity-50" : ""
+                isActive ? "ring-2 ring-gray-50 ring-opacity-50" : ""
             }`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -50,13 +50,12 @@ export default function EventCard({ event, index, isActive = false }: EventCardP
                 {/* Category Badge */}
                 {event.category && (
                     <div className="absolute top-4 left-4 z-10">
-            <span className="px-3 py-1 bg-blue-600/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
+            <span className="px-3 py-1 bg-gray-50 backdrop-blur-sm text-blue-400 text-xs font-medium rounded-full">
               {event.category}
             </span>
                     </div>
                 )}
 
-                {/* Date Badge */}
                 <div className="absolute top-4 right-4 z-10 bg-white/95 backdrop-blur-sm rounded-xl p-3 text-center shadow-lg">
                     <div className="text-xs font-medium text-gray-600 uppercase tracking-wide">
                         {formatDate(event.date).split(" ")[0]}
@@ -90,16 +89,6 @@ export default function EventCard({ event, index, isActive = false }: EventCardP
                         </div>
                     )}
                 </div>
-
-                {/* Learn More Button */}
-                <motion.button
-                    className="group/btn flex items-center text-blue-600 font-medium text-sm hover:text-blue-700 transition-colors duration-300"
-                    whileHover={{ x: 4 }}
-                    transition={{ duration: 0.2 }}
-                >
-                    <span>Learn More</span>
-                    <ArrowRight className="h-4 w-4 ml-2 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                </motion.button>
             </div>
         </motion.div>
     )

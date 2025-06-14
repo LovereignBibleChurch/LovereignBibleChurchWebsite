@@ -286,9 +286,11 @@ export default function Footer() {
               <div className="mt-6 p-4 bg-white/5 rounded-lg border border-white/10">
                 <h4 className="font-semibold text-blue-400 mb-2">Service Times</h4>
                 <p className="text-sm text-gray-300">
-                  Sunday: 9:00 AM & 11:00 AM
+                  Sunday: 8:00 AM & 11:00 AM & 5:00 PM
                   <br />
-                  Wednesday: 7:00 PM
+                  Wednesday: 6:00 PM
+                  <br />
+                  Friday: 6:00 PM
                 </p>
               </div>
             </div>

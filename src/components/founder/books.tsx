@@ -53,7 +53,7 @@ export default function Books() {
                 <div className="flex items-center justify-center md:justify-start mb-4">
                     <div className="h-1 w-16 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full mr-4"></div>
                     <span className="text-blue-300 uppercase tracking-wider text-sm font-medium">
-            Coming Soon
+            Published Books
           </span>
                 </div>
 

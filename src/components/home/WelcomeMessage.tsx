@@ -1,8 +1,9 @@
 "use client"
 
-import { motion } from "framer-motion"
+import {motion, useInView, useScroll, useTransform} from "framer-motion"
 import { Heart, Sparkles } from "lucide-react"
-
+import {useRef} from "react";
+const seats = "/backgroundImages/seats.jpeg";
 export default function WelcomeMessage() {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -39,16 +40,39 @@ export default function WelcomeMessage() {
     },
   }
 
-  return (
+    const containerRef = useRef(null);
+
+
+    // Scroll-based animations
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"],
+    });
+
+    const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+    const opacity = useTransform(
+        scrollYProgress,
+        [0, 0.3, 0.8, 1],
+        [0.7, 1, 1, 0.7],
+    );
+
+
+    return (
+      <motion.div
+          ref={containerRef}
+          className="relative h-screen w-full overflow-hidden -mt-20 z-30"
+          style={{ opacity }}
+      >
+          {/* Background image with parallax */}
+          <motion.div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                  backgroundImage: `url(${seats})`,
+                  y: bgY,
+              }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/80 z-10"></div>
       <section className="py-24 relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-50/20 via-transparent to-purple-50/20" />
-
-        {/* Floating Decorative Elements */}
-        <motion.div className="absolute top-20 left-1/4 opacity-20" variants={floatingVariants} animate="animate">
-          <Heart className="h-8 w-8 text-blue-400" />
-        </motion.div>
-
         <motion.div
             className="absolute top-32 right-1/3 opacity-15"
             variants={floatingVariants}
@@ -84,15 +108,15 @@ export default function WelcomeMessage() {
                 transition: { duration: 0.6 },
               }}
           >
-            <Heart className="h-10 w-10 text-blue-600" />
+            <Heart className="h-10 w-10 text-[#fde68a]" />
           </motion.div>
 
           {/* Main Heading */}
           <motion.h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight" variants={itemVariants}>
-          <span className="bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-white via-gray-700 to-gray-100 bg-clip-text text-transparent">
            This is Church{" "}
           </span>
-            <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 bg-clip-text text-transparent relative">
+            <span className="bg-gradient-to-r from-[#fde68a] via-gray-300 to-[#fde68b] bg-clip-text text-transparent relative">
            This is Home
             <motion.div
                 className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"
@@ -105,15 +129,15 @@ export default function WelcomeMessage() {
 
           {/* First Paragraph */}
           <motion.p
-              className="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed font-light max-w-3xl mx-auto"
+              className="text-xl md:text-2xl text-white leading-relaxed font-light max-w-3xl mx-auto"
               variants={itemVariants}
           >
             We are a{" "}
-            <span className="font-medium bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
+            <span className="font-medium bg-[#fde68a] bg-clip-text text-transparent">
             community of believers
           </span>{" "}
             dedicated to serving God and spreading His love. Our church is a place where{" "}
-            <span className="font-medium text-gray-800">everyone is welcome</span>, regardless of where you are in your
+            <span className="font-medium text-[#fde68a]">everyone is welcome</span>, regardless of where you are in your
             spiritual journey.
           </motion.p>
 
@@ -137,48 +161,17 @@ export default function WelcomeMessage() {
 
           {/* Second Paragraph */}
           <motion.p
-              className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed font-light max-w-3xl mx-auto"
+              className="text-xl md:text-2xl text-white mb-12 leading-relaxed font-light max-w-3xl mx-auto"
               variants={itemVariants}
           >
             We believe in the power of{" "}
-            <span className="font-medium bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            <span className="font-medium bg-gradient-to-r from-[#fde68a] via-gray-300 to-[#fde68b] bg-clip-text text-transparent">
             faith, community, and service
           </span>
             . Join us as we worship together, grow in our faith, and make a positive impact in our community and beyond.
           </motion.p>
-
-          {/* Call to Action */}
-          <motion.div className="flex flex-col items-center" variants={itemVariants}>
-            <motion.button
-                className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-4 rounded-full font-medium text-lg shadow-lg overflow-hidden"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 20px 40px rgba(59, 130, 246, 0.4)",
-                }}
-                whileTap={{ scale: 0.95 }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <Heart className="h-5 w-5 relative z-10" />
-              <span className="relative z-10">Join Our Family Today</span>
-            </motion.button>
-
-            <motion.p
-                className="text-sm text-gray-500 mt-4 font-light italic"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2.5, duration: 0.8 }}
-            >
-              Experience the warmth of our community
-            </motion.p>
-          </motion.div>
-
-          {/* Subtle Background Pattern */}
-          <div className="absolute inset-0 opacity-5 pointer-events-none">
-            <div className="absolute top-10 left-10 w-32 h-32 bg-blue-400 rounded-full blur-3xl" />
-            <div className="absolute bottom-10 right-10 w-40 h-40 bg-purple-400 rounded-full blur-3xl" />
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-blue-200 to-purple-200 rounded-full blur-3xl" />
-          </div>
         </motion.div>
       </section>
+      </motion.div>
   )
 }

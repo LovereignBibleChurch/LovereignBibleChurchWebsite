@@ -25,45 +25,65 @@ const PodbeanIcon = ({ className }: { className?: string }) => (
     </svg>
 )
 
-// CountUp component for animating numbers
-// @ts-ignore
-const CountUp = ({ end, duration = 2000, prefix = "", suffix = "" }) => {
+// Enhanced CountUp component with better visibility and control
+const CountUp = ({ end, duration = 3000, prefix = "", suffix = "", delay = 0 }) => {
     const [count, setCount] = useState(0)
+    const [hasStarted, setHasStarted] = useState(false)
 
     useEffect(() => {
-        let startTime: number
-        let animationFrame: number
+        if (!hasStarted) return
 
-        const updateCount = (timestamp: number) => {
-            if (!startTime) startTime = timestamp
-            const progress = timestamp - startTime
+        const startDelay = setTimeout(() => {
+            let startTime: number
+            let animationFrame: number
 
-            if (progress < duration) {
-                const percentage = progress / duration
-                // Easing function for smoother animation
-                const easeOutQuart = 1 - Math.pow(1 - percentage, 4)
-                setCount(Math.floor(easeOutQuart * end))
-                animationFrame = requestAnimationFrame(updateCount)
-            } else {
-                setCount(end)
+            const updateCount = (timestamp: number) => {
+                if (!startTime) startTime = timestamp
+                const progress = timestamp - startTime
+
+                if (progress < duration) {
+                    const percentage = progress / duration
+                    // Easing function for smoother animation
+                    const easeOutQuart = 1 - Math.pow(1 - percentage, 4)
+                    setCount(Math.floor(easeOutQuart * end))
+                    animationFrame = requestAnimationFrame(updateCount)
+                } else {
+                    setCount(end)
+                }
             }
-        }
 
-        animationFrame = requestAnimationFrame(updateCount)
+            animationFrame = requestAnimationFrame(updateCount)
+
+            return () => {
+                if (animationFrame) {
+                    cancelAnimationFrame(animationFrame)
+                }
+            }
+        }, delay)
 
         return () => {
-            if (animationFrame) {
-                cancelAnimationFrame(animationFrame)
-            }
+            clearTimeout(startDelay)
         }
-    }, [end, duration])
+    }, [end, duration, delay, hasStarted])
+
+    // Function to start counting
+    const startCounting = () => {
+        if (!hasStarted) {
+            setHasStarted(true)
+        }
+    }
 
     return (
-        <span>
-      {prefix}
+        <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            onViewportEnter={startCounting}
+            viewport={{ once: true, margin: "-100px" }}
+        >
+            {prefix}
             {count.toLocaleString()}
             {suffix}
-    </span>
+        </motion.span>
     )
 }
 
@@ -96,43 +116,43 @@ export default function OnlineCommunity() {
             name: "YouTube",
             icon: Youtube,
             url: "#",
-            color: "text-[#FF0000] hover:text-[#e50000]",
-            bgColor: "bg-red-50 hover:bg-red-100",
+            color: "text-gray-300 hover:text-gray-100",
+            bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
         },
         {
             name: "Podbean",
             icon: PodbeanIcon,
             url: "#",
-            color: "text-[#FF6B35] hover:text-[#e55a2b]",
-            bgColor: "bg-orange-50 hover:bg-orange-100",
+            color: "text-gray-300 hover:text-gray-100",
+            bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
         },
         {
             name: "TikTok",
             icon: TikTokIcon,
             url: "#",
-            color: "text-[#000000] hover:text-[#333333]",
-            bgColor: "bg-gray-50 hover:bg-gray-100",
+            color: "text-gray-300 hover:text-gray-100",
+            bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
         },
         {
             name: "Instagram",
             icon: Instagram,
             url: "#",
-            color: "text-[#E4405F] hover:text-[#d73653]",
-            bgColor: "bg-pink-50 hover:bg-pink-100",
+            color: "text-gray-300 hover:text-gray-100",
+            bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
         },
         {
             name: "Facebook",
             icon: Facebook,
             url: "#",
-            color: "text-[#1877F2] hover:text-[#0e6eef]",
-            bgColor: "bg-blue-50 hover:bg-blue-100",
+            color: "text-gray-300 hover:text-gray-100",
+            bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
         },
         {
             name: "X",
             icon: XIcon,
             url: "#",
-            color: "text-[#000000] hover:text-[#333333]",
-            bgColor: "bg-gray-50 hover:bg-gray-100",
+            color: "text-gray-300 hover:text-gray-100",
+            bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
         },
     ]
 
@@ -141,31 +161,31 @@ export default function OnlineCommunity() {
             title: "Sermons",
             value: 520,
             icon: Video,
-            color: "text-blue-600",
-            bgColor: "bg-blue-100",
+            color: "text-gray-300",
+            bgColor: "bg-gray-800/50",
         },
         {
             title: "Messages",
             value: 1250,
             icon: MessageCircle,
-            color: "text-purple-600",
-            bgColor: "bg-purple-100",
+            color: "text-gray-300",
+            bgColor: "bg-gray-800/50",
         },
         {
             title: "Podcasts",
             value: 180,
             icon: Headphones,
-            color: "text-amber-600",
-            bgColor: "bg-amber-100",
+            color: "text-gray-300",
+            bgColor: "bg-gray-800/50",
         },
     ]
 
     return (
-        <section className="py-20 relative overflow-hidden">
+        <section className="py-20 relative overflow-hidden bg-black">
             {/* Background Elements */}
-            <div className="absolute inset-0 bg-gradient-to-b from-white via-blue-50/30 to-white" />
-            <div className="absolute top-20 right-20 w-40 h-40 bg-blue-100/20 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 left-20 w-32 h-32 bg-purple-100/20 rounded-full blur-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/30 to-black" />
+            <div className="absolute top-20 right-20 w-40 h-40 bg-gray-800/20 rounded-full blur-3xl" />
+            <div className="absolute bottom-20 left-20 w-32 h-32 bg-gray-700/20 rounded-full blur-3xl" />
 
             <motion.div
                 className="container mx-auto px-4 relative z-10"
@@ -177,33 +197,33 @@ export default function OnlineCommunity() {
                 {/* Header */}
                 <motion.div className="text-center mb-16" variants={itemVariants}>
                     <motion.div
-                        className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm rounded-2xl mb-6 border border-white/20"
+                        className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-gray-800/50 to-gray-700/50 backdrop-blur-sm rounded-2xl mb-6 border border-gray-600/20"
                         whileHover={{
                             scale: 1.1,
                             rotate: 360,
                             transition: { duration: 0.6 },
                         }}
                     >
-                        <Globe className="h-8 w-8 text-blue-600" />
+                        <Globe className="h-8 w-8 text-gray-300" />
                     </motion.div>
 
                     <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-gray-100 via-gray-300 to-gray-100 bg-clip-text text-transparent">
               Join Our{" "}
             </span>
-                        <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-gray-400 to-gray-500 bg-clip-text text-transparent">
               Online Community
             </span>
                     </h2>
 
                     <motion.div
-                        className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"
+                        className="w-24 h-1 bg-gradient-to-r from-gray-500 to-gray-600 mx-auto rounded-full"
                         initial={{ width: 0 }}
                         animate={{ width: 96 }}
                         transition={{ delay: 0.5, duration: 0.8 }}
                     />
 
-                    <p className="text-lg text-gray-600 mt-6 max-w-2xl mx-auto font-light">
+                    <p className="text-lg text-gray-400 mt-6 max-w-2xl mx-auto font-light">
                         Connect with us on social media and access our growing library of spiritual content
                     </p>
                 </motion.div>
@@ -216,7 +236,7 @@ export default function OnlineCommunity() {
                             <motion.a
                                 key={platform.name}
                                 href={platform.url}
-                                className={`group relative flex items-center justify-center w-14 h-14 rounded-2xl transition-all duration-300 ${platform.bgColor} ${platform.color}`}
+                                className={`group relative flex items-center justify-center w-14 h-14 rounded-2xl transition-all duration-300 ${platform.bgColor} ${platform.color} border border-gray-700/30`}
                                 whileHover={{ y: -3, scale: 1.1 }}
                                 whileTap={{ scale: 0.95 }}
                                 variants={itemVariants}
@@ -227,7 +247,7 @@ export default function OnlineCommunity() {
                                 <IconComponent className="h-7 w-7" />
 
                                 {/* Tooltip */}
-                                <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+                                <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-gray-100 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap border border-gray-600">
                                     {platform.name}
                                 </div>
                             </motion.a>
@@ -237,10 +257,10 @@ export default function OnlineCommunity() {
 
                 {/* Stats with Count Up */}
                 <motion.div
-                    className="bg-transparent backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-lg"
+                    className="bg-gray-900/70 backdrop-blur-sm rounded-3xl p-8 border border-gray-700/30 shadow-lg"
                     variants={itemVariants}
                 >
-                    <h3 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-gray-800 to-gray-700 bg-clip-text text-transparent">
+                    <h3 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
                         Our Growing Content Library
                     </h3>
 
@@ -253,16 +273,22 @@ export default function OnlineCommunity() {
                                     className="flex flex-col items-center text-center"
                                     whileHover={{ y: -5 }}
                                     transition={{ duration: 0.3 }}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "-50px" }}
+                                    transition={{ duration: 0.6, delay: index * 0.2 }}
                                 >
-                                    <div className={`w-16 h-16 ${stat.bgColor} rounded-full flex items-center justify-center mb-4`}>
+                                    <div
+                                        className={`w-16 h-16 ${stat.bgColor} rounded-full flex items-center justify-center mb-4 border border-gray-700/30`}
+                                    >
                                         <IconComponent className={`h-8 w-8 ${stat.color}`} />
                                     </div>
 
-                                    <h4 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                                        <CountUp end={stat.value} prefix="" suffix="+" />
+                                    <h4 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
+                                        <CountUp end={stat.value} prefix="" suffix="+" duration={2500} delay={index * 300} />
                                     </h4>
 
-                                    <p className="text-gray-600 font-medium">{stat.title}</p>
+                                    <p className="text-gray-400 font-medium">{stat.title}</p>
                                 </motion.div>
                             )
                         })}
@@ -273,10 +299,10 @@ export default function OnlineCommunity() {
                 <motion.div className="text-center mt-12" variants={itemVariants}>
                     <motion.a
                         href="#"
-                        className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full font-medium text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-gray-700 to-gray-800 text-gray-100 px-8 py-4 rounded-full font-medium text-lg shadow-lg hover:shadow-xl hover:shadow-gray-900/50 transition-all duration-300 border border-gray-600/30"
                         whileHover={{
                             scale: 1.05,
-                            boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)",
+                            boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
                         }}
                         whileTap={{ scale: 0.95 }}
                     >

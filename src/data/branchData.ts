@@ -33,7 +33,7 @@ export const branchData: BranchItem[] = [
         name: "Ho S Church",
         pastor: {
             name: "Pastor Emmanuel Fiifi Robertson",
-            photo: "/images/branches/pastor-emmanuel-fiifi.jpg",
+            photo: "/church_leaders/PastorEmmanuelFiifiRobert.jpg",
         },
         location: "Trafalgar (Behind Supercare Specialist and Fertility Center), Ho",
         contact: "+233 59 467 2032",
@@ -52,7 +52,7 @@ export const branchData: BranchItem[] = [
         name: "Abeka S Church",
         pastor: {
             name: "Pastor Emmanuel Yartey",
-            photo: "/images/branches/pastor-emmanuel-yartey.jpg",
+            photo: "/church_leaders/PastorEmmanuelYartey.jpg",
         },
         location: "Abeka Free Pipe Junction",
         contact: "+233 54 957 0219",
@@ -71,7 +71,7 @@ export const branchData: BranchItem[] = [
         name: "Sowutuom F Church",
         pastor: {
             name: "Pastor Moses Frimpong Boateng",
-            photo: "/images/branches/pastor-moses.jpg",
+            photo: "/church_leaders/PastorMosesFrimpong.jpg",
         },
         location: "Sowutuom, Adjacent Pentecost University",
         contact: "+233 59 802 3269",
@@ -90,7 +90,7 @@ export const branchData: BranchItem[] = [
         name: "Adabraka F Church",
         pastor: {
             name: "Pastor Michael Oduro",
-            photo: "/images/branches/pastor-michael-oduro.jpg",
+            photo: "/church_leaders/PastorMichaelOduro.jpg",
         },
         location: "Graphic Road, Opposite First Allied Savings and Loans Limited",
         contact: "+233 24 937 7622",
@@ -109,7 +109,7 @@ export const branchData: BranchItem[] = [
         name: "Koforidua F Church",
         pastor: {
             name: "Chief Elder Charles Phillips Fiadjoe",
-            photo: "/images/branches/chief-elder-charles.jpg",
+            photo: "/church_leaders/ChiefElderCharlesFiadjoe.jpg",
         },
         location: "Koforidua Technical University, Getfund Hall",
         contact: "+233 59 690 0722",
@@ -129,7 +129,7 @@ export const branchData: BranchItem[] = [
         name: "Pantang F Church",
         pastor: {
             name: "Chief Elder Prosper Asamoah Mensah",
-            photo: "/images/branches/ce-elder-prosper.jpg",
+            photo: "/church_leaders/pastorprosper.jpeg",
         },
         location: "Trassaco, First Gate",
         contact: "+233 54 739 0354",
@@ -148,7 +148,7 @@ export const branchData: BranchItem[] = [
         name: "Tantra F Church",
         pastor: {
             name: "Pastor Herbert Togbe",
-            photo: "/images/branches/ce-herbert.jpg",
+            photo: "/church_leaders/CEHerbertTogbey.jpg",
         },
         location: "Adjacent Tantra Hill Roundabout",
         contact: "+233 54 404 8436",
@@ -167,7 +167,7 @@ export const branchData: BranchItem[] = [
         name: "North Legon F Church",
         pastor: {
             name: "Chief Elder Charles Phillips Fiadjoe",
-            photo: "/images/branches/chief-elder-charles.jpg",
+            photo: "/church_leaders/ChiefElderCharlesFiadjoe.jpg",
         },
         location: "Unique Citizens University College",
         contact: "+233 59 896 9708",
@@ -186,7 +186,7 @@ export const branchData: BranchItem[] = [
         name: "Bole F Church",
         pastor: {
             name: "Pastor Michael Winfred Wilson Agbadze",
-            photo: "/images/branches/pastor-michael-agbadze.jpg",
+            photo: "/church_leaders/PastorMicahelAgbadze.png",
         },
         location: "Bole Resource Center for Ghana Federation of Disabled (P W D)",
         contact: "+233 24 094 6964",
@@ -205,7 +205,7 @@ export const branchData: BranchItem[] = [
         name: "East Legon F Church",
         pastor: {
             name: "Pastor Terrick Naador",
-            photo: "/images/branches/ce-terrick.jpg",
+            photo: "/church_leaders/CETerrick.jpg",
         },
         location: "Bethel Lodge Hotel",
         contact: "+233 54 043 6862",
@@ -224,7 +224,7 @@ export const branchData: BranchItem[] = [
         name: "Kumasi F Church",
         pastor: {
             name: "Pastor Abraham Tetteh",
-            photo: "/images/branches/pastor-abraham.jpg",
+            photo: "/church_leaders/PastorAbrahamTetteh.jpg",
         },
         location: "Delisa Hostel - Ayeduase - Kumasi",
         contact: "+233 59 895 8903",
@@ -243,7 +243,7 @@ export const branchData: BranchItem[] = [
         name: "Cape Coast F Church",
         pastor: {
             name: "Pastor Essien Oppong",
-            photo: "/images/branches/ce-elder-essien.jpg",
+            photo: "/church_leaders/CEElderEssienNana.jpg",
         },
         location: "Adjacent Saabahawk Hostel - UCC",
         contact: "+233 25 711 9791",
@@ -262,7 +262,7 @@ export const branchData: BranchItem[] = [
         name: "Winneba F Church",
         pastor: {
             name: "Pastor Vitalis Kanyei",
-            photo: "/images/branches/pastor-vitalis.jpg",
+            photo: "/church_leaders/PastorVitalis.jpg",
         },
         location: "",
         contact: "+233 54 325 6343",
@@ -281,7 +281,7 @@ export const branchData: BranchItem[] = [
         name: "UPSA F Church",
         pastor: {
             name: "Pastor Peter Hagin-Wealth",
-            photo: "/images/branches/ce-peter.jpg",
+            photo: "/church_leaders/CEPeterHagin-Wealth.jpg",
         },
         location: "Madina Akosombo Junction",
         contact: "+233 53 073 0728",
@@ -300,7 +300,7 @@ export const branchData: BranchItem[] = [
         name: "Haatso F Church",
         pastor: {
             name: "Pastor Frederick Agyemang",
-            photo: "/images/branches/ce-fred.jpg",
+            photo: "/church_leaders/CEFredAgyemang.jpg",
         },
         location: "Haatso-Atomic Main Road",
         contact: "+233 59 896 9699",
@@ -319,7 +319,7 @@ export const branchData: BranchItem[] = [
         name: "Korle-Bu F Church",
         pastor: {
             name: "Pastor Charles Yekple ",
-            photo: "/images/branches/pastor-charles.jpg",
+            photo: "/church_leaders/PastorCharles.jpg",
         },
         location: "Korle-Bu (Plaza opp. Ndafa Park",
         contact: "+233 079 0930",
@@ -338,7 +338,7 @@ export const branchData: BranchItem[] = [
         name: "Tema F Church",
         pastor: {
             name: "Pastor Benjamin Quayson",
-            photo: "/images/branches/pastor-benjamin.jpg",
+            photo: "/church_leaders/pastorBenjaminQuayson.jpg",
         },
         location: "Community 4, Near passport office",
         contact: "+233 24 563 3885",
@@ -357,7 +357,7 @@ export const branchData: BranchItem[] = [
         name: "Abelenkpe F Church",
         pastor: {
             name: "Pastor Kingsley Tetteh",
-            photo: "/images/branches/shepherd-kingsley.jpg",
+            photo: "/church_leaders/PastorKingsleyTetteh.jpg",
         },
         contact: "+ 233 54 475 1612",
         location: "Abelenkpe Taxi Rank",
@@ -376,7 +376,7 @@ export const branchData: BranchItem[] = [
         name: "Legon F Church",
         pastor: {
             name: "Elder Raphael Addai",
-            photo: "/images/branches/elder-raphael.jpg",
+            photo: "/church_leaders/chiefElderRapheal.png",
         },
         location: "Legon Main Campus",
         contact: "+233 24 678 9543",
@@ -395,7 +395,7 @@ export const branchData: BranchItem[] = [
         name: "Sunyani F Church",
         pastor: {
             name: "Pastor Frank Tetteh",
-            photo: "/images/branches/frank-tetteh.jpg",
+            photo: "/church_leaders/FrankTettehJunior.jpg",
         },
         location: "Executive Guest House (Opposite De-Ventas Hostel, Adjacent St. Vitus School)",
         contact: "+233 24 152 2989",
