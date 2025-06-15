@@ -71,11 +71,11 @@ export default function WelcomeMessage() {
                   y: bgY,
               }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/80 z-10"></div>
-      <section className="py-24 relative overflow-hidden">
+<section className="py-24 relative">
+  <div className="absolute inset-0 w-full min-h-screen bg-gradient-to-b from-black/60 via-black/50 to-black/80 z-10 pointer-events-none"></div>
         <motion.div
             className="absolute top-32 right-1/3 opacity-15"
-            variants={floatingVariants}
+            variants={{floatingVariants}}
             animate="animate"
             transition={{ delay: 2 }}
         >
@@ -84,7 +84,7 @@ export default function WelcomeMessage() {
 
         <motion.div
             className="absolute bottom-20 left-1/3 opacity-10"
-            variants={floatingVariants}
+            variants={{floatingVariants}}
             animate="animate"
             transition={{ delay: 4 }}
         >
@@ -101,7 +101,7 @@ export default function WelcomeMessage() {
           {/* Decorative Icon */}
           <motion.div
               className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm rounded-full mb-8 border border-white/20"
-              variants={itemVariants}
+              variants={{itemVariants}}
               whileHover={{
                 scale: 1.1,
                 rotate: 360,
@@ -112,7 +112,7 @@ export default function WelcomeMessage() {
           </motion.div>
 
           {/* Main Heading */}
-          <motion.h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight" variants={itemVariants}>
+          <motion.h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight" variants={{itemVariants}}>
           <span className="bg-gradient-to-r from-white via-gray-700 to-gray-100 bg-clip-text text-transparent">
            This is Church{" "}
           </span>
@@ -130,7 +130,7 @@ export default function WelcomeMessage() {
           {/* First Paragraph */}
           <motion.p
               className="text-xl md:text-2xl text-white leading-relaxed font-light max-w-3xl mx-auto"
-              variants={itemVariants}
+              variants={{itemVariants}}
           >
             We are a{" "}
             <span className="font-medium bg-[#fde68a] bg-clip-text text-transparent">
@@ -142,7 +142,7 @@ export default function WelcomeMessage() {
           </motion.p>
 
           {/* Decorative Divider */}
-          <motion.div className="flex items-center justify-center mb-8" variants={itemVariants}>
+          <motion.div className="flex items-center justify-center mb-8" variants={{itemVariants}}>
             <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent w-32" />
             <motion.div
                 className="mx-4 w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"
@@ -162,7 +162,7 @@ export default function WelcomeMessage() {
           {/* Second Paragraph */}
           <motion.p
               className="text-xl md:text-2xl text-white mb-12 leading-relaxed font-light max-w-3xl mx-auto"
-              variants={itemVariants}
+              variants={{itemVariants}}
           >
             We believe in the power of{" "}
             <span className="font-medium bg-gradient-to-r from-[#fde68a] via-gray-300 to-[#fde68b] bg-clip-text text-transparent">
