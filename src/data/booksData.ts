@@ -1,4 +1,4 @@
-const bookImage1 = "/books/giftsandcallings.jpg"
+const bookImage1 = "/books/giftsandcalling.jpg"
 const bookImage2 = "/books/systems_structures.jpg"
 const bookImage3 = "/books/work_of_ministry.jpg"
 
