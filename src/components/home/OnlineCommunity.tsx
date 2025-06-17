@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Facebook, Instagram, Youtube, Globe, MessageCircle, Video, Music, Headphones } from "lucide-react"
+import { Facebook, Instagram, Youtube, Globe, MessageCircle, Video, Music, Headphones, PodcastIcon } from "lucide-react"
 
 // Custom TikTok Icon (since it's not in Lucide)
 const TikTokIcon = ({ className }: { className?: string }) => (
@@ -18,15 +18,9 @@ const XIcon = ({ className }: { className?: string }) => (
     </svg>
 )
 
-// Custom Podbean Icon
-const PodbeanIcon = ({ className }: { className?: string }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-    </svg>
-)
 
 // Enhanced CountUp component with better visibility and control
-const CountUp = ({ end, duration = 3000, prefix = "", suffix = "", delay = 0 }) => {
+const CountUp = ({ end, duration = 3000, prefix = "", suffix = "", delay = 0 }: { end: number; duration?: number; prefix?: string; suffix?: string; delay?: number }) => {
     const [count, setCount] = useState(0)
     const [hasStarted, setHasStarted] = useState(false)
 
@@ -115,42 +109,42 @@ export default function OnlineCommunity() {
         {
             name: "YouTube",
             icon: Youtube,
-            url: "#",
+            url: "https://youtube.com/@lovereignbiblechurch?si=lExgqZKahNHcNtxS",
             color: "text-gray-300 hover:text-gray-100",
             bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
         },
         {
             name: "Podbean",
-            icon: PodbeanIcon,
-            url: "#",
+            icon: PodcastIcon,
+            url: "https://lovereignbiblechurch.podbean.com/?source=ad",
             color: "text-gray-300 hover:text-gray-100",
             bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
         },
         {
             name: "TikTok",
             icon: TikTokIcon,
-            url: "#",
+            url: "https://www.tiktok.com/@lovereignbiblechurch",
             color: "text-gray-300 hover:text-gray-100",
             bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
         },
         {
             name: "Instagram",
             icon: Instagram,
-            url: "#",
+            url: "https://www.instagram.com/lovereignbiblechurch",
             color: "text-gray-300 hover:text-gray-100",
             bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
         },
         {
             name: "Facebook",
             icon: Facebook,
-            url: "#",
+            url: "http://facebook.com/LOVEREIGNBIBLECHURCH",
             color: "text-gray-300 hover:text-gray-100",
             bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
         },
         {
             name: "X",
             icon: XIcon,
-            url: "#",
+            url: "https://x.com/lovereignchurch",
             color: "text-gray-300 hover:text-gray-100",
             bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
         },
@@ -195,7 +189,7 @@ export default function OnlineCommunity() {
                 viewport={{ once: true, margin: "-100px" }}
             >
                 {/* Header */}
-                <motion.div className="text-center mb-16" variants={itemVariants}>
+                <motion.div className="text-center mb-16" variants={{itemVariants}}>
                     <motion.div
                         className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-gray-800/50 to-gray-700/50 backdrop-blur-sm rounded-2xl mb-6 border border-gray-600/20"
                         whileHover={{
@@ -229,7 +223,7 @@ export default function OnlineCommunity() {
                 </motion.div>
 
                 {/* Social Media Icons */}
-                <motion.div className="flex justify-center items-center gap-4 mb-16" variants={itemVariants}>
+                <motion.div className="flex justify-center items-center gap-4 mb-16" variants={{itemVariants}}>
                     {socialPlatforms.map((platform, index) => {
                         const IconComponent = platform.icon
                         return (
@@ -239,7 +233,7 @@ export default function OnlineCommunity() {
                                 className={`group relative flex items-center justify-center w-14 h-14 rounded-2xl transition-all duration-300 ${platform.bgColor} ${platform.color} border border-gray-700/30`}
                                 whileHover={{ y: -3, scale: 1.1 }}
                                 whileTap={{ scale: 0.95 }}
-                                variants={itemVariants}
+                                variants={{itemVariants}}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title={platform.name}
@@ -258,7 +252,7 @@ export default function OnlineCommunity() {
                 {/* Stats with Count Up */}
                 <motion.div
                     className="bg-gray-900/70 backdrop-blur-sm rounded-3xl p-8 border border-gray-700/30 shadow-lg"
-                    variants={itemVariants}
+                    variants={{itemVariants}}
                 >
                     <h3 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
                         Our Growing Content Library
@@ -272,7 +266,6 @@ export default function OnlineCommunity() {
                                     key={stat.title}
                                     className="flex flex-col items-center text-center"
                                     whileHover={{ y: -5 }}
-                                    transition={{ duration: 0.3 }}
                                     initial={{ opacity: 0, y: 30 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true, margin: "-50px" }}
@@ -296,9 +289,9 @@ export default function OnlineCommunity() {
                 </motion.div>
 
                 {/* CTA */}
-                <motion.div className="text-center mt-12" variants={itemVariants}>
+                <motion.div className="text-center mt-12" variants={{itemVariants}}>
                     <motion.a
-                        href="#"
+                        href="/media"
                         className="inline-flex items-center gap-2 bg-gradient-to-r from-gray-700 to-gray-800 text-gray-100 px-8 py-4 rounded-full font-medium text-lg shadow-lg hover:shadow-xl hover:shadow-gray-900/50 transition-all duration-300 border border-gray-600/30"
                         whileHover={{
                             scale: 1.05,

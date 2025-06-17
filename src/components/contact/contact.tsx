@@ -3,7 +3,8 @@
 import { motion } from 'framer-motion';
 import React, { useState } from 'react'
 import {Clock, Home, Mail, MapPin, MapPinned, MessageCircle, Phone, Send} from "lucide-react";
-import LocationMap from './LocationMap';
+import emailjs from 'emailjs-com'; 
+
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -20,7 +21,7 @@ const Contact = () => {
         category: "",
     });
 
-    const [formErrors, setFormErrors] = useState({});
+    const [formErrors, setFormErrors] = useState<Record<string, string>>({});
     const [isSubmitting, setIsSubmitting] = useState({
         contact: false,
         partnership: false,
@@ -30,90 +31,89 @@ const Contact = () => {
         partnership: false,
     });
 
-    const handleChange = (e, formType) => {
-        // const { name, value } = e.target;
-        // if (formType === "contact") {
-        //     setFormData((prev) => ({ ...prev, [name]: value }));
-        // } else {
-        //     setPartnershipData((prev) => ({ ...prev, [name]: value }));
-        // }
+    // Simple validation
+    const validateForm = (data: Partial<typeof formData | typeof partnershipData>, type: "contact" | "partnership") => {
+        const errors: Record<string, string> = {};
+        if (type === "contact" && "name" in data && "message" in data && "email" in data) {
+            if (!data.name) errors.name = "Name is required";
+            if (!data.message) errors.message = "Message is required";
+            if (data.email && !/\S+@\S+\.\S+/.test(data.email))
+                errors.email = "Email is invalid";
+        } else if (type === "partnership" && "firstName" in data && "telephone" in data) {
+            if (!data.firstName) errors.firstName = "First name is required";
+            if (!data.telephone) errors.telephone = "Telephone is required";
+        }
+        return errors;
     };
 
-    const validateForm = (data, type) => {
-        // const errors = {};
-        // if (type === "contact") {
-        //     if (!data.name) errors.name = "Name is required";
-        //     if (!data.message) errors.message = "Message is required";
-        //     if (data.email && !/\S+@\S+\.\S+/.test(data.email))
-        //         errors.email = "Email is invalid";
-        // } else {
-        //     if (!data.firstName) errors.firstName = "First name is required";
-        //     if (!data.telephone) errors.telephone = "Telephone is required";
-        // }
-        // return errors;
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>, formType: "contact" | "partnership") => {
+        const { name, value } = e.target;
+        if (formType === "contact") {
+            setFormData((prev) => ({ ...prev, [name]: value }));
+        } else {
+            setPartnershipData((prev) => ({ ...prev, [name]: value }));
+        }
     };
 
-    const handleSubmit = (e, type) => {
-        // e.preventDefault();
-        // const data = type === "contact" ? formData : partnershipData;
-        // const errors = validateForm(data, type);
-        // setFormErrors(errors);
-        //
-        // if (Object.keys(errors).length === 0) {
-        //     // Set only the specific form's submitting state
-        //     setIsSubmitting((prev) => ({ ...prev, [type]: true }));
-        //
-        //     const templateParams =
-        //         type === "contact"
-        //             ? {
-        //                 name: formData.name,
-        //                 email: formData.email,
-        //                 phone: formData.phone,
-        //                 message: formData.message,
-        //             }
-        //             : {
-        //                 fullName: partnershipData.firstName,
-        //                 telephone: partnershipData.telephone,
-        //                 country: partnershipData.city,
-        //                 category: partnershipData.category,
-        //             };
-        //
-        //     emailjs
-        //         .send(
-        //             "service_cte8xrg",
-        //             type === "contact" ? "template_vruhehp" : "template_li13gbn",
-        //             templateParams,
-        //             "fN2qkg7bDDx_2te0R",
-        //         )
-        //         .then(
-        //             () => {
-        //                 if (type === "contact") {
-        //                     setFormData({ name: "", email: "", phone: "", message: "" });
-        //                     setSubmitSuccess((prev) => ({ ...prev, contact: true }));
-        //                 } else {
-        //                     setPartnershipData({
-        //                         firstName: "",
-        //                         telephone: "",
-        //                         city: "",
-        //                         category: "",
-        //                     });
-        //                     setSubmitSuccess((prev) => ({ ...prev, partnership: true }));
-        //                 }
-        //                 // Reset only the specific form's submitting state
-        //                 setIsSubmitting((prev) => ({ ...prev, [type]: false }));
-        //
-        //                 setTimeout(() => {
-        //                     setSubmitSuccess((prev) => ({ ...prev, [type]: false }));
-        //                 }, 3000);
-        //             },
-        //             (error) => {
-        //                 console.error("Error sending email:", error);
-        //                 alert("An error occurred. Please try again.");
-        //                 // Reset only the specific form's submitting state
-        //                 setIsSubmitting((prev) => ({ ...prev, [type]: false }));
-        //             },
-        //         );
-        // }
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, type: "contact" | "partnership") => {
+        e.preventDefault();
+        const data = type === "contact" ? formData : partnershipData;
+        const errors = validateForm(data, type);
+        setFormErrors(errors);
+
+        if (Object.keys(errors).length === 0) {
+            setIsSubmitting((prev) => ({ ...prev, [type]: true }));
+
+            let templateParams;
+            let templateId;
+            if (type === "contact") {
+                templateParams = {
+                    name: formData.name,
+                    email: formData.email,
+                    phone: formData.phone,
+                    message: formData.message,
+                };
+                templateId = "template_vruhehp";
+            } else {
+                templateParams = {
+                    fullName: partnershipData.firstName,
+                    telephone: partnershipData.telephone,
+                    country: partnershipData.city,
+                    category: partnershipData.category,
+                };
+                templateId = "template_li13gbn";
+            }
+
+            emailjs.send(
+                "service_cte8xrg",
+                templateId,
+                templateParams,
+                "fN2qkg7bDDx_2te0R"
+            )
+            .then(() => {
+                if (type === "contact") {
+                    setFormData({ name: "", email: "", phone: "", message: "" });
+                    setSubmitSuccess((prev) => ({ ...prev, contact: true }));
+                } else {
+                    setPartnershipData({
+                        firstName: "",
+                        telephone: "",
+                        city: "",
+                        category: "",
+                    });
+                    setSubmitSuccess((prev) => ({ ...prev, partnership: true }));
+                }
+                setIsSubmitting((prev) => ({ ...prev, [type]: false }));
+                setTimeout(() => {
+                    setSubmitSuccess((prev) => ({ ...prev, [type]: false }));
+                }, 3000);
+            })
+            .catch((error) => {
+                console.error("Error sending email:", error);
+                alert("An error occurred. Please try again.");
+                setIsSubmitting((prev) => ({ ...prev, [type]: false }));
+            });
+        }
     };
     return (
         <div className="bg-black text-white min-h-screen">
@@ -261,14 +261,14 @@ const Contact = () => {
 
                         {/* Map */}
                         <motion.div
+                            className="rounded-2xl overflow-hidden shadow-xl border border-gray-800 h-[400px]"
                             initial={{ opacity: 0, x: 30 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6 }}
                             viewport={{ once: true }}
-                            className="rounded-2xl overflow-hidden shadow-xl border border-gray-800 h-[400px]"
                         >
                             <div className="w-full h-full">
-                                <LocationMap latitude={5.639626} longitude={-0.219699} />
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.506838354526!2d-0.22212402519298347!3d5.639546732804268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9bfbf6a2f885%3A0xd6e43a9f1998b7d5!2sLovereign%20Bible%20Church!5e0!3m2!1sen!2sus!4v1750113667349!5m2!1sen!2sus" width="600" height="450"  allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                             </div>
                         </motion.div>
                     </div>
@@ -292,7 +292,7 @@ const Contact = () => {
                             </h2>
 
                             <form
-                                onSubmit={(e) =>{}}
+                                onSubmit={(e) => handleSubmit(e, "contact")}
                                 className="space-y-4"
                             >
                                 <div>
@@ -346,7 +346,7 @@ const Contact = () => {
                       name="message"
                       value={formData.message}
                       onChange={(e) => handleChange(e, "contact")}
-                      rows="5"
+                      rows={5}
                       className={`w-full px-4 py-3 text-sm border ${formErrors.message ? "border-red-500" : "border-gray-700"} bg-gray-900/50 text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all`}
                   ></textarea>
                                     {formErrors.message && (

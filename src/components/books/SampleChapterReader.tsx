@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { X, ChevronLeft, ChevronRight, BookOpen, Download } from "lucide-react"
+import { X, ChevronLeft, ChevronRight, BookOpen } from "lucide-react"
 import { useState } from "react"
 
 interface Book {
@@ -14,12 +14,13 @@ interface Book {
     }
 }
 
-interface SampleChapterReaderProps {
-    book: Book
-    onClose: () => void
+export interface SampleChapterReaderProps {
+  book: Book;
+  onClose: () => void;
+  onContinueFullBook: () => void;
 }
 
-export default function SampleChapterReader({ book, onClose }: SampleChapterReaderProps) {
+export default function SampleChapterReader({ book, onClose, onContinueFullBook }: SampleChapterReaderProps) {
     const [currentPage, setCurrentPage] = useState(0)
 
     const sampleChapter = book.sampleChapter || {
@@ -128,16 +129,13 @@ export default function SampleChapterReader({ book, onClose }: SampleChapterRead
             <div className="p-4 bg-gray-900/50 border-t border-gray-700">
                 <div className="flex items-center justify-center gap-4">
                     <button
-                        onClick={onClose}
+                        onClick={onContinueFullBook}
                         className="px-6 py-2 bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-gray-100 rounded-full transition-all duration-300 border border-gray-600/30"
                     >
                         Continue Reading Full Book
                     </button>
 
-                    <button className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white rounded-full transition-all duration-300">
-                        <Download className="h-4 w-4" />
-                        Download Sample
-                    </button>
+                 
                 </div>
             </div>
         </motion.div>

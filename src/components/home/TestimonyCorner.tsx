@@ -97,7 +97,7 @@ export default function TestimonyCorner() {
                 viewport={{ once: true, margin: "-100px" }}
             >
                 {/* Header */}
-                <motion.div className="text-center mb-16" variants={itemVariants}>
+                <motion.div className="text-center mb-16" variants={{itemVariants}}>
                     <motion.div
                         className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-amber-500/10 to-orange-500/10 backdrop-blur-sm rounded-2xl mb-6 border border-white/20"
                         whileHover={{
@@ -129,7 +129,7 @@ export default function TestimonyCorner() {
                 </motion.div>
 
                 {/* Main Testimony Display */}
-                <motion.div className="mb-12" variants={itemVariants}>
+                <motion.div className="mb-12" variants={{itemVariants}}>
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={currentIndex}
@@ -169,18 +169,13 @@ export default function TestimonyCorner() {
                                 </div>
                             </div>
 
-                            {/* Star Rating */}
-                            <div className="flex justify-center mt-6">
-                                {[...Array(5)].map((_, i) => (
-                                    <Star key={i} className="h-5 w-5 text-amber-400 fill-current" />
-                                ))}
-                            </div>
+                            
                         </motion.div>
                     </AnimatePresence>
                 </motion.div>
 
                 {/* Scrollable Testimony List */}
-                <motion.div className="relative" variants={itemVariants}>
+                <motion.div className="relative" variants={{itemVariants}}>
                     <div
                         ref={scrollContainerRef}
                         className="flex gap-4 overflow-x-auto scrollbar-hide items-center justify-center pb-4 snap-x snap-mandatory"
@@ -256,7 +251,7 @@ export default function TestimonyCorner() {
                 </div>
 
                 {/* CTA */}
-                <motion.div className="text-center mt-12" variants={itemVariants}>
+                <motion.div className="text-center mt-12" variants={{itemVariants}}>
                     <motion.button
                         onClick={() => setIsSubmissionFormOpen(true)}
                         className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-600 text-white px-8 py-4 rounded-full font-medium text-lg shadow-lg hover:shadow-xl transition-all duration-300"
