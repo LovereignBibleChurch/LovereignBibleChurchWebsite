@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
+
 export default function Footer() {
   const [formData, setFormData] = useState({
     name: "",
@@ -144,28 +145,36 @@ export default function Footer() {
               </p>
               <div className="flex space-x-4">
                 <a
-                    href="#"
+                    href="https://facebook.com/lovereignbiblechurch"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 bg-white/10 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors"
                 >
                   <span className="sr-only">Facebook</span>
                   <Facebook className="h-5 w-5" />
                 </a>
                 <a
-                    href="#"
+                    href="https://www.instagram.com/lovereignbiblechurch"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 bg-white/10 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors"
                 >
                   <span className="sr-only">Instagram</span>
                   <Instagram className="h-5 w-5" />
                 </a>
                 <a
-                    href="#"
+                    href="https://x.com/lovereignchurch"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 bg-white/10 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors"
                 >
                   <span className="sr-only">Twitter</span>
                   <Twitter className="h-5 w-5" />
                 </a>
                 <a
-                    href="#"
+                    href="https://www.youtube.com/@lovereignbiblechurch"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 bg-white/10 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors"
                 >
                   <span className="sr-only">YouTube</span>
@@ -262,9 +271,9 @@ export default function Footer() {
                   </div>
                   <div>
                   <span className="text-gray-300 leading-relaxed">
-                    123 Church Street
+                    Dome Pillar Two Road
                     <br />
-                    City, State 12345
+                    Christian Village, Achimota
                   </span>
                   </div>
                 </li>
@@ -272,13 +281,13 @@ export default function Footer() {
                   <div className="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-blue-600 transition-colors">
                     <Phone className="h-4 w-4 text-blue-400 group-hover:text-white" />
                   </div>
-                  <span className="text-gray-300">(123) 456-7890</span>
+                  <span className="text-gray-300">(+233) 24 237 1411</span>
                 </li>
                 <li className="flex items-center group">
                   <div className="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-blue-600 transition-colors">
                     <Mail className="h-4 w-4 text-blue-400 group-hover:text-white" />
                   </div>
-                  <span className="text-gray-300">info@churchname.org</span>
+                  <span className="text-gray-300">info@lovereignbiblechurch.org</span>
                 </li>
               </ul>
 
@@ -299,26 +308,12 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-white/10 bg-black/20">
-          <div className="container mx-auto px-4 py-6">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <p className="text-gray-400 text-sm mb-4 md:mb-0">
-                &copy; {new Date().getFullYear()} Lovereign Bible Church. All rights reserved. Made with{" "}
-                <Heart className="h-4 w-4 inline text-red-500" /> for our community.
-              </p>
-              <div className="flex space-x-6 text-sm">
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Privacy Policy
-                </Link>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Terms of Service
-                </Link>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Accessibility
-                </Link>
-              </div>
-            </div>
-          </div>
+        <div className="container mx-auto px-4 py-6 flex flex-col items-center justify-center">
+          <p className="text-gray-400 text-sm text-center">
+            &copy; {new Date().getFullYear()} Lovereign Bible Church. <span className="ms-2">All rights reserved.</span>
+          </p>
         </div>
+      </div>
       </footer>
   )
 }

@@ -122,3 +122,13 @@ export const ContactheroData: HeroItem[] = [
         mobileImage: "/hero_Images/contactMobile2.jpg"
     },
 ]
+
+export const GiveheroData: HeroItem[] = [
+    {
+        id: 1,
+        title: "Support Our Ministry",
+        subtitle: "God loves a cheerful giver",
+        desktopImage: "/hero_Images/giveHero.jpg",
+        mobileImage: "/hero_Images/giveMobile.jpg"
+    },
+]

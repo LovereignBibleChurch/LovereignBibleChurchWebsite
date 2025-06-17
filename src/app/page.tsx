@@ -10,9 +10,11 @@ import TestimonyCorner from "@/components/home/TestimonyCorner";
 export default function Home() {
   return (
     <div className="">
-        <Hero items={heroData} />
-        <EventsSlider events={eventsData} autoSlideInterval={6000} slidesToShow={{ mobile: 1, tablet: 2, desktop: 3 }} />
-      <WelcomeMessage />
+        <Hero items={heroData} /> 
+        <div className="flex flex-col gap-42">    
+          <EventsSlider events={eventsData} autoSlideInterval={6000} slidesToShow={{ mobile: 1, tablet: 2, desktop: 3 }} />
+          <WelcomeMessage />
+        </div>
       <ServiceTimes />
         <OnlineCommunity />
         <TestimonyCorner />
