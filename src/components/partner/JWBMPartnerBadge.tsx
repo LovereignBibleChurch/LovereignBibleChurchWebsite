@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Heart, Sparkles } from "lucide-react"
-import PartnerForm from "./PartnerForm"
+import PartnerForm from "./JWBMPartnerForm"
 
 export default function PartnerBadge() {
     const [isFormOpen, setIsFormOpen] = useState(false)
@@ -13,7 +13,7 @@ export default function PartnerBadge() {
         <>
             {/* Floating Badge */}
             <motion.div
-                className="fixed right-0 top-1/2 -translate-y-1/2 z-40 cursor-pointer"
+                className="fixed right-0 top-2/3 -translate-y-1/2 z-40 cursor-pointer"
                 initial={{ x: "50%" }}
                 animate={{ x: isHovered ? "0%" : "50%" }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
@@ -103,7 +103,7 @@ export default function PartnerBadge() {
                                 exit={{ opacity: 0, x: 10 }}
                                 transition={{ duration: 0.2 }}
                             >
-                                Join our covenant partnership
+                                Partner with JWBM today!
                                 <div className="absolute left-full top-1/2 -translate-y-1/2 border-4 border-transparent border-l-gray-900" />
                             </motion.div>
                         )}

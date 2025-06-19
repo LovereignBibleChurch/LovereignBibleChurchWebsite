@@ -3,7 +3,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
-import PartnerBadge from "@/components/partner/PartnerBadge";
+import PartnerBadge from "@/components/partner/JWBMPartnerBadge";
 import TrilogyBadge from "@/components/partner/TrilogyBadge"
 const inter = Inter({ subsets: ["latin"] })
 
@@ -25,8 +25,8 @@ export default function RootLayout({
           <main className="flex-grow">{children}</main>
           <Footer />
         </div>
-        <PartnerBadge />
         <TrilogyBadge />
+        <PartnerBadge />
       </body>
     </html>
   )

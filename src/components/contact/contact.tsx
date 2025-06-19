@@ -72,8 +72,9 @@ const Contact = () => {
                     email: formData.email,
                     phone: formData.phone,
                     message: formData.message,
+                    time: new Date().toLocaleString(),
                 };
-                templateId = "template_vruhehp";
+                templateId = "template_9p9ksuo"; // <-- use your new template ID here
             } else {
                 templateParams = {
                     fullName: partnershipData.firstName,
@@ -85,7 +86,7 @@ const Contact = () => {
             }
 
             emailjs.send(
-                "service_cte8xrg",
+                "service_86ce4g7",
                 templateId,
                 templateParams,
                 "fN2qkg7bDDx_2te0R"
