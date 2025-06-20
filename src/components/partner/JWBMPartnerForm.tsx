@@ -1,6 +1,8 @@
 "use client"
 
 import type React from "react"
+import emailjs from "emailjs-com"
+import Image from "next/image"
 
 import { useState, useRef } from "react"
 import { ChevronDown, X } from "lucide-react"
@@ -10,7 +12,7 @@ interface PartnerFormProps {
     onClose: () => void
 }
 
-export default function PartnerForm({ isOpen, onClose }: PartnerFormProps) {
+export default function JWBMPartnerForm({ isOpen, onClose }: PartnerFormProps) {
     const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState("")
     const [formData, setFormData] = useState({
@@ -22,6 +24,10 @@ export default function PartnerForm({ isOpen, onClose }: PartnerFormProps) {
     const categoryRef = useRef<HTMLDivElement>(null)
 
     const partnershipCategories = ["Silver Partner", "Gold Partner", "Platinum Partner", "Diamond Partner"]
+
+    const SERVICE_ID = "your_service_id"
+    const TEMPLATE_ID = "your_template_id"
+    const USER_ID = "your_public_key" // EmailJS public key
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -41,9 +47,18 @@ export default function PartnerForm({ isOpen, onClose }: PartnerFormProps) {
         setIsSending(true)
 
         try {
-            // Simulate form submission - replace with your actual email service
-            await new Promise((resolve) => setTimeout(resolve, 2000))
-
+            await emailjs.send(
+                "service_86ce4g7",
+                "template_sb90q7b",
+                {
+                    fullName: formData.fullName,
+                    telephone: formData.telephone,
+                    country: formData.country,
+                    category: selectedCategory,
+                    time: new Date().toLocaleString(),
+                },
+                "ItF3ATskFLsm2Zb1F"
+            )
             alert("Thank you for becoming a partner! Your details have been sent.")
             setFormData({ fullName: "", telephone: "", country: "" })
             setSelectedCategory("")
@@ -61,6 +76,14 @@ export default function PartnerForm({ isOpen, onClose }: PartnerFormProps) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
             <div className="w-full max-w-4xl bg-black/50 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-800 relative">
+                {/* Logo in the corner */}
+                <Image
+                    src="https://raw.githubusercontent.com/THE-LOVEREIGN-BIBLE-CHURCH/logo/main/jwbm.png"
+                    alt="JWBM Logo"
+                    className="absolute top-4 left-0 p-1"
+                    height={100}
+                    width={100}
+                />
                 {/* Close Button */}
                 <button
                     onClick={onClose}
@@ -68,16 +91,14 @@ export default function PartnerForm({ isOpen, onClose }: PartnerFormProps) {
                 >
                     <X className="h-4 w-4" />
                 </button>
-
                 <div className="flex flex-col md:flex-row">
                     {/* Information Section */}
                     <div className="bg-gradient-to-br from-purple-900/40 to-black p-8 md:w-2/5 flex flex-col justify-center rounded-l-2xl">
-                        <h1 className="text-2xl md:text-3xl font-bold text-white mb-4">Become a partner today</h1>
+                        <h1 className="text-2xl md:text-3xl font-bold text-white mb-4">Partner with JWBM</h1>
                         <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-                            Join the Lovereign Covenant Partnership and become part of a family touching lives around the globe.
-                        </p>
+                            Join the John Winfred Book Ministry Partnership and become part of a mission spreading knowledge and inspiration through impactful literature.
+                        </p> 
                     </div>
-
                     {/* Form Section */}
                     <div className="p-8 md:w-3/5">
                         <form className="space-y-6" onSubmit={handleSubmit}>

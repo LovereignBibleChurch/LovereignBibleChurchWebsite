@@ -31,7 +31,7 @@ function DownloadModal({ open, onClose }: { open: boolean; onClose: () => void }
                     exit={{ opacity: 0 }}
                 >
                     <motion.div
-                        className="relative bg-gradient-to-br from-white via-blue-50 to-blue-100 rounded-3xl shadow-2xl max-w-md w-full p-8 text-center border border-sky-200/50"
+                        className="relative bg-gradient-to-br from-white via-purple-50 to-purple-100 rounded-3xl shadow-2xl max-w-md w-full p-8 text-center border border-indigo-200/50"
                         initial={{ scale: 0.85, opacity: 0, y: 40 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.85, opacity: 0, y: 40 }}
@@ -39,27 +39,27 @@ function DownloadModal({ open, onClose }: { open: boolean; onClose: () => void }
                     >
                         <button
                             onClick={onClose}
-                            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center text-sky-700 text-2xl font-bold shadow transition"
+                            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-purple-100 hover:bg-purple-200 flex items-center justify-center text-indigo-700 text-2xl font-bold shadow transition"
                             aria-label="Close"
                         >
                             ×
                         </button>
                         <div className="mb-6">
-                            <h2 className="text-3xl font-extrabold mb-2 text-sky-900 tracking-tight">Download Online</h2>
-                            <p className="text-lg text-sky-700 mb-4 font-medium">Coming soon</p>
+                            <h2 className="text-3xl font-extrabold mb-2 text-indigo-900 tracking-tight">Download Online</h2>
+                            <p className="text-lg text-indigo-700 mb-4 font-medium">Coming soon</p>
                         </div>
                         <div className="mb-4">
-                            <p className="text-sky-900 font-semibold mb-2">For physical copies contact:</p>
+                            <p className="text-indigo-900 font-semibold mb-2">For physical copies contact:</p>
                             <button
                                 onClick={handleCopy}
-                                className={`mx-auto flex items-center gap-2 px-4 py-2 rounded-lg border border-sky-300 bg-white hover:bg-sky-50 active:bg-sky-100 transition shadow text-sky-700 font-bold text-lg`}
+                                className={`mx-auto flex items-center gap-2 px-4 py-2 rounded-lg border border-indigo-300 bg-white hover:bg-indigo-50 active:bg-indigo-100 transition shadow text-indigo-700 font-bold text-lg`}
                                 title="Click to copy"
                             >
                                 {phoneNumber}
                                 {copied ? (
                                     <Check className="h-5 w-5 text-green-500" />
                                 ) : (
-                                    <Copy className="h-5 w-5 text-sky-400" />
+                                    <Copy className="h-5 w-5 text-indigo-400" />
                                 )}
                             </button>
                             <div className="mt-2 h-5">
@@ -70,7 +70,7 @@ function DownloadModal({ open, onClose }: { open: boolean; onClose: () => void }
                                 )}
                             </div>
                         </div>
-                        <div className="mt-8 text-xs text-sky-500">
+                        <div className="mt-8 text-xs text-indigo-500">
                             Thank you for your interest! Online downloads will be available soon.
                         </div>
                     </motion.div>
@@ -206,7 +206,7 @@ export default function BookDetails({ bookId }: BookDetailsProps) {
 
                                 <button
                                     onClick={() => setShowDownloadModal(true)}
-                                    className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-300"
+                                    className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-300"
                                 >
                                     <ShoppingCart className="h-5 w-5" />
                                     Buy Now - {book.price}

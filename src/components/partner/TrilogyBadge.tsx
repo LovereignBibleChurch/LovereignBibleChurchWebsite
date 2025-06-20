@@ -36,7 +36,7 @@ export default function TrilogyBadge() {
 		<>
 			{/* Floating Trilogy Badge */}
 			<motion.div
-				className="fixed right-0 top-[65%] -translate-y-1/2 z-30 cursor-pointer"
+				className="fixed right-0 top-[55%] -translate-y-1/2 z-30 cursor-pointer"
 				initial={{ x: "50%" }}
 				animate={{ x: isHovered ? "0%" : "50%" }}
 				transition={{ duration: 0.3, ease: "easeOut" }}
