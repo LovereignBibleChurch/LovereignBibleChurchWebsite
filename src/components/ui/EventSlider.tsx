@@ -83,7 +83,7 @@ export default function EventsSlider({
     const handleMouseLeave = () => setIsAutoPlaying(true)
 
     return (
-        <section className="py-16 bg-gradient-to-b from-black/80 to-black">
+        <section className="py-16 bg-gradient-to-b overflow-x-hidden from-black/80 to-black">
             <div className="container mx-auto px-4">
 
                 <motion.div
