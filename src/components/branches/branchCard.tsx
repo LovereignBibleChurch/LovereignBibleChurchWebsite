@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { MapPin } from "lucide-react"
-import type { BranchItem } from "@/data/branchData"
+import {MapPin} from "lucide-react"
+import type {BranchItem} from "@/data/branchData"
 
 interface BranchCardProps {
     branch: BranchItem

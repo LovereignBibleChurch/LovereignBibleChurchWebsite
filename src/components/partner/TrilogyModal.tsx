@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, ChevronRight, X, Star, BookOpen } from "lucide-react"
+import {useEffect, useRef} from "react"
+import {AnimatePresence, motion} from "framer-motion"
+import {BookOpen, ChevronLeft, ChevronRight, Star, X} from "lucide-react"
 
 interface Flyer {
   img: string

@@ -1,9 +1,9 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { BooksData } from "@/data/booksData"
-import { ArrowLeft, Book, Calendar, FileText } from "lucide-react"
-import { useRouter } from "next/navigation"
+import {motion} from "framer-motion"
+import {BooksData} from "@/data/booksData"
+import {ArrowLeft, Book, Calendar, FileText} from "lucide-react"
+import {useRouter} from "next/navigation"
 import Link from "next/link"
 
 export default function BooksList() {

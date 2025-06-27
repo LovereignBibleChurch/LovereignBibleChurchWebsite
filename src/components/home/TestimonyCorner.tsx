@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Quote, ChevronLeft, ChevronRight, Heart, Star } from "lucide-react"
-import { testimonyData } from "@/data/testimonyData"
+import {useEffect, useRef, useState} from "react"
+import {AnimatePresence, motion} from "framer-motion"
+import {ChevronLeft, ChevronRight, Heart, Quote} from "lucide-react"
+import {testimonyData} from "@/data/testimonyData"
 import TestimonySubmissionForm from "@/components/testimony/testimonySubmissionForm";
 
 

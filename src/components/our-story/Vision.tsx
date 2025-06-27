@@ -1,6 +1,6 @@
 "use client"
 
-import {motion, useInView} from "framer-motion"
+import {easeOut, motion, useInView} from "framer-motion"
 import {useRef} from "react";
 
 export default function Vision() {
@@ -13,7 +13,7 @@ export default function Vision() {
         visible: {
             opacity: 1,
             y: 0,
-            transition: { duration: 0.9, ease: "easeOut" },
+            transition: { duration: 0.9, ease: easeOut },
         },
     }
 
@@ -21,7 +21,7 @@ export default function Vision() {
         hidden: { width: 0 },
         visible: {
             width: "100%",
-            transition: { duration: 1.2, ease: "easeOut", delay: 0.3 },
+            transition: { duration: 1.2, ease: easeOut, delay: 0.3 },
         },
     }
 
@@ -79,8 +79,8 @@ export default function Vision() {
                             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
                             transition={{ duration: 1, delay: 0.5 }}
                         >
-                            <div className="absolute -top-6 left-0 text-5xl text-amber-300/20 font-serif">"</div>
-                            <div className="absolute -bottom-10 right-0 text-5xl text-amber-300/20 font-serif">"</div>
+                            <div className="absolute -top-6 left-0 text-5xl text-amber-300/20 font-serif">&#34;</div>
+                            <div className="absolute -bottom-10 right-0 text-5xl text-amber-300/20 font-serif">&#34;</div>
 
                             <p className="text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed text-center text-white/90 italic">
                                 Making ready a people prepared for the Lord

@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { X, MapPinned, User, Phone, Clock } from "lucide-react"
-import type { BranchItem } from "@/data/branchData"
+import {Clock, MapPinned, Phone, User, X} from "lucide-react"
+import type {BranchItem} from "@/data/branchData"
 
 interface BranchModalProps {
     branch: BranchItem

@@ -1,10 +1,9 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Smartphone, Building, Phone, Copy, Check, ChevronDown, Heart, Sparkles, Globe } from "lucide-react"
+import {useState} from "react"
+import {AnimatePresence, easeInOut, motion} from "framer-motion"
+import {Building, Check, ChevronDown, Copy, Globe, Heart, Phone, Smartphone, Sparkles} from "lucide-react"
 
 interface DonationDetail {
     label: string
@@ -147,11 +146,11 @@ export default function DonationMethods({ className = ""}: DonationMethodsProps)
     const methodVariants = {
         collapsed: {
             height: "auto",
-            transition: { duration: 0.3, ease: "easeInOut" },
+            transition: { duration: 0.3, ease: easeInOut },
         },
         expanded: {
             height: "auto",
-            transition: { duration: 0.5, ease: "easeInOut" },
+            transition: { duration: 0.5, ease: easeInOut },
         },
     }
 
@@ -159,12 +158,12 @@ export default function DonationMethods({ className = ""}: DonationMethodsProps)
         hidden: {
             opacity: 0,
             height: 0,
-            transition: { duration: 0.2, ease: "easeInOut" },
+            transition: { duration: 0.2, ease: easeInOut },
         },
         visible: {
             opacity: 1,
             height: "auto",
-            transition: { duration: 0.3, ease: "easeInOut", staggerChildren: 0.1 },
+            transition: { duration: 0.3, ease: easeInOut, staggerChildren: 0.1 },
         },
     }
 

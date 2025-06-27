@@ -1,10 +1,10 @@
 "use client"
 
-import { useRef } from "react"
+import {useRef} from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { motion, useInView, useScroll, useTransform } from "framer-motion"
-import { Quote, Calendar, Heart, Users, BookOpen, Star } from "lucide-react"
+import {motion, useInView, useScroll, useTransform} from "framer-motion"
+import {BookOpen, Calendar, Heart, Quote, Star, Users} from "lucide-react"
 
 export default function FounderStorySection() {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -96,7 +96,7 @@ export default function FounderStorySection() {
 
                     <h2 className="text-4xl md:text-6xl font-bold mb-4">
             <span className="bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
-              The Founder's
+              The Founder&#39;s
             </span>
                         <br />
                         <span className="bg-gradient-to-r from-gray-400 to-gray-600 bg-clip-text text-transparent">Journey</span>
@@ -172,7 +172,7 @@ export default function FounderStorySection() {
                                 <p className="text-gray-300 leading-relaxed">
                                     What started as a small gathering of 12 faithful believers on December 1st, 2013, has grown into a
                                     thriving spiritual family. Today, our church continues to fulfill its mission of bringing
-                                    transformation through Christ's love.
+                                    transformation through Christ&#39;s love.
                                 </p>
                             </div>
                         </div>

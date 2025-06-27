@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Facebook, Instagram, Youtube, Globe, MessageCircle, Video, Music, Headphones, PodcastIcon } from "lucide-react"
+import {useEffect, useState} from "react"
+import {motion} from "framer-motion"
+import {Facebook, Globe, Headphones, Instagram, MessageCircle, Music, PodcastIcon, Video, Youtube} from "lucide-react"
 
 // Custom TikTok Icon (since it's not in Lucide)
 const TikTokIcon = ({ className }: { className?: string }) => (

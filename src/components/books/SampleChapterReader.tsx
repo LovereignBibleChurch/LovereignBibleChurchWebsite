@@ -1,8 +1,8 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { X, ChevronLeft, ChevronRight, BookOpen } from "lucide-react"
-import { useState } from "react"
+import {motion} from "framer-motion"
+import {BookOpen, ChevronLeft, ChevronRight, X} from "lucide-react"
+import {useState} from "react"
 
 interface Book {
     id: number

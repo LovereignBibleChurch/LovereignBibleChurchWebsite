@@ -1,10 +1,10 @@
 "use client"
 
 
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import {BooksData} from "@/data/booksData";
 import {ExternalLink} from "lucide-react";
-import { useRouter } from "next/navigation";
+import {useRouter} from "next/navigation";
 
 export default function Books() {
     const router = useRouter(); // Hook for programmatic navigation

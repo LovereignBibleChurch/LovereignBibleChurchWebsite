@@ -1,11 +1,10 @@
 "use client";
 
 import type React from "react";
+import {useEffect, useRef, useState} from "react";
 import emailjs from "@emailjs/browser"; // Fixed import
 import Image from "next/image";
-
-import { useState, useRef, useEffect } from "react";
-import { ChevronDown, X } from "lucide-react";
+import {ChevronDown, X} from "lucide-react";
 
 interface PartnerFormProps {
   isOpen: boolean;
@@ -43,7 +42,7 @@ export default function JWBMPartnerForm({ isOpen, onClose }: PartnerFormProps) {
   // Initialize EmailJS
   useEffect(() => {
     emailjs.init(EMAILJS_CONFIG.publicKey);
-  }, []);
+  }, [EMAILJS_CONFIG.publicKey]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

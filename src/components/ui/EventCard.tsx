@@ -1,9 +1,9 @@
 "use client"
 
-import { motion } from "framer-motion"
+import {motion} from "framer-motion"
 import Image from "next/image"
-import { Clock, MapPin, ArrowRight } from "lucide-react"
-import type { EventItem } from "@/data/eventsData"
+import {Clock, MapPin} from "lucide-react"
+import type {EventItem} from "@/data/eventsData"
 
 interface EventCardProps {
     event: EventItem

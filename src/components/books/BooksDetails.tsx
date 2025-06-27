@@ -1,10 +1,10 @@
 "use client"
 
-import { motion, AnimatePresence } from "framer-motion"
-import { BooksData } from "@/data/booksData"
-import { ArrowLeft, Book, Calendar, FileText, Eye, Star, ShoppingCart, Check, Copy } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
+import {AnimatePresence, motion} from "framer-motion"
+import {BooksData} from "@/data/booksData"
+import {ArrowLeft, Book, Calendar, Check, Copy, Eye, FileText, ShoppingCart, Star} from "lucide-react"
+import {useRouter} from "next/navigation"
+import {useState} from "react"
 import SampleChapterReader from "./SampleChapterReader"
 
 interface BookDetailsProps {

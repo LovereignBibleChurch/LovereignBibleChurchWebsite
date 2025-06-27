@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { motion } from "framer-motion"
-import { ChevronLeft, ChevronRight, Calendar } from "lucide-react"
+import {useEffect, useRef, useState} from "react"
+import {motion} from "framer-motion"
+import {Calendar, ChevronLeft, ChevronRight} from "lucide-react"
 import EventCard from "./EventCard"
-import type { EventItem } from "@/data/eventsData"
-import { cn } from "@/lib/utils"
+import type {EventItem} from "@/data/eventsData"
+import {cn} from "@/lib/utils"
 
 interface EventsSliderProps {
     events: EventItem[]

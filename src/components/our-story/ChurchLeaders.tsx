@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, useRef } from "react"
-import { motion, useInView, AnimatePresence } from "framer-motion"
-import { Search } from "lucide-react"
+import {useRef, useState} from "react"
+import {AnimatePresence, motion, useInView} from "framer-motion"
+import {Search} from "lucide-react"
 import {leaderData} from "@/data/LeaderData";
 import LeaderCard from "@/components/ui/LeaderCard";
 
@@ -12,8 +12,8 @@ export default function ChurchLeadership() {
     const [selectedCategory, setSelectedCategory] = useState("All")
     const containerRef = useRef<HTMLDivElement>(null)
     const headerRef = useRef<HTMLDivElement>(null)
-    const isInView = useInView(containerRef, { triggerOnce: true })
-    const isHeaderInView = useInView(headerRef, { triggerOnce: true })
+    const isInView = useInView(containerRef, { once: true })
+    const isHeaderInView = useInView(headerRef, {once: true })
 
     // Categories
     const categories = ["All", "Headquarters", "Church Planters"]

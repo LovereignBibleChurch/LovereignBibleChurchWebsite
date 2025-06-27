@@ -1,12 +1,13 @@
 import type React from "react"
-import { Inter } from "next/font/google"
+import {Inter} from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import PartnerBadge from "@/components/partner/JWBMPartnerBadge";
 import TrilogyBadge from "@/components/partner/TrilogyBadge"
 import EventCountdownBadge from "@/components/ui/EventCountdownBadge"
-import { eventsData } from "@/data/eventsData"
+import {eventsData} from "@/data/eventsData"
+
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {

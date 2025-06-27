@@ -1,7 +1,7 @@
 "use client"
 
-import { Suspense } from "react"
-import { useSearchParams } from "next/navigation"
+import {Suspense} from "react"
+import {useSearchParams} from "next/navigation"
 import BookDetails from "@/components/books/BooksDetails";
 import BooksList from "@/components/books/BooksLists";
 

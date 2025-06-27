@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Search, ChevronLeft, ChevronRight } from "lucide-react"
-import { branchData, type BranchItem } from "@/data/branchData"
+import {useEffect, useState} from "react"
+import {ChevronLeft, ChevronRight, Search} from "lucide-react"
+import {branchData, type BranchItem} from "@/data/branchData"
 import BranchModal from "@/components/branches/branchModal";
 import BranchCard from "@/components/branches/branchCard";
 

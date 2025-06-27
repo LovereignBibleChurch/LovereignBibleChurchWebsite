@@ -1,12 +1,11 @@
 "use client"
 
-import React from "react"
+import React, {useState} from "react"
 import Link from "next/link"
-import { useState } from "react"
-import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, Send, Heart } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import {Facebook, Instagram, Mail, MapPin, Phone, Send, Twitter, Youtube} from "lucide-react"
+import {Button} from "@/components/ui/button"
+import {Input} from "@/components/ui/input"
+import {Textarea} from "@/components/ui/textarea"
 import emailjs from '@emailjs/browser'
 
 // EmailJS configuration
@@ -122,7 +121,7 @@ export default function Footer() {
 
               {newsletterSuccess && (
                 <div className="mb-4 p-3 bg-blue-500/20 border border-blue-500/30 rounded-lg text-blue-200">
-                  Thank you for subscribing! You'll receive updates soon.
+                  Thank you for subscribing! You&#39;ll receive updates soon.
                 </div>
               )}
 
@@ -160,7 +159,7 @@ export default function Footer() {
 
               {submitSuccess && (
                 <div className="mb-4 p-3 bg-blue-500/20 border border-blue-500/30 rounded-lg text-blue-200">
-                  Thank you! We'll get back to you soon.
+                  Thank you! We&#39;ll get back to you soon.
                 </div>
               )}
 

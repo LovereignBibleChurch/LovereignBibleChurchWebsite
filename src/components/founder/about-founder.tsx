@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { Facebook, Instagram, Twitter, Quote, ArrowRight } from "lucide-react";
+import {useRef} from "react";
+import {easeInOut, motion, useInView} from "framer-motion";
+import {Facebook, Instagram, Quote, Twitter} from "lucide-react";
+
 const pjw = "/logos/pjw.jpeg";
 
 export default function AboutFounder() {
@@ -30,7 +31,7 @@ export default function AboutFounder() {
             y: 0,
             transition: {
                 duration: 0.8,
-                ease: [0.22, 1, 0.36, 1],
+                ease: easeInOut,
             },
         },
     };
@@ -42,7 +43,7 @@ export default function AboutFounder() {
             x: 0,
             transition: {
                 duration: 0.8,
-                ease: [0.22, 1, 0.36, 1],
+                ease: easeInOut,
             },
         },
     };
@@ -55,7 +56,7 @@ export default function AboutFounder() {
             rotate: 0,
             transition: {
                 duration: 1,
-                ease: [0.22, 1, 0.36, 1],
+                ease: easeInOut,
             },
         },
     };

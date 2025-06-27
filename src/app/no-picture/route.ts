@@ -1,6 +1,4 @@
-import type { NextRequest } from "next/server"
-
-export async function GET(request: NextRequest) {
+export async function GET() {
 
     const svg = `
     <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">

@@ -1,15 +1,24 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { ExternalLink, Headphones, Youtube, Calendar, Clock } from "lucide-react"
-import PropTypes from "prop-types"
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Calendar, Clock, ExternalLink, Headphones, Youtube } from "lucide-react";
 import {podbeanMessages, youtubeMessages} from "@/data/messagesData";
+
+// Define the Message type
+interface Message {
+    id: string;
+    title: string;
+    date: string;
+    duration: string;
+    image?: string;
+    url: string;
+}
 
 
 export default function SermonMessages() {
-    const [activeTab, setActiveTab] = useState("podbean")
-    const [hoveredItem, setHoveredItem] = useState(null)
+    const [activeTab, setActiveTab] = useState<"podbean" | "youtube">("podbean");
+    const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
     return (
         <div className="w-full bg-black text-white px-4 py-16">
@@ -23,45 +32,21 @@ export default function SermonMessages() {
                     </p>
                 </div>
 
-                {/* Minimalist Tabs */}
+                {/* Tabs */}
                 <div className="flex justify-center mb-12">
                     <div className="flex space-x-8">
-                        <button
+                        <TabButton
+                            isActive={activeTab === "podbean"}
                             onClick={() => setActiveTab("podbean")}
-                            className={`relative px-2 py-1 text-sm font-medium transition-colors ${
-                                activeTab === "podbean" ? "text-gray-300" : "text-gray-500 hover:text-gray-400"
-                            }`}
-                        >
-              <span className="flex items-center gap-2">
-                <Headphones className="h-4 w-4" />
-                <span>Podbean</span>
-              </span>
-                            {activeTab === "podbean" && (
-                                <motion.div
-                                    layoutId="tab-indicator"
-                                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-400"
-                                    initial={false}
-                                />
-                            )}
-                        </button>
-                        <button
+                            icon={<Headphones className="h-4 w-4" />}
+                            label="Podbean"
+                        />
+                        <TabButton
+                            isActive={activeTab === "youtube"}
                             onClick={() => setActiveTab("youtube")}
-                            className={`relative px-2 py-1 text-sm font-medium transition-colors ${
-                                activeTab === "youtube" ? "text-gray-300" : "text-gray-500 hover:text-gray-400"
-                            }`}
-                        >
-              <span className="flex items-center gap-2">
-                <Youtube className="h-4 w-4" />
-                <span>YouTube</span>
-              </span>
-                            {activeTab === "youtube" && (
-                                <motion.div
-                                    layoutId="tab-indicator"
-                                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-400"
-                                    initial={false}
-                                />
-                            )}
-                        </button>
+                            icon={<Youtube className="h-4 w-4" />}
+                            label="YouTube"
+                        />
                     </div>
                 </div>
 
@@ -120,22 +105,53 @@ export default function SermonMessages() {
                         }
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`inline-flex items-center justify-center px-6 py-2 text-sm font-medium transition-all border rounded-full ${
-                            activeTab === "podbean"
-                                ? "text-gray-300 border-gray-600 hover:bg-gray-800/50"
-                                : "text-gray-300 border-gray-600 hover:bg-gray-800/50"
-                        }`}
+                        className="inline-flex items-center justify-center px-6 py-2 text-sm font-medium transition-all border rounded-full text-gray-300 border-gray-600 hover:bg-gray-800/50"
                     >
                         View All <ExternalLink className="ml-2 h-4 w-4" />
                     </a>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-function MessageCard({ message, type, isHovered, onHover, onLeave }) {
-    const isPodbean = type === "podbean"
+interface TabButtonProps {
+    isActive: boolean;
+    onClick: () => void;
+    icon: React.ReactNode;
+    label: string;
+}
+
+function TabButton({ isActive, onClick, icon, label }: TabButtonProps) {
+    return (
+        <button
+            onClick={onClick}
+            className={`relative px-2 py-1 text-sm font-medium transition-colors ${
+                isActive ? "text-gray-300" : "text-gray-500 hover:text-gray-400"
+            }`}
+        >
+            <span className="flex items-center gap-2">{icon} {label}</span>
+            {isActive && (
+                <motion.div
+                    layoutId="tab-indicator"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-400"
+                    initial={false}
+                />
+            )}
+        </button>
+    );
+}
+
+interface MessageCardProps {
+    message: Message;
+    type: "podbean" | "youtube";
+    isHovered: boolean;
+    onHover: () => void;
+    onLeave: () => void;
+}
+
+function MessageCard({ message, type, isHovered, onHover, onLeave }: MessageCardProps) {
+    const isPodbean = type === "podbean";
 
     return (
         <a
@@ -153,7 +169,7 @@ function MessageCard({ message, type, isHovered, onHover, onLeave }) {
                 <div className="relative">
                     <div className="relative overflow-hidden aspect-video">
                         <img
-                            src={message.image || "/placeholder.svg?height=200&width=350"}
+                            src={message.image || "/placeholder.svg"}
                             alt={message.title}
                             className={`w-full h-full object-cover transition-transform duration-500 ${
                                 isHovered ? "scale-105" : "scale-100"
@@ -189,19 +205,5 @@ function MessageCard({ message, type, isHovered, onHover, onLeave }) {
                 <div className="h-0.5 w-full bg-gray-600"></div>
             </motion.div>
         </a>
-    )
-}
-
-MessageCard.propTypes = {
-    message: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-        duration: PropTypes.string.isRequired,
-        image: PropTypes.string,
-        url: PropTypes.string.isRequired,
-    }).isRequired,
-    type: PropTypes.oneOf(["podbean", "youtube"]).isRequired,
-    isHovered: PropTypes.bool,
-    onHover: PropTypes.func.isRequired,
-    onLeave: PropTypes.func.isRequired,
+    );
 }

@@ -1,10 +1,9 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
-import { motion, AnimatePresence, Variants } from "framer-motion"
-import { X, Heart, Send } from "lucide-react"
+import {useState} from "react"
+import {AnimatePresence, motion, Variants} from "framer-motion"
+import {Heart, Send, X} from "lucide-react"
 
 interface TestimonySubmissionFormProps {
     isOpen: boolean
@@ -193,7 +192,7 @@ export default function TestimonySubmissionForm({ isOpen, onClose }: TestimonySu
                                 />
 
                                 <p className="text-gray-600 text-sm max-w-xs mx-auto leading-relaxed">
-                                    We'd love to hear how God is working in your life. Your story could inspire others in their faith journey.
+                                    We&#39;d love to hear how God is working in your life. Your story could inspire others in their faith journey.
                                 </p>
                             </motion.div>
 
@@ -320,7 +319,7 @@ export default function TestimonySubmissionForm({ isOpen, onClose }: TestimonySu
                                 <motion.div className="text-center pt-1" variants={itemVariants}>
                                     <p className="text-[10px] text-gray-800 leading-relaxed">
                                         By sharing your testimony, you give us permission to feature it on our website and social media to
-                                        inspire others. We'll contact you before publishing.
+                                        inspire others. We&#39;ll contact you before publishing.
                                     </p>
                                 </motion.div>
                             </form>

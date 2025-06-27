@@ -1,13 +1,13 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import {useEffect, useState} from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion"
-import { ArrowRight, ArrowLeft } from "lucide-react"
-import type { HeroItem } from "@/data/heroData"
-import { cn } from "@/lib/utils"
-import { useMediaQuery } from "@/hooks/use-media-query"
+import {AnimatePresence, motion} from "framer-motion"
+import {ArrowLeft, ArrowRight} from "lucide-react"
+import type {HeroItem} from "@/data/heroData"
+import {cn} from "@/lib/utils"
+import {useMediaQuery} from "@/hooks/use-media-query"
 
 interface HeroProps {
   items: HeroItem[]

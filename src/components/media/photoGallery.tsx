@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { X, ChevronLeft, ChevronRight } from "lucide-react"
+import {useState} from "react"
+import {AnimatePresence, motion} from "framer-motion"
+import {ChevronLeft, ChevronRight, X} from "lucide-react"
 import Image from "next/image"
 
 // Define the interface for gallery images

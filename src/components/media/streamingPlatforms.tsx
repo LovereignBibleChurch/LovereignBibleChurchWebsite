@@ -1,8 +1,8 @@
 "use client";
 
-import { Youtube, Podcast, Video, Facebook, Twitter } from "lucide-react";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import {Facebook, Podcast, Twitter, Video, Youtube} from "lucide-react";
+import {motion} from "framer-motion";
+import {useEffect, useState} from "react";
 
 const StreamingPlatforms = () => {
     // Animation variants

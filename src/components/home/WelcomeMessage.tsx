@@ -1,8 +1,9 @@
 "use client"
 
-import {motion, useInView, useScroll, useTransform} from "framer-motion"
-import { Heart, Sparkles } from "lucide-react"
+import {motion, useScroll, useTransform} from "framer-motion"
+import {Heart, Sparkles} from "lucide-react"
 import {useRef} from "react";
+
 const seats = "/backgroundImages/seats.jpeg";
 export default function WelcomeMessage() {
   const containerVariants = {

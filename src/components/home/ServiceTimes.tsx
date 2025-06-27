@@ -1,8 +1,8 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Clock, MapPin, Calendar, Sparkles, Moon } from "lucide-react"
-import { services } from "@/data/serviceData"
+import {motion} from "framer-motion"
+import {Clock, MapPin, Moon, Sparkles} from "lucide-react"
+import {services} from "@/data/serviceData"
 
 export default function ServiceTimes() {
     const containerVariants = {
