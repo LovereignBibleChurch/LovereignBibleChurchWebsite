@@ -1,8 +1,8 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { BooksData } from "@/data/booksData"
-import { ArrowLeft, Book, Calendar, FileText, Eye, Star, ShoppingCart } from "lucide-react"
+import { ArrowLeft, Book, Calendar, FileText, Eye, Star, ShoppingCart, Check, Copy } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import SampleChapterReader from "./SampleChapterReader"
@@ -11,9 +11,79 @@ interface BookDetailsProps {
     bookId: number
 }
 
+function DownloadModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+    const [copied, setCopied] = useState(false)
+    const phoneNumber = "(+233) 24 237 1411"
+
+    const handleCopy = async () => {
+        await navigator.clipboard.writeText(phoneNumber)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 1500)
+    }
+
+    return (
+        <AnimatePresence>
+            {open && (
+                <motion.div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                >
+                    <motion.div
+                        className="relative bg-gradient-to-br from-white via-purple-50 to-purple-100 rounded-3xl shadow-2xl max-w-md w-full p-8 text-center border border-indigo-200/50"
+                        initial={{ scale: 0.85, opacity: 0, y: 40 }}
+                        animate={{ scale: 1, opacity: 1, y: 0 }}
+                        exit={{ scale: 0.85, opacity: 0, y: 40 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    >
+                        <button
+                            onClick={onClose}
+                            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-purple-100 hover:bg-purple-200 flex items-center justify-center text-indigo-700 text-2xl font-bold shadow transition"
+                            aria-label="Close"
+                        >
+                            ×
+                        </button>
+                        <div className="mb-6">
+                            <h2 className="text-3xl font-extrabold mb-2 text-indigo-900 tracking-tight">Download Online</h2>
+                            <p className="text-lg text-indigo-700 mb-4 font-medium">Coming soon</p>
+                        </div>
+                        <div className="mb-4">
+                            <p className="text-indigo-900 font-semibold mb-2">For physical copies contact:</p>
+                            <button
+                                onClick={handleCopy}
+                                className={`mx-auto flex items-center gap-2 px-4 py-2 rounded-lg border border-indigo-300 bg-white hover:bg-indigo-50 active:bg-indigo-100 transition shadow text-indigo-700 font-bold text-lg`}
+                                title="Click to copy"
+                            >
+                                {phoneNumber}
+                                {copied ? (
+                                    <Check className="h-5 w-5 text-green-500" />
+                                ) : (
+                                    <Copy className="h-5 w-5 text-indigo-400" />
+                                )}
+                            </button>
+                            <div className="mt-2 h-5">
+                                {copied && (
+                                    <span className="text-green-600 text-xs font-medium animate-fade-in">
+                                        Number copied!
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                        <div className="mt-8 text-xs text-indigo-500">
+                            Thank you for your interest! Online downloads will be available soon.
+                        </div>
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    )
+}
+
 export default function BookDetails({ bookId }: BookDetailsProps) {
     const router = useRouter()
     const [showSampleReader, setShowSampleReader] = useState(false)
+    const [showDownloadModal, setShowDownloadModal] = useState(false)
 
     const book = BooksData.find((b) => b.id === bookId)
     const otherBooks = BooksData.filter((b) => b.id !== bookId).slice(0, 3)
@@ -36,7 +106,16 @@ export default function BookDetails({ bookId }: BookDetailsProps) {
     }
 
     if (showSampleReader) {
-        return <SampleChapterReader book={book} onClose={() => setShowSampleReader(false)} />
+        return (
+            <>
+                <SampleChapterReader
+                    book={book}
+                    onClose={() => setShowSampleReader(false)}
+                    onContinueFullBook={() => setShowDownloadModal(true)}
+                />
+                <DownloadModal open={showDownloadModal} onClose={() => setShowDownloadModal(false)} />
+            </>
+        )
     }
 
     return (
@@ -125,7 +204,10 @@ export default function BookDetails({ bookId }: BookDetailsProps) {
                                     Read Sample
                                 </button>
 
-                                <button className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-300">
+                                <button
+                                    onClick={() => setShowDownloadModal(true)}
+                                    className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-300"
+                                >
                                     <ShoppingCart className="h-5 w-5" />
                                     Buy Now - {book.price}
                                 </button>
@@ -182,6 +264,8 @@ export default function BookDetails({ bookId }: BookDetailsProps) {
                     </div>
                 </div>
             )}
+
+            <DownloadModal open={showDownloadModal} onClose={() => setShowDownloadModal(false)} />
         </div>
     )
 }

@@ -2,6 +2,7 @@
 
 import { Youtube, Podcast, Video, Facebook, Twitter } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const StreamingPlatforms = () => {
     // Animation variants
@@ -45,18 +46,18 @@ const StreamingPlatforms = () => {
         },
         {
             name: "Podbean",
-            icon: <Podcast className="text-blue-500" size={24} />,
+            icon: <Podcast className="text-green-500" size={24} />,
             description:
                 "Listen to our podcasts and audio content on Podbean. Available anytime, anywhere.",
             cta: "Listen Now",
             ctaIcon: <Podcast size={14} />,
             url: "https://lovereignbiblechurch.podbean.com/",
-            color: "blue",
+            color: "green",
             gradient:
-                "from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600",
-            iconBg: "bg-blue-500/10",
-            hoverText: "text-blue-400",
-            shadow: "shadow-blue-500/20 hover:shadow-blue-500/40",
+                "from-green-600 to-green-500 hover:from-green-500 hover:to-green-600",
+            iconBg: "bg-green-500/10",
+            hoverText: "text-green-400",
+            shadow: "shadow-green-500/20 hover:shadow-blue-500/40",
             blobRotate: "-rotate-12",
         },
         {
@@ -108,6 +109,35 @@ const StreamingPlatforms = () => {
             blobRotate: "rotate-6",
         },
     ];
+
+    // Store all particles for all platforms in state to avoid hydration issues
+    const [allParticles, setAllParticles] = useState<Array<Array<{
+        width: number;
+        height: number;
+        left: string;
+        top: string;
+        y: number;
+        x: number;
+        duration: number;
+        repeatDelay: number;
+    }>>>([]);
+
+    useEffect(() => {
+        setAllParticles(
+            platforms.map(() =>
+                [...Array(4)].map(() => ({
+                    width: Math.random() * 3 + 1,
+                    height: Math.random() * 3 + 1,
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    y: -15 - Math.random() * 20,
+                    x: Math.random() * 15 - 7.5,
+                    duration: 1 + Math.random(),
+                    repeatDelay: Math.random() * 0.5,
+                }))
+            )
+        );
+    }, [platforms.length]);
 
     return (
         <div className="py-12 text-white relative overflow-hidden">
@@ -179,126 +209,129 @@ const StreamingPlatforms = () => {
                     initial="hidden"
                     animate="visible"
                 >
-                    {platforms.map((platform, index) => (
-                        <motion.div
-                            key={platform.name}
-                            className="group w-full max-w-[260px]"
-                            variants={itemVariants}
-                            whileHover={{ scale: 1.03 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                        >
-                            {/* Organic blob shape container */}
-                            <div className={`relative ${platform.blobRotate}`}>
-                                {/* Background blob shape */}
-                                <div
-                                    className={`absolute -inset-1 bg-gradient-to-br from-${platform.color}-500/20 to-${platform.color}-600/20 
+                    {platforms.map((platform, index) => {
+                        const particles = allParticles[index] || [];
+                        return (
+                            <motion.div
+                                key={platform.name}
+                                className="group w-full max-w-[260px]"
+                                variants={{ itemVariants }}
+                                whileHover={{ scale: 1.03 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                            >
+                                {/* Organic blob shape container */}
+                                <div className={`relative ${platform.blobRotate}`}>
+                                    {/* Background blob shape */}
+                                    <div
+                                        className={`absolute -inset-1 bg-gradient-to-br from-${platform.color}-500/20 to-${platform.color}-600/20 
                   blur-md opacity-70 group-hover:opacity-100 transition-opacity duration-500 rounded-[60%_40%_40%_60%/60%_30%_70%_40%]`}
-                                ></div>
+                                    ></div>
 
-                                {/* Main content container with organic shape */}
-                                <div
-                                    className={`relative bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] 
+                                    {/* Main content container with organic shape */}
+                                    <div
+                                        className={`relative bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] 
                   rounded-[60%_40%_40%_60%/60%_30%_70%_40%] overflow-hidden 
                   border border-gray-800 group-hover:border-${platform.color}-900/30
                   shadow-md shadow-${platform.color}-500/10 group-hover:shadow-${platform.color}-500/20
                   transition-all duration-500`}
-                                >
-                                    {/* Glossy overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                    >
+                                        {/* Glossy overlay */}
+                                        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                                    {/* Fluid glare effect */}
-                                    <motion.div
-                                        className="absolute -top-40 -left-40 w-60 h-60 bg-white opacity-0 group-hover:opacity-10
-                      rotate-45 transform"
-                                        initial={{ x: 0, y: 0 }}
-                                        whileHover={{
-                                            x: 200,
-                                            y: 200,
-                                            transition: { duration: 1.5, ease: "easeOut" },
-                                        }}
-                                    ></motion.div>
-
-                                    {/* Content with more fluid spacing - REDUCED PADDING */}
-                                    <div className="p-5 text-center relative z-10">
-                                        {/* Floating particles on hover */}
-                                        {[...Array(4)].map((_, i) => (
-                                            <motion.div
-                                                key={`particle-${platform.name}-${i}`}
-                                                className={`absolute rounded-full bg-${platform.color}-400/40 opacity-0 group-hover:opacity-100`}
-                                                style={{
-                                                    width: Math.random() * 3 + 1,
-                                                    height: Math.random() * 3 + 1,
-                                                    left: `${Math.random() * 100}%`,
-                                                    top: `${Math.random() * 100}%`,
-                                                }}
-                                                initial={{ scale: 0 }}
-                                                whileHover={{
-                                                    y: [0, -15 - Math.random() * 20],
-                                                    x: [0, Math.random() * 15 - 7.5],
-                                                    scale: [0, 1, 0],
-                                                    opacity: [0, 1, 0],
-                                                    transition: {
-                                                        duration: 1 + Math.random(),
-                                                        repeat: Number.POSITIVE_INFINITY,
-                                                        repeatDelay: Math.random() * 0.5,
-                                                    },
-                                                }}
-                                            />
-                                        ))}
-
-                                        {/* Icon with fluid animation - SMALLER SIZE */}
+                                        {/* Fluid glare effect */}
                                         <motion.div
-                                            className={`w-12 h-12 rounded-full ${platform.iconBg} flex items-center justify-center mx-auto mb-3
-                        group-hover:scale-110 transition-transform duration-500`}
+                                            className="absolute -top-40 -left-40 w-60 h-60 bg-white opacity-0 group-hover:opacity-10
+                      rotate-45 transform"
+                                            initial={{ x: 0, y: 0 }}
                                             whileHover={{
-                                                rotate: [0, -10, 10, -5, 5, 0],
-                                                transition: { duration: 1.5 },
+                                                x: 200,
+                                                y: 200,
+                                                transition: { duration: 1.5, ease: "easeOut" },
                                             }}
-                                        >
-                                            {platform.icon}
-                                        </motion.div>
+                                        ></motion.div>
 
-                                        {/* Platform name with gradient hover effect - SMALLER TEXT */}
-                                        <h3
-                                            className={`text-lg font-medium mb-2 text-white group-hover:${platform.hoverText} transition-colors duration-300`}
-                                        >
-                                            {platform.name}
-                                        </h3>
+                                        {/* Content with more fluid spacing - REDUCED PADDING */}
+                                        <div className="p-5 text-center relative z-10">
+                                            {/* Floating particles on hover */}
+                                            {particles.map((particle, i) => (
+                                                <motion.div
+                                                    key={`particle-${platform.name}-${i}`}
+                                                    className={`absolute rounded-full bg-${platform.color}-400/40 opacity-0 group-hover:opacity-100`}
+                                                    style={{
+                                                        width: particle.width,
+                                                        height: particle.height,
+                                                        left: particle.left,
+                                                        top: particle.top,
+                                                    }}
+                                                    initial={{ scale: 0 }}
+                                                    whileHover={{
+                                                        y: [0, particle.y],
+                                                        x: [0, particle.x],
+                                                        scale: [0, 1, 0],
+                                                        opacity: [0, 1, 0],
+                                                        transition: {
+                                                            duration: particle.duration,
+                                                            repeat: Number.POSITIVE_INFINITY,
+                                                            repeatDelay: particle.repeatDelay,
+                                                        },
+                                                    }}
+                                                />
+                                            ))}
 
-                                        {/* Description with improved typography - SMALLER TEXT */}
-                                        <p className="text-gray-400 mb-4 leading-relaxed text-xs font-light line-clamp-3">
-                                            {platform.description}
-                                        </p>
+                                            {/* Icon with fluid animation - SMALLER SIZE */}
+                                            <motion.div
+                                                className={`w-12 h-12 rounded-full ${platform.iconBg} flex items-center justify-center mx-auto mb-3
+                        group-hover:scale-110 transition-transform duration-500`}
+                                                whileHover={{
+                                                    rotate: [0, -10, 10, -5, 5, 0],
+                                                    transition: { duration: 1.5 },
+                                                }}
+                                            >
+                                                {platform.icon}
+                                            </motion.div>
 
-                                        {/* CTA button with fluid animation - SMALLER BUTTON */}
-                                        <a
-                                            href={platform.url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className={`inline-block bg-gradient-to-r ${platform.gradient} text-white font-medium 
+                                            {/* Platform name with gradient hover effect - SMALLER TEXT */}
+                                            <h3
+                                                className={`text-lg font-medium mb-2 text-white group-hover:${platform.hoverText} transition-colors duration-300`}
+                                            >
+                                                {platform.name}
+                                            </h3>
+
+                                            {/* Description with improved typography - SMALLER TEXT */}
+                                            <p className="text-gray-400 mb-4 leading-relaxed text-xs font-light line-clamp-3">
+                                                {platform.description}
+                                            </p>
+
+                                            {/* CTA button with fluid animation - SMALLER BUTTON */}
+                                            <a
+                                                href={platform.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={`inline-block bg-gradient-to-r ${platform.gradient} text-white font-medium 
                         py-1.5 px-4 rounded-full transition-all duration-300
                         relative overflow-hidden group shadow-sm ${platform.shadow}`}
-                                        >
+                                            >
                       <span className="relative z-10 flex items-center justify-center gap-1.5 text-xs">
                         {platform.ctaIcon}
                           <span>{platform.cta}</span>
                       </span>
 
-                                            {/* Button highlight effect */}
-                                            <motion.span
-                                                className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-                                                initial={{ x: "-100%" }}
-                                                whileHover={{
-                                                    x: "100%",
-                                                    transition: { duration: 1, ease: "easeOut" },
-                                                }}
-                                            ></motion.span>
-                                        </a>
+                                                {/* Button highlight effect */}
+                                                <motion.span
+                                                    className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"
+                                                    initial={{ x: "-100%" }}
+                                                    whileHover={{
+                                                        x: "100%",
+                                                        transition: { duration: 1, ease: "easeOut" },
+                                                    }}
+                                                ></motion.span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </motion.div>
-                    ))}
+                            </motion.div>
+                        );
+                    })}
                 </motion.div>
             </div>
         </div>

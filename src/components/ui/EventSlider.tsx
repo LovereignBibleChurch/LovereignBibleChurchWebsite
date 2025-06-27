@@ -83,7 +83,7 @@ export default function EventsSlider({
     const handleMouseLeave = () => setIsAutoPlaying(true)
 
     return (
-        <section className="py-16 bg-gradient-to-b from-black/80 to-black">
+        <section className="py-16 bg-gradient-to-b overflow-x-hidden from-black/80 to-black">
             <div className="container mx-auto px-4">
 
                 <motion.div
@@ -92,12 +92,12 @@ export default function EventsSlider({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                    <div className="flex items-center justify-center mb-4">
+                    <div className="flex items-center justify-center pb-4">
                         <Calendar className="h-8 w-8 text-gray-100 mr-3" />
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-white to-teal-300 mb-2">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-white to-teal-300 mb-2" style={{ lineHeight: "1.2", overflow: "visible" }}>
                             {title}</h2>
                     </div>
-                    <p className="text-lg text-white max-w-2xl mx-auto">{subtitle}</p>
+                    <p className="text-lg text-white max-w-2xl mx-auto" style={{ lineHeight: "1.5", overflow: "visible" }}>{subtitle}</p>
 
                     <motion.div
                         className="w-24 h-1 bg-gradient-to-r from-teal-300 via-white to-teal-300 mx-auto mt-6 rounded-full"
@@ -108,7 +108,7 @@ export default function EventsSlider({
                 </motion.div>
 
                 <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                    <div className="overflow-hidden" ref={sliderRef}>
+                    <div className="" ref={sliderRef}>
                         <motion.div
                             className="flex gap-6"
                             animate={{

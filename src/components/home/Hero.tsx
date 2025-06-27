@@ -135,7 +135,7 @@ export default function Hero({
                 {titleWords.map((word, index) => (
                     <motion.span
                         key={index}
-                        className="inline-block mr-3 md:mr-4 bg-gradient-to-b from-white via-white to-gray-200 bg-clip-text text-transparent"
+                        className="inline-block leading-29 mr-3 md:mr-4 bg-gradient-to-b from-white via-white to-gray-200 bg-clip-text text-transparent"
                         initial={{ opacity: 0, y: 50, rotateX: -90 }}
                         animate={{ opacity: 1, y: 0, rotateX: 0 }}
                         transition={{

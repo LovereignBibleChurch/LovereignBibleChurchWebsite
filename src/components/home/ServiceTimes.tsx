@@ -42,7 +42,7 @@ export default function ServiceTimes() {
                 viewport={{ once: true, margin: "-100px" }}
             >
                 {/* Header */}
-                <motion.div className="text-center mb-16" variants={cardVariants}>
+                <motion.div className="text-center mb-16" variants={{cardVariants}}>
                     <motion.div
                         className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-gray-800/50 to-gray-700/50 backdrop-blur-sm rounded-2xl mb-6 border border-gray-600/20"
                         whileHover={{
@@ -83,7 +83,7 @@ export default function ServiceTimes() {
                                 className={`group relative bg-gray-900/70 backdrop-blur-sm rounded-3xl p-8 border border-gray-700/30 shadow-lg hover:shadow-2xl hover:shadow-gray-900/50 transition-all duration-500 ${
                                     service.featured ? "lg:scale-105 ring-2 ring-gray-600/50" : ""
                                 }`}
-                                variants={cardVariants}
+                                variants={{cardVariants}}
                                 whileHover={{
                                     y: -8,
                                     transition: { duration: 0.3 },
@@ -155,7 +155,7 @@ export default function ServiceTimes() {
                 </div>
 
                 {/* Bottom CTA */}
-                <motion.div className="text-center mt-16" variants={cardVariants}>
+                <motion.div className="text-center mt-16" variants={{cardVariants}}>
                     <p className="text-sm text-gray-500 mt-4 font-light">We can&#39;t wait to worship with you</p>
                 </motion.div>
 

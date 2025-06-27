@@ -1,4 +1,4 @@
-const bookImage1 = "/books/giftsandcallings.jpg"
+const bookImage1 = "/books/giftsandcalling.jpg"
 const bookImage2 = "/books/systems_structures.jpg"
 const bookImage3 = "/books/work_of_ministry.jpg"
 
@@ -10,25 +10,24 @@ export const BooksData = [
         description:
             "An insightful exploration of spiritual rebirth and the transformative journey of faith. This book delves into the profound meaning of being 'born again' and how it changes one's perspective on life.",
         price: "$20",
-        pages: "220",
+        pages: "214",
         year: "2025",
         category: "Spiritual Growth",
         availableAt: ["Amazon", "Church Bookstore", "Christian Bookshops"],
         formats: ["Hardcover", "Paperback", "E-Book"],
         sampleChapter: {
-            title: "Chapter 1: Understanding Your Spiritual Gifts",
+            title: "Chapter 1: Gifts and Calling",
             content: [
-                "Every believer has been uniquely gifted by God for His purposes and glory. The gifts and calling of God are not random distributions of abilities, but carefully orchestrated endowments that align with His divine plan for your life.",
-
-                "In Romans 11:29, Paul declares that 'the gifts and the calling of God are irrevocable.' This means that what God has placed within you cannot be taken back or cancelled. Your gifts are permanent deposits from Heaven, designed to bless others and advance His kingdom.",
-
-                "Many Christians struggle with identifying their spiritual gifts, often comparing themselves to others or feeling inadequate. But God's gifts are not meant to create competition among believers; they are meant to create collaboration and unity in the body of Christ.",
-
-                "Your calling is not separate from your gifts—they work together harmoniously. Your gifts reveal the 'how' of your ministry, while your calling reveals the 'where' and 'to whom' you are sent. Together, they form a powerful combination for kingdom impact.",
-
-                "The discovery of your gifts and calling is often a process, not a single moment of revelation. It requires prayer, community input, and stepping out in faith to serve others. As you serve, your gifts become clearer and your calling more defined.",
-
-                "Remember, your gifts are not for your own glory or personal advancement. They are tools in the Master's hands, meant to build up the church, reach the lost, and demonstrate God's love to a hurting world.",
+                "God’s gifts and calling are irrevocable, yet many struggle to fully walk in them. Why do some ministers thrive while others falter? What separates a fruitful ministry from one that fades into obscurity? Ministry is deeply spiritual; without the supernatural element, it becomes a mere social gathering. The manifestation of gifts sustains true service, marking the beginning of a believer’s walk with God. The author establishes that every biblical calling was ultimately a call to build a nation, the church, the city of God, and His tabernacle among men.",
+                "In The Gifts and Calling of God, you will discover the many gifts given to believers, all working toward a singular purpose to build the church, the nation of God. This book explores the principles, characteristics, and signs that mark the receiving and manifestation of spiritual gifts, emphasizing their divine nature in establishing God’s nation, the church, the ground, and the pillar of truth.",
+                "Through biblical insights and practical wisdom, you will gain understanding of:",
+                
+                "1. How to identify and activate your God-given gifts.",
+                "2. The role of gifts in ministry growth and impact.",
+                "3. How to follow divine pathways and receive from those God sends your way.",
+                "4. The three major categories of gifts are those that serve in support, manifest divine power, and establish leadership, authority, and spiritual governance.",
+                "Whether you are a seasoned minister, just beginning your journey, or simply seeking relevance in God’s house, this book will equip you with the knowledge, wisdom, and spiritual understanding needed to walk in your calling and divine assignment with confidence and impact.",
+                "Are you ready to embrace your calling and fulfill your ministry? The Gifts and Calling of God will show you the way.",
             ],
         },
     },
@@ -39,25 +38,36 @@ export const BooksData = [
         description:
             "Church Systems and Structures for Growth equips church leaders with 13 essential systems to strengthen governance, develop leaders, and drive sustainable ministry growth. Rooted in biblical principles and real ministry experience, it offers practical tools for building a thriving church. Ideal for pastors, administrators, and anyone preparing for ministry.",
         price: "$20",
-        pages: "280",
+        pages: "347",
         year: "2025",
         category: "Church Leadership",
         availableAt: ["Amazon", "Church Bookstore", "Christian Bookshops"],
         formats: ["Hardcover", "Paperback", "E-Book", "Audiobook"],
         sampleChapter: {
-            title: "Chapter 1: The Foundation of Church Systems",
+            title: "Chapter 1: What are Systems and Structures?",
             content: [
-                "A church without proper systems is like a house built without a foundation—it may stand for a while, but it will eventually crumble under pressure. Effective church systems provide the structural integrity needed for sustainable growth and ministry impact.",
+                
+                "Every thriving ministry is built upon well-designed systems and structures. Just as the human body functions through interconnected systems, the body of Christ requires organizational frameworks that facilitate growth, health, and effectiveness.",
+                
+                "In 1 Corinthians 14:40, Paul instructs that 'all things should be done decently and in order.' This biblical principle underscores the importance of intentional organization within the church. Without proper systems, even the most passionate ministry efforts can become chaotic and ultimately ineffective.",
+                
+                "Why Systems Matter",
+                
+                "Systems provide the necessary infrastructure for sustainable growth. They allow churches to:",
+                
+                "• Efficiently steward resources",
+               
+                "• Effectively disciple new believers",
 
-                "Many pastors are gifted preachers and shepherds but struggle with the administrative aspects of church leadership. This is not a character flaw; it's simply a recognition that different gifts require different approaches to ministry effectiveness.",
+                "• Consistently deliver ministry services",
 
-                "The 13 essential systems outlined in this book are not theoretical concepts but practical frameworks tested in real ministry environments. Each system addresses a critical area of church operations, from governance and finance to discipleship and outreach.",
+                "• Seamlessly integrate new members",
 
-                "Biblical leadership requires both spiritual sensitivity and administrative wisdom. Nehemiah demonstrated this perfectly when he rebuilt Jerusalem's walls—he prayed fervently but also organized systematically, assigning specific tasks to specific people.",
-
-                "Church growth without proper systems leads to chaos and burnout. But when systems are in place, growth becomes sustainable, leaders are developed effectively, and the church can focus on its primary mission of making disciples.",
-
-                "As we explore these systems together, remember that they are tools to serve the mission, not ends in themselves. The goal is always to create an environment where people can encounter God, grow in faith, and serve others effectively.",
+                "• Strategically expand outreach efforts",
+               
+                "When Jesus fed the five thousand, He implemented a system—having people sit in groups, distributing the food through the disciples, and collecting the leftovers. This demonstrates that even miraculous ministry benefits from systematic approaches.",
+                
+                "In the following chapters, we will examine 13 essential systems and structures that empower churches to flourish.",
             ],
         },
     },
@@ -68,25 +78,36 @@ export const BooksData = [
         description:
             "A comprehensive guide to understanding the various aspects of ministry work and how to effectively serve in your calling. This book offers wisdom for both new and experienced ministers.",
         price: "$20",
-        pages: "400",
+        pages: "576",
         year: "2025",
         category: "Ministry & Calling",
         availableAt: ["Amazon", "Church Bookstore", "Christian Bookshops"],
         formats: ["Hardcover", "Paperback", "E-Book"],
         sampleChapter: {
-            title: "Chapter 1: The Heart of Ministry",
+            title: "Chapter 1: The Work of the Ministry",
             content: [
-                "Ministry is not a profession; it is a calling. It is not a career choice; it is a divine appointment. Understanding this fundamental truth will shape how you approach every aspect of your service to God and His people.",
-
-                "The work of ministry extends far beyond preaching from a pulpit or leading worship services. It encompasses counseling the hurting, discipling new believers, administrating church affairs, and countless other responsibilities that require both spiritual maturity and practical wisdom.",
-
-                "Every minister must grapple with the tension between the sacred and the mundane. One moment you may be praying with someone at their deathbed, and the next you may be dealing with a broken air conditioning system in the church building. Both are part of ministry.",
-
-                "The Apostle Paul described ministers as 'servants of Christ and stewards of the mysteries of God' (1 Corinthians 4:1). This dual role requires both humility in service and faithfulness in handling divine truths. It is a weighty responsibility that should not be taken lightly.",
-
-                "Ministry will test your character, challenge your faith, and stretch your abilities beyond what you thought possible. But it will also provide opportunities to witness God's power, experience His grace, and participate in His redemptive work in ways that few other callings allow.",
-
-                "Whether you are just beginning your ministry journey or have been serving for decades, this book will provide practical insights and spiritual encouragement for the sacred work to which God has called you.",
+                // 1
+                "The Sacred Call to Ministry",
+                // 2
+                "Ministry is a sacred calling, but it is also a battlefield, one that demands divine direction, wisdom, endurance, and unwavering commitment. Many begin with zeal, yet only those who grasp the principles, understand spiritual warfare, and receive continuous divine strategy, endure to the end.",
+                // 3
+                "This book explores essential aspects of ministry, including practical church work, leadership succession, the different phases of ministry, critical pitfalls to avoid, the mindset required for effective ministry, the role and responsibilities of an assistant, strategies for overcoming setbacks, preservation of ministry focus, and many other vital insights.",
+                // 4
+                "Whatever phase of the ministry you are in, this book will challenge, inspire, and empower you to rise above obstacles, walk in the fullness of your ministry, and fulfill the call of God on your life.",
+                // 5
+                "You will learn how to:",
+                // 6
+                "• Approach ministry as a divine calling, not just a profession.",
+                // 7
+                "• Navigate spiritual warfare and overcome setbacks.",
+                // 8
+                "• Develop the right mindset and strategies for effective ministry.",
+                // 9
+                "• Understand the importance of leadership succession and the role of assistants.",
+                // 10
+                "• Preserve your focus and passion for the work of God.",
+                // 11
+                "Prepare to be transformed for the work of ministry!",
             ],
         },
     },
