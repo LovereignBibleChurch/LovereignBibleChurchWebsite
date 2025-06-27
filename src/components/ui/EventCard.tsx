@@ -56,13 +56,6 @@ export default function EventCard({ event, index, isActive = false }: EventCardP
                     </div>
                 )}
 
-                <div className="absolute top-4 right-4 z-10 bg-white/95 backdrop-blur-sm rounded-xl p-3 text-center shadow-lg">
-                    <div className="text-xs font-medium text-gray-600 uppercase tracking-wide">
-                        {formatDate(event.date).split(" ")[0]}
-                    </div>
-                    <div className="text-lg font-bold text-gray-900">{formatDate(event.date).split(" ")[2]}</div>
-                    <div className="text-xs font-medium text-gray-600">{formatDate(event.date).split(" ")[1]}</div>
-                </div>
             </div>
 
             {/* Event Content */}
@@ -77,10 +70,18 @@ export default function EventCard({ event, index, isActive = false }: EventCardP
 
                 {/* Event Details */}
                 <div className="space-y-2 mb-4">
-                    <div className="flex items-center text-gray-500 text-sm">
+                    {event.time.morning && ( <div className="flex items-center text-gray-500 text-sm">
                         <Clock className="h-4 w-4 mr-2 text-blue-500" />
-                        <span>{formatTime(event.time)}</span>
-                    </div>
+                        <span>Morning: {formatTime(event.time.morning)}</span>
+                    </div>)}
+                    {event.time.afternoon && ( <div className="flex items-center text-gray-500 text-sm">
+                        <Clock className="h-4 w-4 mr-2 text-blue-500" />
+                        <span>Afternoon: {formatTime(event.time.afternoon)}</span>
+                    </div>)}
+                    {event.time.evening && ( <div className="flex items-center text-gray-500 text-sm">
+                        <Clock className="h-4 w-4 mr-2 text-blue-500" />
+                        <span>Evening: {formatTime(event.time.evening)}</span>
+                    </div>)}
 
                     {event.location && (
                         <div className="flex items-center text-gray-500 text-sm">
@@ -88,6 +89,14 @@ export default function EventCard({ event, index, isActive = false }: EventCardP
                             <span>{event.location}</span>
                         </div>
                     )}
+
+                    <div className="absolute bottom-4 right-4 z-10 bg-white/95 backdrop-blur-sm rounded-xl p-3 text-center shadow-lg">
+                        <div className="text-xs font-medium text-gray-600 uppercase tracking-wide">
+                            {formatDate(event.date).split(" ")[0]}
+                        </div>
+                        <div className="text-lg font-bold text-gray-900">{formatDate(event.date).split(" ")[2]}</div>
+                        <div className="text-xs font-medium text-gray-600">{formatDate(event.date).split(" ")[1]}</div>
+                    </div>
                 </div>
             </div>
         </motion.div>

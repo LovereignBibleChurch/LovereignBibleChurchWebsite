@@ -111,7 +111,7 @@ export default function Footer() {
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Newsletter Signup */}
-            <div className="text-center lg:text-left">
+            <div className="text-centerß lg:text-left">
               <h3 className="text-2xl font-bold mb-3 flex items-center justify-center lg:justify-start">
                 <Mail className="h-6 w-6 mr-2 text-blue-300" />
                 Stay Connected

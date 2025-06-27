@@ -83,7 +83,7 @@ export default function EventsSlider({
     const handleMouseLeave = () => setIsAutoPlaying(true)
 
     return (
-        <section className="py-16 bg-gradient-to-b overflow-x-hidden from-black/80 to-black">
+        <section className="py-16 bg-gradient-to-b overflow-x-hidden justify-center items-center from-black/80 to-black">
             <div className="container mx-auto px-4">
 
                 <motion.div
@@ -120,7 +120,7 @@ export default function EventsSlider({
                                 <div
                                     key={event.id}
                                     className={cn(
-                                        "flex-shrink-0",
+                                        "flex-shrink-0 justify-center items-center  p-12",
                                         slidesPerView === 1 && "w-full",
                                         slidesPerView === 2 && "w-[calc(50%-0.75rem)]",
                                         slidesPerView === 3 && "w-[calc(33.333%-1rem)]",
