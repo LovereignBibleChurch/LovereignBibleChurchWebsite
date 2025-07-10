@@ -8,7 +8,6 @@ const nextConfig: NextConfig = {
         hostname: "raw.githubusercontent.com",
         pathname: "/THE-LOVEREIGN-BIBLE-CHURCH/logo/main/**",
       },
-      // Add more patterns here as needed
     ],
   },
   // output: "export",
