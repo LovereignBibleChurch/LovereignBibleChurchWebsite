@@ -11,7 +11,9 @@ const nextConfig: NextConfig = {
       // Add more patterns here as needed
     ],
   },
-  output: "export", // Enable static site export
+  // output: "export",
+  assetPrefix: "", // Use relative paths for assets
+  basePath: "", // Empty string for root path
 };
 
 export default nextConfig;
