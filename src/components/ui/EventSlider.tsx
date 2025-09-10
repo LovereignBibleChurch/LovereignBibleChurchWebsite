@@ -182,7 +182,7 @@ useEffect(() => {
                 <motion.div
                     ref={headerRef}
                     className="text-center mb-12"
-                    variants={headerVariants}
+                    variants={{headerVariants}}
                     initial="hidden"
                     animate={isInView ? "visible" : "hidden"}
                 >
@@ -209,7 +209,7 @@ useEffect(() => {
 
                     <motion.div
                         className="w-24 h-1 bg-gradient-to-r from-teal-300 via-white to-teal-300 mx-auto mt-6 rounded-full"
-                        variants={underlineVariants}
+                        variants={{underlineVariants}}
                         initial="hidden"
                         animate={isInView ? "visible" : "hidden"}
                     />

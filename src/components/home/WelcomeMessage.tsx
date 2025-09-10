@@ -52,7 +52,7 @@ export default function WelcomeMessage() {
       transition: {
         duration: 6,
         repeat: Infinity,
-        ease: "easeInOut",
+        ease: "easeInOut", // Use a valid easing function
       },
     },
   }
@@ -84,7 +84,7 @@ export default function WelcomeMessage() {
       >
         <motion.div
             className="absolute top-32 right-1/3 opacity-15"
-            variants={floatingVariants}
+            variants={{floatingVariants}}
             animate="animate"
             transition={{ delay: 2 }}
         >
@@ -93,7 +93,7 @@ export default function WelcomeMessage() {
 
         <motion.div
             className="absolute bottom-20 left-1/3 opacity-10"
-            variants={floatingVariants}
+            variants={{floatingVariants}}
             animate="animate"
             transition={{ delay: 4 }}
         >
@@ -109,7 +109,7 @@ export default function WelcomeMessage() {
         >
           <motion.div
               className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm rounded-full mb-8 border border-white/20"
-              variants={itemVariants}
+              variants={{itemVariants}}
               whileHover={{
                 scale: 1.1,
                 rotate: 360,
@@ -121,7 +121,7 @@ export default function WelcomeMessage() {
 
           <motion.h2 
               className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" 
-              variants={itemVariants}
+              variants={{itemVariants}}
           >
             <span className="bg-gradient-to-r from-white via-gray-700 to-gray-100 bg-clip-text text-transparent">
               This is Church{" "}
@@ -139,7 +139,7 @@ export default function WelcomeMessage() {
 
           <motion.p
               className="text-lg md:text-xl text-white leading-relaxed font-light max-w-3xl mx-auto"
-              variants={itemVariants}
+              variants={{itemVariants}}
           >
             We are a{" "}
             <span className="font-medium bg-[#fde68a] bg-clip-text text-transparent">
@@ -152,7 +152,7 @@ export default function WelcomeMessage() {
 
           <motion.div 
               className="flex items-center justify-center mb-8" 
-              variants={itemVariants}
+              variants={{itemVariants}}
           >
             <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent w-32" />
             <motion.div
@@ -172,7 +172,7 @@ export default function WelcomeMessage() {
 
           <motion.p
               className="text-lg md:text-xl text-white mb-12 leading-relaxed font-light max-w-3xl mx-auto"
-              variants={itemVariants}
+              variants={{itemVariants}}
           >
             We believe in the power of{" "}
             <span className="font-medium bg-gradient-to-r from-[#fde68a] via-gray-300 to-[#fde68b] bg-clip-text text-transparent">
