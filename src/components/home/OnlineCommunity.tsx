@@ -153,21 +153,21 @@ export default function OnlineCommunity() {
     const stats = [
         {
             title: "Sermons",
-            value: 520,
+            value: 2000,
             icon: Video,
             color: "text-gray-300",
             bgColor: "bg-gray-800/50",
         },
         {
             title: "Messages",
-            value: 1250,
+            value: 1500,
             icon: MessageCircle,
             color: "text-gray-300",
             bgColor: "bg-gray-800/50",
         },
         {
             title: "Podcasts",
-            value: 180,
+            value: 500,
             icon: Headphones,
             color: "text-gray-300",
             bgColor: "bg-gray-800/50",
