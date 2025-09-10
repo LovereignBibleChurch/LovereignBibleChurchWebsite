@@ -52,7 +52,7 @@ export default function WelcomeMessage() {
       transition: {
         duration: 6,
         repeat: Infinity,
-        ease: "easeInOut",
+        ease: "easeInOut", // Use a valid easing function
       },
     },
   }
