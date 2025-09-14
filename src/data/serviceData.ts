@@ -3,7 +3,7 @@ import {Calendar, Sparkles, Sun} from "lucide-react";
 export const services = [
     {
         id: 1,
-        title: "Tuesday Midweek Service",
+        title: "Wednesday Midweek Service",
         time: "6:00 PM - 8:30 PM",
         description: "Prayer & Bible Study",
         location: "Wellspring, Achimota Ghana",
