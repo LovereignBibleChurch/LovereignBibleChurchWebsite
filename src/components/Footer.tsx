@@ -10,15 +10,15 @@ import emailjs from '@emailjs/browser'
 
 // EmailJS configuration
 const EMAILJS_CONFIG = {
-  publicKey: 'ItF3ATskFLsm2Zb1F',
-  serviceId: 'service_86ce4g7',
-  templateId: 'template_9p9ksuo'
+  publicKey: 'fN2qkg7bDDx_2te0R',
+  serviceId: 'service_cte8xrg',
+  templateId: 'template_vruhehp'
 }
 
 export default function Footer() {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
+    phone: "",
     message: "",
   })
   const [newsletterEmail, setNewsletterEmail] = useState("")
@@ -50,7 +50,7 @@ export default function Footer() {
         from_email: newsletterEmail,
         message: `New newsletter subscription from: ${newsletterEmail}`,
         to_name: 'Lovereign Bible Church',
-        subject: 'Newsletter Subscription'
+        subject: 'Newsletter Subscription',
       }
 
       await emailjs.send(
@@ -58,6 +58,7 @@ export default function Footer() {
         EMAILJS_CONFIG.templateId,
         templateParams
       )
+
 
       setNewsletterSuccess(true)
       setNewsletterEmail("")
@@ -79,7 +80,7 @@ export default function Footer() {
     try {
       const templateParams = {
         from_name: formData.name,
-        from_email: formData.email,
+        from_email: formData.phone,
         message: formData.message,
         to_name: 'Lovereign Bible Church',
         subject: 'New Contact Form Message'
@@ -92,10 +93,11 @@ export default function Footer() {
       )
 
       setSubmitSuccess(true)
-      setFormData({ name: "", email: "", message: "" })
+      setFormData({ name: "", phone: "", message: "" })
       setTimeout(() => setSubmitSuccess(false), 3000)
     } catch (error) {
       console.error("Error submitting form:", error)
+        console.log( EMAILJS_CONFIG.serviceId)
       setSubmitError("Failed to send message. Please try again.")
       setTimeout(() => setSubmitError(""), 3000)
     } finally {
@@ -181,10 +183,10 @@ export default function Footer() {
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-blue-300"
                   />
                   <Input
-                    type="email"
-                    name="email"
-                    placeholder="Your Email"
-                    value={formData.email}
+                    type="phone"
+                    name="phone"
+                    placeholder="Your Phone number"
+                    value={formData.phone}
                     onChange={handleChange}
                     required
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-blue-300"
