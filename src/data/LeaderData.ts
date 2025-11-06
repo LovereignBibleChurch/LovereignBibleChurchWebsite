@@ -23,7 +23,7 @@ export const leaderData: LeaderItem[] = [
     },
     {
         id: 3,
-        name: "Albert Boakye",
+        name: "Albert Boakye Ansah",
         title: "Pastor",
         location: "Headquarters",
         image: "/church_leaders/PastorAlbertBoakye.png",
@@ -156,14 +156,14 @@ export const leaderData: LeaderItem[] = [
     },
     {
         id: 22,
-        name: "Essien Nana",
+        name: "Essien Nana Oppong",
         title: "Chief Elder",
         location: "Cape Coast",
         image: "/church_leaders/CEElderEssienNana.jpg",
     },
     {
         id: 23,
-        name: "Peter Hagin Wealth",
+        name: "Peter Hagin-Wealth",
         title: "Chief Elder",
         location: "UPSA",
         image: "/church_leaders/CEPeterHagin-Wealth.jpg",
@@ -184,7 +184,7 @@ export const leaderData: LeaderItem[] = [
     },
     {
         id: 26,
-        name: "Frank Junior Tetteh",
+        name: "Frank Tetteh Junior",
         title: "Chief Elder",
         location: "Sunyani",
         image: "/church_leaders/FrankTettehJunior.jpg",
