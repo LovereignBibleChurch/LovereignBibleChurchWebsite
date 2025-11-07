@@ -1,25 +1,57 @@
 "use client"
 
-import {useRef, useState} from "react"
+import {useRef, useState, useEffect} from "react"
 import {AnimatePresence, motion, useInView} from "framer-motion"
 import {Search} from "lucide-react"
-import {leaderData} from "@/data/LeaderData";
+import {getLeaders, getImageUrl} from "@/sanity/lib/queries";
 import LeaderCard from "@/components/ui/LeaderCard";
+
+interface LeaderItem {
+  _id: string;
+  name: string;
+  title: string;
+  location: string;
+  image?: any;
+  bio?: string;
+  contactInfo?: string;
+  socialLinks?: any[];
+  order?: number;
+  isActive?: boolean;
+}
 
 
 export default function ChurchLeadership() {
     const [searchTerm, setSearchTerm] = useState("")
     const [selectedCategory, setSelectedCategory] = useState("All")
+    const [leaders, setLeaders] = useState<LeaderItem[]>([])
+    const [isLoading, setIsLoading] = useState(true)
     const containerRef = useRef<HTMLDivElement>(null)
     const headerRef = useRef<HTMLDivElement>(null)
     const isInView = useInView(containerRef, { once: true })
     const isHeaderInView = useInView(headerRef, {once: true })
 
+    // Fetch leaders from Sanity
+    useEffect(() => {
+        const fetchLeaders = async () => {
+            try {
+                setIsLoading(true)
+                const leadersData = await getLeaders()
+                setLeaders(leadersData)
+            } catch (error) {
+                console.error('Error fetching leaders:', error)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+
+        fetchLeaders()
+    }, [])
+
     // Categories
     const categories = ["All", "Headquarters", "Church Planters"]
 
     // Filter leaders based on search term and category
-    const filteredLeaders = leaderData.filter((leader) => {
+    const filteredLeaders = leaders.filter((leader) => {
         const matchesSearch =
             leader.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             leader.location.toLowerCase().includes(searchTerm.toLowerCase())
@@ -111,24 +143,31 @@ export default function ChurchLeadership() {
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
             >
-                <AnimatePresence>
-                    {filteredLeaders.length > 0 ? (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8">
-                            {filteredLeaders.map((leader, index) => (
-                                <LeaderCard key={leader.id} leader={leader} index={index} />
-                            ))}
-                        </div>
-                    ) : (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="text-center py-10"
-                        >
-                            <p className="text-base text-gray-400">No leaders found matching your search criteria.</p>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                {isLoading ? (
+                    <div className="flex justify-center items-center py-20">
+                        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        <span className="ml-3 text-gray-300">Loading church leaders...</span>
+                    </div>
+                ) : (
+                    <AnimatePresence>
+                        {filteredLeaders.length > 0 ? (
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8">
+                                {filteredLeaders.map((leader, index) => (
+                                    <LeaderCard key={leader._id} leader={leader} index={index} />
+                                ))}
+                            </div>
+                        ) : (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="text-center py-10"
+                            >
+                                <p className="text-base text-gray-400">No leaders found matching your search criteria.</p>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                )}
             </motion.div>
 
             {/* Stats Section */}
@@ -139,7 +178,7 @@ export default function ChurchLeadership() {
                 transition={{ duration: 0.5, delay: 0.5 }}
             >
                 <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg p-3 border border-gray-700">
-                    <h3 className="text-3xl font-bold text-blue-400">{leaderData.length}+</h3>
+                    <h3 className="text-3xl font-bold text-blue-400">{leaders.length}+</h3>
                     <p className="mt-1 text-xs text-gray-300">Church Pastors</p>
                 </div>
                 <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg p-3 border border-gray-700">

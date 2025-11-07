@@ -3,8 +3,28 @@
 import {useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {Calendar, X} from "lucide-react";
-import type {EventItem} from "@/data/eventsData";
+import { getImageUrl } from "@/sanity/lib/queries";
 import Image from "next/image";
+
+interface EventItem {
+    _id: string;
+    title: string;
+    slug: {
+        current: string;
+    };
+    date: string;
+    time: {
+        morning?: string | null;
+        afternoon?: string | null;
+        evening?: string | null;
+    };
+    image?: any;
+    description?: string;
+    location?: string;
+    category?: string;
+    featured?: boolean;
+    registrationLink?: string;
+}
 
 interface EventCountdownBadgeProps {
   events: EventItem[];
@@ -26,7 +46,35 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
     return upcomingEvents.length > 0 ? upcomingEvents[0] : null;
   };
 
-  const nextEvent = getNextEvent();
+  // Transform Sanity data to EventItem format if needed
+  const transformEvents = (events: any[]): EventItem[] => {
+    return events.map(event => {
+      // Check if this is Sanity data (has _id) or regular EventItem (has id)
+      if (event._id) {
+        return {
+          _id: event._id,
+          title: event.title,
+          date: event.date,
+          time: {
+            morning: event.time?.morning || null,
+            afternoon: event.time?.afternoon || null,
+            evening: event.time?.evening || null
+          },
+          image: event.image,
+          description: event.description || "",
+          location: event.location || "",
+          category: event.category || "",
+          featured: event.featured || false,
+          registrationLink: event.registrationLink || ""
+        } as EventItem;
+      }
+      // If it's already in EventItem format, return as is
+      return event as EventItem;
+    });
+  };
+
+  const transformedEvents = transformEvents(events);
+    const nextEvent = getNextEvent();
 
   // Calculate countdown
   useEffect(() => {
@@ -59,7 +107,7 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
     const timer = setInterval(calculateTimeLeft, 60000); // Update every minute
 
     return () => clearInterval(timer);
-  }, [nextEvent]);
+  }, [nextEvent, transformedEvents]);
 
   if (!nextEvent || !countdown) return null;
 
@@ -114,7 +162,7 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
                   <div className="flex flex-col items-center bg-transparent">
                     <div className="w-full h-[60vh] relative">
                       <Image
-                          src={"/church_flyers/countdown.jpeg"}
+                          src={nextEvent.image ? getImageUrl(nextEvent.image, 800, 600) || "/church_flyers/countdown.jpeg" : "/church_flyers/countdown.jpeg"}
                           alt={nextEvent.title}
                           layout="fill"
                           objectFit="contain"

@@ -2,7 +2,38 @@
 
 import Image from "next/image"
 import {Clock, MapPinned, Phone, User, X} from "lucide-react"
-import type {BranchItem} from "@/data/branchData"
+import { getImageUrl } from "@/sanity/lib/queries"
+
+interface BranchItem {
+  _id: string;
+  name: string;
+  slug: {
+    current: string;
+  };
+  location: string;
+  contact: string;
+  pastor: {
+    _id: string;
+    name: string;
+    title: string;
+    image?: any;
+  };
+  services: {
+    tuesday?: { time: string } | null;
+    thursday?: { time: string } | null;
+    friday?: { time: string } | null;
+    sunday: {
+      morning?: { time: string } | null;
+      afternoon?: { time: string } | null;
+      evening?: { time: string } | null;
+    };
+  };
+  description?: string;
+  photos?: any[];
+  mapLink?: string;
+  order?: number;
+  isActive?: boolean;
+}
 
 interface BranchModalProps {
     branch: BranchItem
