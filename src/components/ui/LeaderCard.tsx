@@ -77,7 +77,7 @@ export default function LeaderCard({ leader, index }: LeaderCardProps) {
                         </div>
                     )}
                     <Image
-                        src={leader?.image ? getImageUrl(leader.image, 300, 300) : "/church_leaders/noPic.png"}
+                        src={leader?.image ? getImageUrl(leader?.image, 300, 300) : "/church_leaders/noPic.png"}
                         alt={leader.name}
                         fill
                         className="object-cover"

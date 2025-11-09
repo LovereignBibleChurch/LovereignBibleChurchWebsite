@@ -1,6 +1,7 @@
 import { groq } from 'next-sanity'
 import { client } from './client'
 import { urlFor } from './image'
+import { cached } from './cache'
 
 // GROQ Queries for fetching data
 
@@ -265,73 +266,83 @@ export const featuredAnnouncementsQuery = groq`
 
 // Fetch functions
 export async function getTestimonials() {
-  return await client.fetch(testimonialsQuery)
+  return cached(() => client.fetch(testimonialsQuery), ['sanity', 'testimonials', 'all'], { revalidate: 300, tags: ['sanity', 'testimonial'] })
 }
 
 export async function getFeaturedTestimonials() {
-  return await client.fetch(featuredTestimonialsQuery)
+  return cached(() => client.fetch(featuredTestimonialsQuery), ['sanity', 'testimonials', 'featured'], { revalidate: 300, tags: ['sanity', 'testimonial'] })
 }
 
 export async function getEvents() {
-  return await client.fetch(eventsQuery)
+  return cached(() => client.fetch(eventsQuery), ['sanity', 'events', 'all'], { revalidate: 120, tags: ['sanity', 'event'] })
 }
 
 export async function getUpcomingEvents() {
-  return await client.fetch(upcomingEventsQuery)
+  return cached(() => client.fetch(upcomingEventsQuery), ['sanity', 'events', 'upcoming'], { revalidate: 120, tags: ['sanity', 'event'] })
 }
 
 export async function getFeaturedEvents() {
-  return await client.fetch(featuredEventsQuery)
+  return cached(() => client.fetch(featuredEventsQuery), ['sanity', 'events', 'featured'], { revalidate: 120, tags: ['sanity', 'event'] })
 }
 
 export async function getLeaders() {
-  return await client.fetch(leadersQuery)
+  return cached(() => client.fetch(leadersQuery), ['sanity', 'leaders', 'all'], { revalidate: 600, tags: ['sanity', 'leader'] })
 }
 
 export async function getLeadersByLocation(location: string) {
-  return await client.fetch(leadersByLocationQuery, { location })
+  return cached(() => client.fetch(leadersByLocationQuery, { location }), ['sanity', 'leaders', 'byLocation', location], { revalidate: 600, tags: ['sanity', 'leader'] })
 }
 
 export async function getBranches() {
-  return await client.fetch(branchesQuery)
+  return cached(() => client.fetch(branchesQuery), ['sanity', 'branches', 'all'], { revalidate: 600, tags: ['sanity', 'branch'] })
 }
 
 export async function getBranchBySlug(slug: string) {
-  return await client.fetch(branchBySlugQuery, { slug })
+  return cached(() => client.fetch(branchBySlugQuery, { slug }), ['sanity', 'branches', 'bySlug', slug], { revalidate: 600, tags: ['sanity', 'branch'] })
 }
 
 export async function getSermons() {
-  return await client.fetch(sermonsQuery)
+  return cached(() => client.fetch(sermonsQuery), ['sanity', 'sermons', 'all'], { revalidate: 600, tags: ['sanity', 'sermon'] })
 }
 
 export async function getFeaturedSermons() {
-  return await client.fetch(featuredSermonsQuery)
+  return cached(() => client.fetch(featuredSermonsQuery), ['sanity', 'sermons', 'featured'], { revalidate: 600, tags: ['sanity', 'sermon'] })
 }
 
 export async function getSermonsBySeries(series: string) {
-  return await client.fetch(sermonsBySeriesQuery, { series })
+  return cached(() => client.fetch(sermonsBySeriesQuery, { series }), ['sanity', 'sermons', 'bySeries', series], { revalidate: 600, tags: ['sanity', 'sermon'] })
 }
 
 export async function getActiveAnnouncements() {
-  return await client.fetch(activeAnnouncementsQuery)
+  return cached(() => client.fetch(activeAnnouncementsQuery), ['sanity', 'announcements', 'active'], { revalidate: 60, tags: ['sanity', 'announcement'] })
 }
 
 export async function getFeaturedAnnouncements() {
-  return await client.fetch(featuredAnnouncementsQuery)
+  return cached(() => client.fetch(featuredAnnouncementsQuery), ['sanity', 'announcements', 'featured'], { revalidate: 60, tags: ['sanity', 'announcement'] })
 }
 
 // Helper function to get optimized image URL
 export function getImageUrl(source: any, width = 800, height?: number) {
-  if (!source) return null
-  
-  const url = urlFor(source)
-  
-  if (height) {
-    return url.width(width).height(height).url()
-  }
-  
-  return url.width(width).url()
+    if (!source) return null
+
+    if (typeof source === "string" && source.startsWith("http")) {
+        return source
+    }
+
+    const ref = source.asset?._ref || source._ref || source
+    if (!ref) return null
+
+    const cleanRef = typeof ref === "string" ? ref.split("?")[0].replace(".jpg", "-jpg") : ref
+
+    try {
+        const url = urlFor({ _ref: cleanRef })
+        return height ? url.width(width).height(height).url() : url.width(width).url()
+    } catch (error) {
+        console.error("Malformed image ref:", ref)
+        return null
+    }
 }
+
 
 // Helper function to format date
 export function formatDate(dateString: string) {

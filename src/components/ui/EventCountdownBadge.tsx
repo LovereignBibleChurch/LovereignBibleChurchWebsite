@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {Calendar, X} from "lucide-react";
 import { getImageUrl } from "@/sanity/lib/queries";
@@ -35,11 +35,11 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
   const [countdown, setCountdown] = useState<{ days: number; hours: number; minutes: number } | null>(null);
 
   // Find the most recent upcoming event
-  const getNextEvent = (): EventItem | null => {
-    if (!events || events.length === 0) return null;
+  const getNextEvent = (list: EventItem[]): EventItem | null => {
+    if (!list || list.length === 0) return null;
 
     const now = new Date();
-    const upcomingEvents = events
+    const upcomingEvents = list
         .filter((event) => new Date(event.date) > now)
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
@@ -73,8 +73,8 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
     });
   };
 
-  const transformedEvents = transformEvents(events);
-    const nextEvent = getNextEvent();
+  const transformedEvents = useMemo(() => transformEvents(events), [events]);
+  const nextEvent = useMemo(() => getNextEvent(transformedEvents), [transformedEvents]);
 
   // Calculate countdown
   useEffect(() => {
@@ -107,7 +107,7 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
     const timer = setInterval(calculateTimeLeft, 60000); // Update every minute
 
     return () => clearInterval(timer);
-  }, [nextEvent, transformedEvents]);
+  }, [nextEvent]);
 
   if (!nextEvent || !countdown) return null;
 
