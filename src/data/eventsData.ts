@@ -30,8 +30,8 @@ export const eventsData: EventItem[] = [
         category: "Worship",
     },
     {
-        id: 1,
-        title: "Young Minister Network International",
+        id: 2,
+        title: "Encounter With Oil",
         date: "2025-11-30",
         time: {
             morning: "",
