@@ -53,7 +53,22 @@ function EmptyState() {
 }
 
 export default function EventsSlider({
-    events = [],
+    events = [
+        {
+            id: 1,
+            title: "Young Minister Network International",
+            date: "2025-07-17",
+            time: {
+                morning: "9:00 AM",
+                afternoon: "",
+                evening: "6:00 PM",
+            },
+            image: "/church_flyers/newprogram2.JPG",
+            description: "",
+            location: "Wellspring, Achimota Ghana",
+            category: "Worship",
+        },
+    ],
     ...props
 }: EventsSliderProps) {
     // Filter out past events at the component level
