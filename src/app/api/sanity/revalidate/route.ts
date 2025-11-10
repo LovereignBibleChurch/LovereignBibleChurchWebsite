@@ -24,7 +24,7 @@ function signBody(body: string, secret: string) {
 }
 
 function getSecret(): string | undefined {
-  return process.env.SANITY_REVALIDATE_SECRET || process.env.SANITY_WEBHOOK_SECRET || process.env.NEXT_PUBLIC_SANITY_WEBHOOK_SECRET
+  return process.env.SANITY_REVALIDATE_SECRET || process.env.SANITY_WEBHOOK_SECRET
 }
 
 async function verifyRequest(req: NextRequest, rawBody: string): Promise<boolean> {
