@@ -114,7 +114,7 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
                   <div className="flex flex-col items-center bg-transparent">
                     <div className="w-full h-[60vh] relative">
                       <Image
-                          src={"/church_flyers/countdown.jpeg"}
+                          src={"/church_flyers/ae.jpeg"}
                           alt={nextEvent.title}
                           layout="fill"
                           objectFit="contain"
