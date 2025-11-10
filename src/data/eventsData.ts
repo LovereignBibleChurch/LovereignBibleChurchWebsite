@@ -17,14 +17,28 @@ export interface EventItem {
 export const eventsData: EventItem[] = [
     {
         id: 1,
-        title: "Young Minister Network International",
-        date: "2025-07-17",
+        title: "Apostolic Encounter",
+        date: "2025-11-12",
         time: {
-            morning: "9:00 AM",
+            morning: "",
             afternoon: "",
             evening: "6:00 PM",
         },
-        image: "/church_flyers/newprogram2.JPG",
+        image: "/church_flyers/ae.jpeg",
+        description: "",
+        location: "Wellspring, Achimota Ghana",
+        category: "Worship",
+    },
+    {
+        id: 2,
+        title: "Encounter With Oil",
+        date: "2025-11-30",
+        time: {
+            morning: "",
+            afternoon: "",
+            evening: "6:00 PM Each Night",
+        },
+        image: "/church_flyers/ewo.jpeg",
         description: "",
         location: "Wellspring, Achimota Ghana",
         category: "Worship",
