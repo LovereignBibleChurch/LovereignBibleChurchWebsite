@@ -50,7 +50,7 @@ export default function BranchCard({ branch, onClick }: BranchCardProps) {
                 <div className="flex items-center gap-3 mb-3">
                     <div className="w-12 h-12 rounded-full overflow-hidden bg-[#19222d] flex-shrink-0 relative">
                         <Image
-                            src={branch.pastor.photo || "/images/branches/no-picture.png"}
+                            src={branch.pastor.image ? getImageUrl(branch.pastor?.image, 300, 300) : "/church_leaders/noPic.png"}
                             alt={branch.pastor.name}
                             fill
                             className="object-cover"

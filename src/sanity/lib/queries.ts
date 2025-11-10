@@ -85,7 +85,7 @@ export const featuredEventsQuery = groq`
 
 // Leaders Queries
 export const leadersQuery = groq`
-  *[_type == "leader" && isActive == true] | order(order asc, name asc) {
+  *[_type == "leader" && isActive == true] | order(_createdAt asc, name asc) {
     _id,
     name,
     title,
@@ -322,15 +322,17 @@ export async function getFeaturedAnnouncements() {
 }
 
 // Helper function to get optimized image URL
-export function getImageUrl(source: any, width = 800, height?: number) {
-    if (!source) return null
+export function getImageUrl(source: any, width = 800, height?: number): string {
+    const fallback = "/placeholder.jpg"
+
+    if (!source) return fallback
 
     if (typeof source === "string" && source.startsWith("http")) {
         return source
     }
 
     const ref = source.asset?._ref || source._ref || source
-    if (!ref) return null
+    if (!ref) return fallback
 
     const cleanRef = typeof ref === "string" ? ref.split("?")[0].replace(".jpg", "-jpg") : ref
 
@@ -339,9 +341,10 @@ export function getImageUrl(source: any, width = 800, height?: number) {
         return height ? url.width(width).height(height).url() : url.width(width).url()
     } catch (error) {
         console.error("Malformed image ref:", ref)
-        return null
+        return fallback
     }
 }
+
 
 
 // Helper function to format date

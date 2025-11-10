@@ -6,9 +6,9 @@ import {Clock, MapPin} from "lucide-react"
 import { getImageUrl } from "@/sanity/lib/queries"
 
 interface EventItem {
-    _id: string;
+    _id?: string;
     title: string;
-    slug: {
+    slug?: {
         current: string;
     };
     date: string;

@@ -95,17 +95,22 @@ export default defineType({
       type: 'text',
       description: 'Brief description about this church branch',
     }),
-    defineField({
-      name: 'photos',
-      title: 'Branch Photos',
-      type: 'array',
-      of: [{type: 'image'}],
-      options: {
-        hotspot: true,
-      },
-      description: 'Photos of the church building or activities',
-    }),
-    defineField({
+      defineField({
+          name: 'photos',
+          title: 'Branch Photos',
+          type: 'array',
+          of: [
+              {
+                  type: 'image',
+                  options: {
+                      hotspot: true,
+                  },
+              },
+          ],
+          description: 'Photos of the church building or activities',
+      }),
+
+      defineField({
       name: 'mapLink',
       title: 'Google Maps Link',
       type: 'url',

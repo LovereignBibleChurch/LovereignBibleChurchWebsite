@@ -169,7 +169,7 @@ export default function BranchModal({ branch, onClose }: BranchModalProps) {
                                 <div className="absolute -inset-3 bg-gradient-to-r from-amber-500/20 to-amber-700/20 rounded-lg blur-lg opacity-70"></div>
                                 <div className="relative z-10 rounded-lg shadow-xl max-h-[300px] overflow-hidden">
                                     <Image
-                                        src={branch.pastor.photo || "/images/branches/no-picture.png"}
+                                        src={getImageUrl(branch.pastor.image, 300, 300)}
                                         alt={branch.pastor.name}
                                         width={250}
                                         height={300}

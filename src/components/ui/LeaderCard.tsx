@@ -78,7 +78,7 @@ export default function LeaderCard({ leader, index }: LeaderCardProps) {
                     )}
                     <Image
                         src={leader?.image ? getImageUrl(leader?.image, 300, 300) : "/church_leaders/noPic.png"}
-                        alt={leader.name}
+                        alt={leader?.name}
                         fill
                         className="object-cover"
                         priority={index < 10}

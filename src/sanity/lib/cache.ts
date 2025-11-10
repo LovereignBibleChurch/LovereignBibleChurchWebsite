@@ -14,7 +14,7 @@ export async function cached<T>(
   options: CacheOptions = {}
 ): Promise<T> {
   const fn = nextUnstableCache(fetcher, key, {
-    revalidate: options.revalidate ?? 60, // default: 60s
+    revalidate: options.revalidate ?? 60,
     tags: options.tags,
   })
   return fn()

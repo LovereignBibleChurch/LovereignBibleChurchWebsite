@@ -3,7 +3,6 @@
 import {useRef, useState, useEffect} from "react"
 import {AnimatePresence, motion, useInView} from "framer-motion"
 import {Search} from "lucide-react"
-import {getLeaders, getImageUrl} from "@/sanity/lib/queries";
 import LeaderCard from "@/components/ui/LeaderCard";
 
 interface LeaderItem {
@@ -25,20 +24,28 @@ export default function ChurchLeadership() {
     const [selectedCategory, setSelectedCategory] = useState("All")
     const [leaders, setLeaders] = useState<LeaderItem[]>([])
     const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
     const containerRef = useRef<HTMLDivElement>(null)
     const headerRef = useRef<HTMLDivElement>(null)
     const isInView = useInView(containerRef, { once: true })
     const isHeaderInView = useInView(headerRef, {once: true })
 
-    // Fetch leaders from Sanity
+    // Fetch leaders from API (server-side cached) to avoid calling server functions on the client
     useEffect(() => {
         const fetchLeaders = async () => {
             try {
                 setIsLoading(true)
-                const leadersData = await getLeaders()
+                setError(null)
+                const res = await fetch('/api/leaders', { next: { revalidate: 0 } })
+                if (!res.ok) throw new Error(`HTTP ${res.status}`)
+                const json = await res.json()
+                if (!json?.ok) throw new Error(json?.error || 'Failed to load')
+                const leadersData: LeaderItem[] = json.leaders || []
+                // console.debug('Fetched leaders:', leadersData)
                 setLeaders(leadersData)
-            } catch (error) {
-                console.error('Error fetching leaders:', error)
+            } catch (err: any) {
+                console.error('Error fetching leaders:', err)
+                setError(err?.message || 'Failed to load leaders')
             } finally {
                 setIsLoading(false)
             }
@@ -52,17 +59,18 @@ export default function ChurchLeadership() {
 
     // Filter leaders based on search term and category
     const filteredLeaders = leaders.filter((leader) => {
-        const matchesSearch =
-            leader.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            leader.location.toLowerCase().includes(searchTerm.toLowerCase())
+        const name = (leader.name || '').toLowerCase()
+        const location = (leader.location || '').toLowerCase()
+        const query = searchTerm.toLowerCase()
+        const matchesSearch = name.includes(query) || location.includes(query)
 
         // Filter logic for categories
         let matchesCategory = selectedCategory === "All"
 
         if (selectedCategory === "Headquarters") {
-            matchesCategory = leader.location === "Headquarters"
+            matchesCategory = (leader.location || '') === "Headquarters"
         } else if (selectedCategory === "Church Planters") {
-            matchesCategory = leader.location !== "Headquarters"
+            matchesCategory = (leader.location || '') !== "Headquarters"
         }
 
         return matchesSearch && matchesCategory
@@ -101,39 +109,39 @@ export default function ChurchLeadership() {
                     Serving with dedication across over 20 branches throughout the country
                 </motion.p>
 
-                <motion.div
-                    className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8"
-                    initial={{ opacity: 0 }}
-                    animate={isHeaderInView ? { opacity: 1 } : { opacity: 0 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                    <div className="relative w-full max-w-xs">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
-                        <input
-                            type="text"
-                            placeholder="Search by name or location..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-9 pr-3 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
-                        />
-                    </div>
+                {/*<motion.div*/}
+                {/*    className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8"*/}
+                {/*    initial={{ opacity: 0 }}*/}
+                {/*    animate={isHeaderInView ? { opacity: 1 } : { opacity: 0 }}*/}
+                {/*    transition={{ duration: 0.5, delay: 0.3 }}*/}
+                {/*>*/}
+                {/*    <div className="relative w-full max-w-xs">*/}
+                {/*        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />*/}
+                {/*        <input*/}
+                {/*            type="text"*/}
+                {/*            placeholder="Search by name or location..."*/}
+                {/*            value={searchTerm}*/}
+                {/*            onChange={(e) => setSearchTerm(e.target.value)}*/}
+                {/*            className="w-full pl-9 pr-3 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"*/}
+                {/*        />*/}
+                {/*    </div>*/}
 
-                    <div className="flex gap-2 flex-wrap justify-center">
-                        {categories.map((category) => (
-                            <button
-                                key={category}
-                                onClick={() => setSelectedCategory(category)}
-                                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    selectedCategory === category
-                                        ? "bg-blue-600 text-white"
-                                        : "bg-gray-800 text-gray-300 hover:bg-gray-700"
-                                }`}
-                            >
-                                {category}
-                            </button>
-                        ))}
-                    </div>
-                </motion.div>
+                {/*    <div className="flex gap-2 flex-wrap justify-center">*/}
+                {/*        {categories.map((category) => (*/}
+                {/*            <button*/}
+                {/*                key={category}*/}
+                {/*                onClick={() => setSelectedCategory(category)}*/}
+                {/*                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${*/}
+                {/*                    selectedCategory === category*/}
+                {/*                        ? "bg-blue-600 text-white"*/}
+                {/*                        : "bg-gray-800 text-gray-300 hover:bg-gray-700"*/}
+                {/*                }`}*/}
+                {/*            >*/}
+                {/*                {category}*/}
+                {/*            </button>*/}
+                {/*        ))}*/}
+                {/*    </div>*/}
+                {/*</motion.div>*/}
             </div>
 
             <motion.div
@@ -143,6 +151,11 @@ export default function ChurchLeadership() {
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
             >
+                {error && !isLoading && (
+                    <div className="mb-6 p-4 rounded-lg border border-red-700 bg-red-900/30 text-red-200">
+                        <p className="text-sm">Failed to load church leaders. {error}</p>
+                    </div>
+                )}
                 {isLoading ? (
                     <div className="flex justify-center items-center py-20">
                         <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
