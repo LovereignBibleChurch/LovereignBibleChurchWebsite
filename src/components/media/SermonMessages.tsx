@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Calendar, Clock, ExternalLink, Headphones, Youtube } from "lucide-react";
-import {podbeanMessages, youtubeMessages} from "@/data/messagesData";
+import { getSermons, getImageUrl, formatDate, formatDuration } from "@/sanity/lib/queries";
 
 // Define the Message type
 interface Message {
@@ -15,10 +15,106 @@ interface Message {
     url: string;
 }
 
+interface SermonMessagesProps {
+    sermons?: any[];
+}
 
-export default function SermonMessages() {
+export default function SermonMessages({ sermons = [] }: SermonMessagesProps) {
     const [activeTab, setActiveTab] = useState<"podbean" | "youtube">("podbean");
     const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+    const [sermonData, setSermonData] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (sermons.length > 0) {
+            setSermonData(sermons);
+        } else {
+            // Fetch sermons from Sanity if not provided as props
+            setIsLoading(true);
+            getSermons()
+                .then(data => {
+                    setSermonData(data);
+                    setIsLoading(false);
+                })
+                .catch(error => {
+                    console.error('Error fetching sermons:', error);
+                    setIsLoading(false);
+                });
+        }
+    }, [sermons]);
+
+    // Transform Sanity sermon data to Message format
+    const transformSermonsToMessages = (sermons: any[]): { podbean: Message[], youtube: Message[] } => {
+        const podbean: Message[] = [];
+        const youtube: Message[] = [];
+
+        sermons.forEach(sermon => {
+            const message: Message = {
+                id: sermon._id,
+                title: sermon.title,
+                date: formatDate(sermon.date) || sermon.date,
+                duration: formatDuration(sermon.duration) || sermon.duration,
+                image: sermon.thumbnail ? getImageUrl(sermon.thumbnail, 400, 225) : undefined,
+                url: sermon.url || "#"
+            };
+
+            // Categorize by platform
+            if (sermon.platform === 'podbean' || sermon.url?.includes('podbean')) {
+                podbean.push(message);
+            } else if (sermon.platform === 'youtube' || sermon.url?.includes('youtube') || sermon.url?.includes('youtu.be')) {
+                youtube.push(message);
+            } else {
+                // Default to podbean if platform is not specified
+                podbean.push(message);
+            }
+        });
+
+        return { podbean, youtube };
+    };
+
+    const { podbean: podbeanMessages, youtube: youtubeMessages } = transformSermonsToMessages(sermonData);
+
+    if (isLoading) {
+        return (
+            <div className="w-full bg-black text-white px-4 py-16">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
+                            Latest Sermons
+                        </h2>
+                        <p className="text-gray-400 max-w-2xl mx-auto">
+                            Explore our recent messages from Sunday services and special events.
+                        </p>
+                    </div>
+                    <div className="flex justify-center items-center h-64">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Handle empty state
+    if (sermonData.length === 0) {
+        return (
+            <div className="w-full bg-black text-white px-4 py-16">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
+                            Latest Sermons
+                        </h2>
+                        <p className="text-gray-400 max-w-2xl mx-auto">
+                            Explore our recent messages from Sunday services and special events.
+                        </p>
+                    </div>
+                    <div className="text-center py-12">
+                        <p className="text-gray-400 text-lg">No sermons available at the moment.</p>
+                        <p className="text-gray-500 text-sm mt-2">Check back soon for new messages!</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="w-full bg-black text-white px-4 py-16">

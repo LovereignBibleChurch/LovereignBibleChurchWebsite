@@ -2,7 +2,38 @@
 
 import Image from "next/image"
 import {MapPin} from "lucide-react"
-import type {BranchItem} from "@/data/branchData"
+import { getImageUrl } from "@/sanity/lib/queries"
+
+interface BranchItem {
+  _id: string;
+  name: string;
+  slug: {
+    current: string;
+  };
+  location: string;
+  contact: string;
+  pastor: {
+    _id: string;
+    name: string;
+    title: string;
+    image?: any;
+  };
+  services: {
+    tuesday?: { time: string } | null;
+    thursday?: { time: string } | null;
+    friday?: { time: string } | null;
+    sunday: {
+      morning?: { time: string } | null;
+      afternoon?: { time: string } | null;
+      evening?: { time: string } | null;
+    };
+  };
+  description?: string;
+  photos?: any[];
+  mapLink?: string;
+  order?: number;
+  isActive?: boolean;
+}
 
 interface BranchCardProps {
     branch: BranchItem
@@ -19,7 +50,7 @@ export default function BranchCard({ branch, onClick }: BranchCardProps) {
                 <div className="flex items-center gap-3 mb-3">
                     <div className="w-12 h-12 rounded-full overflow-hidden bg-[#19222d] flex-shrink-0 relative">
                         <Image
-                            src={branch.pastor.photo || "/images/branches/no-picture.png"}
+                            src={branch.pastor.image ? getImageUrl(branch.pastor?.image, 300, 300) : "/church_leaders/noPic.png"}
                             alt={branch.pastor.name}
                             fill
                             className="object-cover"

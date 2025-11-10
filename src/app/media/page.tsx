@@ -3,14 +3,17 @@ import {MediaheroData} from "@/data/heroData";
 import StreamingPlatforms from "@/components/media/streamingPlatforms";
 import SermonMessages from "@/components/media/SermonMessages";
 import PhotoGallery from "@/components/media/photoGallery";
+import { getSermons } from "@/sanity/lib/queries";
 
+export default async function Media() {
+  // Fetch sermons from Sanity
+  const sermons = await getSermons();
 
-export default function Media() {
   return (
     <div className="">
         <Hero items={MediaheroData} />
         <StreamingPlatforms />
-        <SermonMessages />
+        <SermonMessages sermons={sermons} />
         <PhotoGallery />
     </div>
   )

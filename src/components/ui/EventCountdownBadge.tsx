@@ -1,10 +1,30 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {Calendar, X} from "lucide-react";
-import type {EventItem} from "@/data/eventsData";
+import { getImageUrl } from "@/sanity/lib/queries";
 import Image from "next/image";
+
+interface EventItem {
+    _id: string;
+    title: string;
+    slug: {
+        current: string;
+    };
+    date: string;
+    time: {
+        morning?: string | null;
+        afternoon?: string | null;
+        evening?: string | null;
+    };
+    image?: any;
+    description?: string;
+    location?: string;
+    category?: string;
+    featured?: boolean;
+    registrationLink?: string;
+}
 
 interface EventCountdownBadgeProps {
   events: EventItem[];
@@ -15,18 +35,46 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
   const [countdown, setCountdown] = useState<{ days: number; hours: number; minutes: number } | null>(null);
 
   // Find the most recent upcoming event
-  const getNextEvent = (): EventItem | null => {
-    if (!events || events.length === 0) return null;
+  const getNextEvent = (list: EventItem[]): EventItem | null => {
+    if (!list || list.length === 0) return null;
 
     const now = new Date();
-    const upcomingEvents = events
+    const upcomingEvents = list
         .filter((event) => new Date(event.date) > now)
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     return upcomingEvents.length > 0 ? upcomingEvents[0] : null;
   };
 
-  const nextEvent = getNextEvent();
+  // Transform Sanity data to EventItem format if needed
+  const transformEvents = (events: any[]): EventItem[] => {
+    return events.map(event => {
+      // Check if this is Sanity data (has _id) or regular EventItem (has id)
+      if (event._id) {
+        return {
+          _id: event._id,
+          title: event.title,
+          date: event.date,
+          time: {
+            morning: event.time?.morning || null,
+            afternoon: event.time?.afternoon || null,
+            evening: event.time?.evening || null
+          },
+          image: event.image,
+          description: event.description || "",
+          location: event.location || "",
+          category: event.category || "",
+          featured: event.featured || false,
+          registrationLink: event.registrationLink || ""
+        } as EventItem;
+      }
+      // If it's already in EventItem format, return as is
+      return event as EventItem;
+    });
+  };
+
+  const transformedEvents = useMemo(() => transformEvents(events), [events]);
+  const nextEvent = useMemo(() => getNextEvent(transformedEvents), [transformedEvents]);
 
   // Calculate countdown
   useEffect(() => {
@@ -114,7 +162,7 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
                   <div className="flex flex-col items-center bg-transparent">
                     <div className="w-full h-[60vh] relative">
                       <Image
-                          src={"/church_flyers/ae.jpeg"}
+                          src={nextEvent.image ? getImageUrl(nextEvent.image, 800, 600) || "/church_flyers/countdown.jpeg" : "/church_flyers/countdown.jpeg"}
                           alt={nextEvent.title}
                           layout="fill"
                           objectFit="contain"

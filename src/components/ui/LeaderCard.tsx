@@ -4,8 +4,20 @@ import {useState} from "react"
 import {motion} from "framer-motion"
 import {MapPin} from "lucide-react"
 import Image from "next/image"
-import {LeaderItem} from "@/data/LeaderData";
+import {getImageUrl} from "@/sanity/lib/queries";
 
+interface LeaderItem {
+  _id: string;
+  name: string;
+  title: string;
+  location: string;
+  image?: any;
+  bio?: string;
+  contactInfo?: string;
+  socialLinks?: any[];
+  order?: number;
+  isActive?: boolean;
+}
 
 interface LeaderCardProps {
     leader: LeaderItem
@@ -65,8 +77,8 @@ export default function LeaderCard({ leader, index }: LeaderCardProps) {
                         </div>
                     )}
                     <Image
-                        src={leader.image || "/church_leaders/noPic.png"}
-                        alt={leader.name}
+                        src={leader?.image ? getImageUrl(leader?.image, 300, 300) : "/church_leaders/noPic.png"}
+                        alt={leader?.name}
                         fill
                         className="object-cover"
                         priority={index < 10}

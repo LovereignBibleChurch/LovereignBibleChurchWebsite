@@ -3,11 +3,19 @@
 import {useEffect, useRef, useState} from "react"
 import {AnimatePresence, motion} from "framer-motion"
 import {ChevronLeft, ChevronRight, Heart, Quote} from "lucide-react"
-import {testimonyData} from "@/data/testimonyData"
 import TestimonySubmissionForm from "@/components/testimony/testimonySubmissionForm";
+import { getTestimonials, getImageUrl, formatDate } from "@/sanity/lib/queries";
+import { use } from "react";
 
 
-export default function TestimonyCorner() {
+interface TestimonyCornerProps {
+  testimonials?: any[];
+}
+
+export default function TestimonyCorner({ testimonials }: TestimonyCornerProps) {
+    // Use provided testimonials or fetch from Sanity
+    const [testimonyData, setTestimonyData] = useState(testimonials || []);
+    const [isLoading, setIsLoading] = useState(!testimonials);
     const [currentIndex, setCurrentIndex] = useState(0)
     const [isAutoPlaying, setIsAutoPlaying] = useState(true)
     const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -17,20 +25,36 @@ export default function TestimonyCorner() {
     const [isSubmissionFormOpen, setIsSubmissionFormOpen] = useState(false)
     
 
+    // Fetch testimonials from Sanity if not provided
+    useEffect(() => {
+        if (!testimonials) {
+            setIsLoading(true);
+            getTestimonials()
+                .then((data) => {
+                    setTestimonyData(data);
+                    setIsLoading(false);
+                })
+                .catch((error) => {
+                    console.error('Error fetching testimonials:', error);
+                    setIsLoading(false);
+                });
+        }
+    }, [testimonials]);
+
     // Auto-scroll functionality
     useEffect(() => {
-        if (!isAutoPlaying || isDragging) return
+        if (!isAutoPlaying || isDragging || testimonyData.length === 0) return
 
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonyData.length)
         }, 6000)
 
         return () => clearInterval(interval)
-    }, [isAutoPlaying, isDragging])
+    }, [isAutoPlaying, isDragging, testimonyData.length])
 
     // Scroll to current testimony
     useEffect(() => {
-        if (scrollContainerRef.current && !isDragging) {
+        if (scrollContainerRef.current && !isDragging && testimonyData.length > 0) {
             const container = scrollContainerRef.current
             const itemWidth = container.scrollWidth / testimonyData.length
     
@@ -46,11 +70,11 @@ export default function TestimonyCorner() {
                 isProgrammaticScroll.current = false
             }, 500) 
         }
-    }, [currentIndex, isDragging])
+    }, [currentIndex, isDragging, testimonyData.length])
     
 
     const handleScroll = () => {
-        if (isProgrammaticScroll.current || isDragging) return
+        if (isProgrammaticScroll.current || isDragging || testimonyData.length === 0) return
     
         if (scrollContainerRef.current) {
             const container = scrollContainerRef.current
@@ -64,12 +88,14 @@ export default function TestimonyCorner() {
     
 
     const goToPrevious = () => {
+        if (testimonyData.length === 0) return;
         setCurrentIndex((prevIndex) => (prevIndex === 0 ? testimonyData.length - 1 : prevIndex - 1))
         setIsAutoPlaying(false)
         setTimeout(() => setIsAutoPlaying(true), 5000)
     }
 
     const goToNext = () => {
+        if (testimonyData.length === 0) return;
         setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonyData.length)
         setIsAutoPlaying(false)
         setTimeout(() => setIsAutoPlaying(true), 5000)
@@ -92,6 +118,60 @@ export default function TestimonyCorner() {
         visible: { opacity: 1, y: 0 },
     }
 
+    if (isLoading) {
+        return (
+            <section className="py-8 sm:py-10 md:py-12 relative overflow-hidden bg-gradient-to-b from-gray-50 to-white">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-amber-500/10 to-orange-500/10 backdrop-blur-sm rounded-xl mb-4 border border-white/20">
+                        <Quote className="h-6 w-6 text-amber-600" />
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
+                        <span className="bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent">
+                            Testimony{" "}
+                        </span>
+                        <span className="bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">Corner</span>
+                    </h2>
+                    <div className="flex justify-center items-center py-12">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600"></div>
+                        <span className="ml-3 text-gray-600">Loading testimonials...</span>
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    if (testimonyData.length === 0) {
+        return (
+            <section className="py-8 sm:py-10 md:py-12 relative overflow-hidden bg-gradient-to-b from-gray-50 to-white">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-amber-500/10 to-orange-500/10 backdrop-blur-sm rounded-xl mb-4 border border-white/20">
+                        <Quote className="h-6 w-6 text-amber-600" />
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
+                        <span className="bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent">
+                            Testimony{" "}
+                        </span>
+                        <span className="bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">Corner</span>
+                    </h2>
+                    <p className="text-gray-600 text-lg">No testimonials available at the moment.</p>
+                    <p className="text-gray-500 text-sm mt-2">Be the first to share your story!</p>
+                    <motion.button
+                        onClick={() => setIsSubmissionFormOpen(true)}
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-600 text-white px-6 py-3 rounded-full font-medium shadow-lg hover:shadow-xl transition-all duration-300 mt-6"
+                        whileHover={{
+                            scale: 1.05,
+                            boxShadow: "0 20px 40px rgba(245, 158, 11, 0.3)",
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        <Heart className="h-4 w-4" />
+                        <span>Share Your Story</span>
+                    </motion.button>
+                </div>
+                <TestimonySubmissionForm isOpen={isSubmissionFormOpen} onClose={() => setIsSubmissionFormOpen(false)} />
+            </section>
+        );
+    }
     return (
         <section className="py-8 sm:py-10 md:py-12 relative overflow-hidden bg-gradient-to-b from-gray-50 to-white">
             {/* Background Elements - Reduced sizes */}
@@ -163,9 +243,17 @@ export default function TestimonyCorner() {
                             {/* Author Info - Smaller elements */}
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                                 <div className="flex items-center">
-                                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full flex items-center justify-center mr-2 sm:mr-3">
-                                        <Heart className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600" />
-                                    </div>
+                                    {testimonyData[currentIndex].image ? (
+                                        <img 
+                                            src={getImageUrl(testimonyData[currentIndex].image, 80, 80)} 
+                                            alt={testimonyData[currentIndex].name}
+                                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover mr-2 sm:mr-3"
+                                        />
+                                    ) : (
+                                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full flex items-center justify-center mr-2 sm:mr-3">
+                                            <Heart className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600" />
+                                        </div>
+                                    )}
                                     <div>
                                         <h4 className="font-semibold text-gray-900 text-sm sm:text-base">{testimonyData[currentIndex].name}</h4>
                                         <p className="text-gray-600 text-xs sm:text-sm">{testimonyData[currentIndex].role}</p>
@@ -173,7 +261,7 @@ export default function TestimonyCorner() {
                                 </div>
 
                                 <div className="text-left sm:text-right text-xs text-gray-500">
-                                    <p>{testimonyData[currentIndex].date}</p>
+                                    <p>{testimonyData[currentIndex].date ? formatDate(testimonyData[currentIndex].date) : testimonyData[currentIndex].date}</p>
                                     <p>{testimonyData[currentIndex].location}</p>
                                 </div>
                             </div>
@@ -199,7 +287,7 @@ export default function TestimonyCorner() {
                     >
                         {testimonyData.map((testimony, index) => (
                             <motion.div
-                                key={testimony.id}
+                                key={testimony._id}
                                 className={`flex-shrink-0 w-[95%] sm:w-72 bg-white/60 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/20 shadow-sm hover:shadow-lg transition-all duration-300 snap-start cursor-pointer ${
                                     index === currentIndex ? "ring-2 ring-amber-400/50 bg-white/80" : ""
                                 }`}
@@ -209,9 +297,17 @@ export default function TestimonyCorner() {
                                 transition={{ duration: 0.3 }}
                             >
                                 <div className="flex items-start mb-2 sm:mb-3">
-                                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full flex items-center justify-center mr-2">
-                                        <Heart className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-amber-600" />
-                                    </div>
+                                    {testimony.image ? (
+                                        <img 
+                                            src={getImageUrl(testimony.image, 60, 60)} 
+                                            alt={testimony.name}
+                                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover mr-2"
+                                        />
+                                    ) : (
+                                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full flex items-center justify-center mr-2">
+                                            <Heart className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-amber-600" />
+                                        </div>
+                                    )}
                                     <div className="flex-1 min-w-0">
                                         <h4 className="font-semibold text-gray-900 text-xs sm:text-sm truncate">{testimony.name}</h4>
                                         <p className="text-gray-600 text-xs truncate">{testimony.role}</p>
@@ -221,7 +317,7 @@ export default function TestimonyCorner() {
                                 <p className="text-gray-700 text-xs sm:text-sm leading-relaxed line-clamp-3 mb-2 sm:mb-3">&#34;{testimony.testimony}&#34;</p>
 
                                 <div className="flex justify-between items-center text-xs text-gray-500">
-                                    <span className="truncate">{testimony.date}</span>
+                                    <span className="truncate">{testimony.date ? formatDate(testimony.date) : testimony.date}</span>
                                     <span className="truncate ml-2">{testimony.location}</span>
                                 </div>
                             </motion.div>
@@ -277,10 +373,10 @@ export default function TestimonyCorner() {
 
                     <p className="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-3 font-light">We&#39;d love to hear how God is working in your life</p>
                 </motion.div>
-
-                {/* Testimony Submission Form Modal */}
-                <TestimonySubmissionForm isOpen={isSubmissionFormOpen} onClose={() => setIsSubmissionFormOpen(false)} />
             </motion.div>
+
+            {/* Testimony Submission Form Modal */}
+            <TestimonySubmissionForm isOpen={isSubmissionFormOpen} onClose={() => setIsSubmissionFormOpen(false)} />
         </section>
     )
 }

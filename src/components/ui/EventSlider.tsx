@@ -6,10 +6,11 @@ import {Calendar, ChevronLeft, ChevronRight} from "lucide-react"
 import EventCard from "./EventCard"
 import type {EventItem} from "@/data/eventsData"
 import {cn} from "@/lib/utils"
+import { getImageUrl } from "@/sanity/lib/queries"
 
 
 interface EventsSliderProps {
-    events: EventItem[]
+    events: EventItem[] | any[]
     autoSlideInterval?: number
     slidesToShow?: {
         mobile: number
@@ -71,8 +72,35 @@ export default function EventsSlider({
     ],
     ...props
 }: EventsSliderProps) {
+    // Transform Sanity data to EventItem format
+    const transformEvents = (events: any[]): EventItem[] => {
+        return events.map(event => {
+            // Check if this is Sanity data (has _id) or regular EventItem (has id)
+            if (event._id) {
+                return {
+                    id: event._id,
+                    title: event.title,
+                    date: event.date,
+                    time: {
+                        morning: event.time?.morning || "",
+                        afternoon: event.time?.afternoon || "",
+                        evening: event.time?.evening || ""
+                    },
+                    image: event.image ? getImageUrl(event.image, 400, 300) : "/placeholder.svg",
+                    description: event.description || "",
+                    location: event.location || "",
+                    category: event.category || ""
+                } as EventItem;
+            }
+            // If it's already in EventItem format, return as is
+            return event as EventItem;
+        });
+    };
+
+    const transformedEvents = transformEvents(events);
+    
     // Filter out past events at the component level
-    const upcomingEvents = events.filter(event => {
+    const upcomingEvents = transformedEvents.filter(event => {
         const eventDate = new Date(event.date)
         const today = new Date()
         today.setHours(0, 0, 0, 0) // Reset time to start of day for fair comparison
@@ -140,17 +168,17 @@ useEffect(() => {
 }, [isAutoPlaying, upcomingEvents.length, slidesPerView, props.autoSlideInterval])
 
     useEffect(() => {
-        if (!isAutoPlaying || events.length <= slidesPerView) return
+        if (!isAutoPlaying || transformedEvents.length <= slidesPerView) return
 
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => {
-                const maxIndex = events.length - slidesPerView
+                const maxIndex = transformedEvents.length - slidesPerView
                 return prevIndex >= maxIndex ? 0 : prevIndex + 1
             })
         }, props.autoSlideInterval || 5000)
 
         return () => clearInterval(interval)
-    }, [isAutoPlaying, events.length, slidesPerView, props.autoSlideInterval])
+    }, [isAutoPlaying, transformedEvents.length, slidesPerView, props.autoSlideInterval])
 
     useEffect(() => {
         const handleResize = () => {
@@ -169,7 +197,7 @@ useEffect(() => {
         return () => window.removeEventListener("resize", handleResize)
     }, [props.slidesToShow])
 
-    const maxIndex = Math.max(0, events.length - slidesPerView)
+    const maxIndex = Math.max(0, transformedEvents.length - slidesPerView)
 
     const goToSlide = (index: number) => {
         setCurrentIndex(Math.max(0, Math.min(index, maxIndex)))

@@ -3,7 +3,27 @@
 import {motion} from "framer-motion"
 import Image from "next/image"
 import {Clock, MapPin} from "lucide-react"
-import type {EventItem} from "@/data/eventsData"
+import { getImageUrl } from "@/sanity/lib/queries"
+
+interface EventItem {
+    _id?: string;
+    title: string;
+    slug?: {
+        current: string;
+    };
+    date: string;
+    time: {
+        morning?: string | null;
+        afternoon?: string | null;
+        evening?: string | null;
+    };
+    image?: any;
+    description?: string;
+    location?: string;
+    category?: string;
+    featured?: boolean;
+    registrationLink?: string;
+}
 
 interface EventCardProps {
     event: EventItem
@@ -40,7 +60,7 @@ export default function EventCard({ event, index, isActive = false }: EventCardP
             {/* Event Image */}
             <div className="relative h-48 md:h-56 overflow-hidden">
                 <Image
-                    src={event.image || "/placeholder.svg"}
+                    src={event.image ? getImageUrl(event.image, 400, 300) || "/placeholder.svg" : "/placeholder.svg"}
                     alt={event.title}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
