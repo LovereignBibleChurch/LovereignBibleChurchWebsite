@@ -264,6 +264,37 @@ export const featuredAnnouncementsQuery = groq`
   }
 `
 
+// Products Queries
+export const productsQuery = groq`
+  *[_type == "product" && isActive == true] | order(featured desc, _createdAt desc) {
+    _id,
+    title,
+    slug,
+    description,
+    price,
+    images,
+    category,
+    stock,
+    isActive,
+    featured
+  }
+`
+
+export const productBySlugQuery = groq`
+  *[_type == "product" && slug.current == $slug][0] {
+    _id,
+    title,
+    slug,
+    description,
+    price,
+    images,
+    category,
+    stock,
+    isActive,
+    featured
+  }
+`
+
 // Fetch functions
 export async function getTestimonials() {
   return cached(() => client.fetch(testimonialsQuery), ['sanity', 'testimonials', 'all'], { revalidate: 300, tags: ['sanity', 'testimonial'] })
@@ -319,6 +350,14 @@ export async function getActiveAnnouncements() {
 
 export async function getFeaturedAnnouncements() {
   return cached(() => client.fetch(featuredAnnouncementsQuery), ['sanity', 'announcements', 'featured'], { revalidate: 60, tags: ['sanity', 'announcement'] })
+}
+
+export async function getProducts() {
+  return cached(() => client.fetch(productsQuery), ['sanity', 'products', 'all'], { revalidate: 300, tags: ['sanity', 'product'] })
+}
+
+export async function getProductBySlug(slug: string) {
+  return cached(() => client.fetch(productBySlugQuery, { slug }), ['sanity', 'products', 'bySlug', slug], { revalidate: 300, tags: ['sanity', 'product'] })
 }
 
 // Helper function to get optimized image URL

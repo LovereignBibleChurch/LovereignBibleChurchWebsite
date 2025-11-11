@@ -24,6 +24,7 @@ export default function Navbar() {
     { name: "Church Branches", href: "/church-branches" },
     { name: "Founder", href: "/founder" },
     { name: "Books", href: "/books" },
+    { name: "Shop", href: "/shop" },
     { name: "Media", href: "/media" },
     { name: "Give", href: "/give" },
     { name: "Contact Us", href: "/contact-us" },

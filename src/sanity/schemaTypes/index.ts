@@ -5,7 +5,8 @@ import leader from './leader'
 import branch from './branch'
 import sermon from './sermon'
 import announcement from './announcement'
+import product from './product'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [testimonial, event, leader, branch, sermon, announcement],
+  types: [testimonial, event, leader, branch, sermon, announcement, product],
 }
