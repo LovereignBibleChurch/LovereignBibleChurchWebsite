@@ -8,6 +8,7 @@ import TrilogyBadge from "@/components/partner/TrilogyBadge"
 import EventCountdownBadge from "@/components/ui/EventCountdownBadge"
 import { getEvents } from "@/sanity/lib/queries"
 import { CartProvider } from "@/components/cart/CartProvider"
+import FooterSwitch from "@/components/FooterSwitch"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -26,15 +27,15 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex flex-col min-h-screen bg-black">
-          <Navbar />
-          <CartProvider>
+        <CartProvider>
+          <div className="flex flex-col min-h-screen bg-black">
+            <Navbar />
             <main className="flex-grow">{children}</main>
-          </CartProvider>
-          <Footer />
-        </div>
-        <TrilogyBadge />
-        <PartnerBadge />
+            <FooterSwitch />
+          </div>
+          <TrilogyBadge />
+          <PartnerBadge />
+        </CartProvider>
         <EventCountdownBadge events={events} />
       </body>
     </html>

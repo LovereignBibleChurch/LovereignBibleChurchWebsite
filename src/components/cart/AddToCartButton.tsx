@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { ShoppingCart } from "lucide-react"
 import type { Product } from "@/types/product"
+import { useCart } from "@/components/cart/CartProvider"
 
 interface AddToCartButtonProps {
     product: Product
@@ -14,33 +15,25 @@ interface AddToCartButtonProps {
 export default function AddToCartButton({ product, imageUrl, className = "", disabled = false }: AddToCartButtonProps) {
     const [isAdded, setIsAdded] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const { addItem } = useCart()
 
-    const handleAddToCart = async () => {
+    const handleAddToCart = () => {
         if (disabled) return
 
         setIsLoading(true)
         try {
-            // Simulate API call to add to cart
-            await new Promise((resolve) => setTimeout(resolve, 300))
-
-            const cartItem = {
-                id: product._id,
-                title: product.title,
-                price: product.price,
-                image: imageUrl,
-                slug: product.slug.current,
-                category: product.category,
-                stock: product.stock,
-                quantity: 1,
-            }
-
-            console.log("Added to cart:", cartItem)
-
-            // Show success state
+            addItem(
+                {
+                    productId: product._id,
+                    title: product.title,
+                    slug: product.slug?.current,
+                    price: product.price,
+                    imageUrl,
+                },
+                1
+            )
             setIsAdded(true)
-            setTimeout(() => setIsAdded(false), 2000)
-        } catch (error) {
-            console.error("Error adding to cart:", error)
+            setTimeout(() => setIsAdded(false), 1500)
         } finally {
             setIsLoading(false)
         }

@@ -1,7 +1,7 @@
 import AddToCartButton from '@/components/cart/AddToCartButton'
 import { getProductBySlug, getImageUrl } from '@/sanity/lib/queries'
 import type { Product } from '@/types/product'
-import ProductDetail from "@/components/shop/ProductDetails";
+import ProductDetailsBookStyle from "@/components/shop/ProductDetailsBookStyle";
 
 export const revalidate = 300
 
@@ -21,7 +21,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
 
   return (
       <div className="bg-black text-white min-h-screen">
-          <ProductDetail product={product} imageUrl={imageUrl} />
+          <ProductDetailsBookStyle product={product} imageUrl={imageUrl} />
       </div>
   )
 }
