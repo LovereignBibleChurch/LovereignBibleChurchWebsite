@@ -10,6 +10,7 @@ import { getEvents } from "@/sanity/lib/queries"
 import { CartProvider } from "@/components/cart/CartProvider"
 import FooterSwitch from "@/components/FooterSwitch"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ["latin"] })
 
