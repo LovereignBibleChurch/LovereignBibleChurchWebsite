@@ -32,6 +32,7 @@ export default function TestimonySubmissionForm({
         }));
     };
 
+// Replace your handleSubmit with this
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -43,12 +44,23 @@ export default function TestimonySubmissionForm({
         setIsSending(true);
 
         try {
-            // Simulate form submission - replace with actual API or email service
-            await new Promise((resolve) => setTimeout(resolve, 2000));
+            const response = await fetch("https://formspree.io/f/xvglklzn", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: formData.name,
+                    contact: formData.contact,
+                    testimony: formData.testimony,
+                    contactType: contactType,
+                }),
+            });
+
+            if (!response.ok) throw new Error("Failed to submit");
 
             alert(
                 "Thank you for sharing your testimony! We'll review it and may feature it on our website."
             );
+
             setFormData({ name: "", contact: "", testimony: "" });
             onClose();
         } catch (error) {
@@ -58,6 +70,7 @@ export default function TestimonySubmissionForm({
             setIsSending(false);
         }
     };
+
 
     // Animation Variants
     const backdropVariants = {
