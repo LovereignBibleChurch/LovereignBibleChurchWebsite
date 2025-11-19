@@ -4,11 +4,13 @@ import Link from "next/link";
 import {useEffect, useState} from "react";
 import {usePathname} from "next/navigation";
 import {Menu, X} from "lucide-react";
+import CartIconInline from "@/components/cart/CartIconInline";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const showCartIcon = pathname?.startsWith("/shop");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +26,7 @@ export default function Navbar() {
     { name: "Church Branches", href: "/church-branches" },
     { name: "Founder", href: "/founder" },
     { name: "Books", href: "/books" },
+    // { name: "Shop", href: "/shop" },
     { name: "Media", href: "/media" },
     { name: "Give", href: "/give" },
     { name: "Contact Us", href: "/contact-us" },
@@ -56,27 +59,33 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-center space-x-4">
-                {navLinks.map((link) => (
-                    <Link
-                        key={link.name}
-                        href={link.href}
-                        className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                            isActive(link.href)
-                                ? "bg-gray-800 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                        }`}
-                    >
-                      {link.name}
-                    </Link>
-                ))}
-              </div>
-            </div>
+              {/* Desktop Navigation */}
+              <div className="hidden md:flex items-center justify-center space-x-6 ml-10">
+                  {/* Nav links */}
+                  <div className="flex items-center space-x-4">
+                      {navLinks.map((link) => (
+                          <Link
+                              key={link.name}
+                              href={link.href}
+                              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                                  isActive(link.href)
+                                      ? "bg-gray-800 text-white"
+                                      : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                              }`}
+                          >
+                              {link.name}
+                          </Link>
+                      ))}
+                  </div>
 
-            {/* Mobile menu button */}
-            <div className="md:hidden p-4 flex items-center">
+                  {/* Cart icon */}
+                  {showCartIcon && <CartIconInline />}
+              </div>
+
+
+              {/* Mobile menu button */}
+            <div className="md:hidden p-4 flex items-center gap-2">
+              {showCartIcon && <CartIconInline />}
               <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   className="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
