@@ -31,6 +31,7 @@
     "nodemailer": "^7.0.6",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
+    "react-confetti": "^6.4.0",
     "react-dom": "^19.0.0",
     "sanity": "^4.14.1",
     "styled-components": "^6.1.19",
