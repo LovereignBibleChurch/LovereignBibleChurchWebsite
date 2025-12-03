@@ -227,45 +227,7 @@ export default function Hero({
             </motion.div>
           </AnimatePresence>
 
-          {/* Enhanced Slide Counter */}
-          <motion.div
-              className="absolute bottom-12 left-6 md:left-12 z-20 flex items-center gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2.2, duration: 0.6 }}
-          >
-          <span className="text-white/90 text-sm font-medium tracking-wider">
-            {String(currentIndex + 1).padStart(2, "0")}
-          </span>
-            <div className="w-16 h-[1px] bg-white/20 relative">
-              <motion.div
-                  className="h-full bg-gradient-to-r from-blue-400 to-white"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${((currentIndex + 1) / items.length) * 100}%` }}
-                  transition={{ duration: 0.5 }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-white blur-sm opacity-50" />
-            </div>
-            <span className="text-white/60 text-sm font-light">{String(items.length).padStart(2, "0")}</span>
-          </motion.div>
-        </div>
-
-        {/* Enhanced Navigation Controls */}
-        <div className="absolute bottom-12 right-6 md:right-12 z-20 flex items-center gap-6">
-          <button
-              onClick={goToPrevious}
-              className="w-12 h-12 flex items-center justify-center text-white/60 hover:text-white transition-all duration-300 hover:scale-110"
-              aria-label="Previous slide"
-          >
-            <ArrowLeft className="h-6 w-6" />
-          </button>
-          <button
-              onClick={goToNext}
-              className="w-12 h-12 flex items-center justify-center text-white/60 hover:text-white transition-all duration-300 hover:scale-110"
-              aria-label="Next slide"
-          >
-            <ArrowRight className="h-6 w-6" />
-          </button>
+    
         </div>
 
         {/* Enhanced Indicators */}
