@@ -11,6 +11,7 @@ import { CartProvider } from "@/components/cart/CartProvider"
 import FooterSwitch from "@/components/FooterSwitch"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
+import GlobalPromoRibbon from "@/components/ui/GlobalPromoRibbon"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -31,6 +32,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <CartProvider>
           <div className="flex flex-col min-h-screen bg-black">
+            <GlobalPromoRibbon />
             <Navbar />
             <main className="flex-grow">{children}</main>
             <FooterSwitch />

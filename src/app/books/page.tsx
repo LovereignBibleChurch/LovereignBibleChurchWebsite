@@ -4,6 +4,7 @@ import {Suspense} from "react"
 import {useSearchParams} from "next/navigation"
 import BookDetails from "@/components/books/BooksDetails";
 import BooksList from "@/components/books/BooksLists";
+import BooksStructuredData from "@/components/books/BooksStructuredData";
 
 function BooksContent() {
     const searchParams = useSearchParams()
@@ -18,14 +19,17 @@ function BooksContent() {
 
 export default function BooksPage() {
     return (
-        <Suspense
+        <>
+            <BooksStructuredData />
+            <Suspense
             fallback={
                 <div className="min-h-screen bg-black flex items-center justify-center">
                     <div className="text-gray-300">Loading...</div>
                 </div>
             }
-        >
-            <BooksContent />
-        </Suspense>
+            >
+                <BooksContent />
+            </Suspense>
+        </>
     )
 }

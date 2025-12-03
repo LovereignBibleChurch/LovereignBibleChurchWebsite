@@ -1,335 +1,206 @@
 "use client"
 
-import {useEffect, useRef, useState} from "react"
-import {motion, useInView} from "framer-motion"
-import {Calendar, ChevronLeft, ChevronRight} from "lucide-react"
-import EventCard from "./EventCard"
-import type {EventItem} from "@/data/eventsData"
-import {cn} from "@/lib/utils"
+import { useRef, useState } from "react"
+import { motion, useInView } from "framer-motion"
+import { Calendar, MapPin, Clock } from "lucide-react"
+import type { EventItem } from "@/data/eventsData"
+import { cn } from "@/lib/utils"
 import { getImageUrl } from "@/sanity/lib/queries"
 
-
 interface EventsSliderProps {
-    events: EventItem[] | any[]
-    autoSlideInterval?: number
-    slidesToShow?: {
-        mobile: number
-        tablet: number
-        desktop: number
-    }
-    title?: string
-    subtitle?: string
+  events: EventItem[] | any[]
+  title?: string
+  subtitle?: string
 }
 
 function EmptyState() {
-    return (
-        <motion.div 
-            className="flex flex-col items-center justify-center py-24 px-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-        >
-
-            <h3 className="text-xl md:text-2xl font-medium text-gray-300 text-center mb-3">
-                No Upcoming Events
-            </h3>
-            <p className="text-gray-400 text-sm text-center max-w-md">
-                Check back soon for new events and activities. 
-                Meanwhile, you can join us for our regular Sunday service.
-            </p>
-            <motion.div
-                className="w-16 h-0.5 bg-gradient-to-r from-teal-300/0 via-teal-300/50 to-teal-300/0 mt-8"
-                animate={{ 
-                    scaleX: [1, 1.5, 1],
-                    opacity: [0.3, 0.7, 0.3]
-                }}
-                transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                }}
-            />
-        </motion.div>
-    )
+  return (
+    <motion.div
+      className="flex flex-col items-center justify-center py-12 px-4"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
+      <h3 className="text-lg md:text-xl font-medium text-gray-300 text-center mb-2">No Upcoming Events</h3>
+      <p className="text-gray-400 text-xs text-center max-w-md">Check back soon for new events and activities.</p>
+    </motion.div>
+  )
 }
 
 export default function EventsSlider({
-    events = [
-        {
-            id: 1,
-            title: "Young Minister Network International",
-            date: "2025-07-17",
-            time: {
-                morning: "9:00 AM",
-                afternoon: "",
-                evening: "6:00 PM",
-            },
-            image: "/church_flyers/newprogram2.JPG",
-            description: "",
-            location: "Wellspring, Achimota Ghana",
-            category: "Worship",
-        },
-    ],
-    ...props
+  events = [],
+  title = "Upcoming Events",
+  subtitle = "Join us for these meaningful gatherings",
 }: EventsSliderProps) {
-    // Transform Sanity data to EventItem format
-    const transformEvents = (events: any[]): EventItem[] => {
-        return events.map(event => {
-            // Check if this is Sanity data (has _id) or regular EventItem (has id)
-            if (event._id) {
-                return {
-                    id: event._id,
-                    title: event.title,
-                    date: event.date,
-                    time: {
-                        morning: event.time?.morning || "",
-                        afternoon: event.time?.afternoon || "",
-                        evening: event.time?.evening || ""
-                    },
-                    image: event.image ? getImageUrl(event.image, 400, 300) : "/placeholder.svg",
-                    description: event.description || "",
-                    location: event.location || "",
-                    category: event.category || ""
-                } as EventItem;
-            }
-            // If it's already in EventItem format, return as is
-            return event as EventItem;
-        });
-    };
-
-    const transformedEvents = transformEvents(events);
-    
-    // Filter out past events at the component level
-    const upcomingEvents = transformedEvents.filter(event => {
-        const eventDate = new Date(event.date)
-        const today = new Date()
-        today.setHours(0, 0, 0, 0) // Reset time to start of day for fair comparison
-        return eventDate >= today
+  const transformEvents = (events: any[]): EventItem[] => {
+    return events.map((event) => {
+      if (event._id) {
+        return {
+          id: event._id,
+          title: event.title,
+          date: event.date,
+          time: {
+            morning: event.time?.morning || "",
+            afternoon: event.time?.afternoon || "",
+            evening: event.time?.evening || "",
+          },
+          image: event.image ? getImageUrl(event.image, 400, 300) : "/placeholder.svg",
+          description: event.description || "",
+          location: event.location || "",
+          category: event.category || "",
+        } as EventItem
+      }
+      return event as EventItem
     })
+  }
 
-    const [currentIndex, setCurrentIndex] = useState(0)
-    const [isAutoPlaying, setIsAutoPlaying] = useState(true)
-    const [slidesPerView, setSlidesPerView] = useState(props.slidesToShow?.desktop || 3)
-    const sliderRef = useRef<HTMLDivElement>(null)
-    const headerRef = useRef<HTMLDivElement>(null)
-    const isInView = useInView(headerRef, { 
-        margin: "-100px",
-        amount: 0.3 // This means 30% of the element needs to be visible
-    })
+  const transformedEvents = transformEvents(events)
 
-    const headerVariants = {
-        hidden: { 
-            opacity: 0, 
-            y: 20,
-            transition: {
-                duration: 0.3,
-                ease: "easeIn"
-            }
-        },
-        visible: { 
-            opacity: 1, 
-            y: 0,
-            transition: {
-                duration: 0.3,
-                ease: "easeOut"
-            }
-        }
-    }
+const upcomingAndRecentEvents = transformedEvents.filter((event) => {
+  const eventDate = new Date(event.date)
 
-    const underlineVariants = {
-        hidden: { 
-            width: 0,
-            transition: {
-                duration: 0.3,
-                ease: "easeIn"
-            }
-        },
-        visible: { 
-            width: 96,
-            transition: {
-                duration: 0.5,
-                delay: 0.2,
-                ease: "easeOut"
-            }
-        }
-    }
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
 
-useEffect(() => {
-    if (!isAutoPlaying || upcomingEvents.length <= slidesPerView) return
+  // Create a date for 2 days ago
+  const twoDaysAgo = new Date(today)
+  twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
 
-    const interval = setInterval(() => {
-        setCurrentIndex((prevIndex) => {
-            const maxIndex = upcomingEvents.length - slidesPerView
-            return prevIndex >= maxIndex ? 0 : prevIndex + 1
-        })
-    }, props.autoSlideInterval || 5000)
+  return eventDate >= twoDaysAgo
+})
 
-    return () => clearInterval(interval)
-}, [isAutoPlaying, upcomingEvents.length, slidesPerView, props.autoSlideInterval])
 
-    useEffect(() => {
-        if (!isAutoPlaying || transformedEvents.length <= slidesPerView) return
 
-        const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => {
-                const maxIndex = transformedEvents.length - slidesPerView
-                return prevIndex >= maxIndex ? 0 : prevIndex + 1
-            })
-        }, props.autoSlideInterval || 5000)
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const headerRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(headerRef, {
+    margin: "-100px",
+    amount: 0.3,
+  })
 
-        return () => clearInterval(interval)
-    }, [isAutoPlaying, transformedEvents.length, slidesPerView, props.autoSlideInterval])
-
-    useEffect(() => {
-        const handleResize = () => {
-            const width = window.innerWidth
-            if (width < 768) {
-                setSlidesPerView(props.slidesToShow?.mobile || 1)
-            } else if (width < 1024) {
-                setSlidesPerView(props.slidesToShow?.tablet || 2)
-            } else {
-                setSlidesPerView(props.slidesToShow?.desktop || 3)
-            }
-        }
-
-        handleResize()
-        window.addEventListener("resize", handleResize)
-        return () => window.removeEventListener("resize", handleResize)
-    }, [props.slidesToShow])
-
-    const maxIndex = Math.max(0, transformedEvents.length - slidesPerView)
-
-    const goToSlide = (index: number) => {
-        setCurrentIndex(Math.max(0, Math.min(index, maxIndex)))
-        setIsAutoPlaying(false)
-        setTimeout(() => setIsAutoPlaying(true), 3000)
-    }
-
-    const goToPrevious = () => {
-        const newIndex = currentIndex <= 0 ? maxIndex : currentIndex - 1
-        goToSlide(newIndex)
-    }
-
-    const goToNext = () => {
-        const newIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1
-        goToSlide(newIndex)
-    }
-
-    const handleMouseEnter = () => setIsAutoPlaying(false)
-    const handleMouseLeave = () => setIsAutoPlaying(true)
-
-    // Use upcomingEvents instead of events in the render
+  if (upcomingAndRecentEvents.length === 0) {
     return (
-        <section className="py-16 bg-gradient-to-b overflow-x-hidden justify-center items-center from-black/80 to-black">
-            <div className="container mx-auto px-4">
-                <motion.div
-                    ref={headerRef}
-                    className="text-center mb-12"
-                    variants={{headerVariants}}
-                    initial="hidden"
-                    animate={isInView ? "visible" : "hidden"}
-                >
-                    <div className="flex items-center justify-center pb-4">
-                        <Calendar className="h-8 w-8 text-gray-100 mr-3" />
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-white to-teal-300 mb-2" 
-                            style={{ lineHeight: "1.2", overflow: "visible" }}>
-                            {props.title || "Upcoming Events"}
-                        </h2>
-                    </div>
-                    <motion.p 
-                        className="text-lg text-white max-w-2xl mx-auto"
-                        style={{ lineHeight: "1.5", overflow: "visible" }}
-                        variants={{
-                            hidden: { opacity: 0 },
-                            visible: { opacity: 1 }
-                        }}
-                        initial="hidden"
-                        animate={isInView ? "visible" : "hidden"}
-                        transition={{ duration: 0.4, delay: 0.1 }}
-                    >
-                        {props.subtitle || "Join us for these exciting upcoming events and activities"}
-                    </motion.p>
-
-                    <motion.div
-                        className="w-24 h-1 bg-gradient-to-r from-teal-300 via-white to-teal-300 mx-auto mt-6 rounded-full"
-                        variants={{underlineVariants}}
-                        initial="hidden"
-                        animate={isInView ? "visible" : "hidden"}
-                    />
-                </motion.div>
-
-                {upcomingEvents.length === 0 ? (
-                    <EmptyState />
-                ) : (
-                    <>
-                        <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                            <div className="" ref={sliderRef}>
-                                <motion.div
-                                    className="flex gap-6"
-                                    animate={{
-                                        x: `calc(-${currentIndex * (100 / slidesPerView)}% - ${currentIndex * 1.5}rem)`,
-                                    }}
-                                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                                >
-                                    {upcomingEvents.map((event, index) => (
-                                        <div
-                                            key={event.id}
-                                            className={cn(
-                                                "flex-shrink-0 justify-center items-center  p-12",
-                                                slidesPerView === 1 && "w-full",
-                                                slidesPerView === 2 && "w-[calc(50%-0.75rem)]",
-                                                slidesPerView === 3 && "w-[calc(33.333%-1rem)]",
-                                            )}
-                                        >
-                                            <EventCard
-                                                event={event}
-                                                index={index}
-                                                isActive={index >= currentIndex && index < currentIndex + slidesPerView}
-                                            />
-                                        </div>
-                                    ))}
-                                </motion.div>
-                            </div>
-
-                            {upcomingEvents.length > slidesPerView && (
-                                <>
-                                    <button
-                                        onClick={goToPrevious}
-                                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-xl transition-all duration-300 z-10"
-                                        aria-label="Previous events"
-                                    >
-                                        <ChevronLeft className="h-6 w-6" />
-                                    </button>
-
-                                    <button
-                                        onClick={goToNext}
-                                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-xl transition-all duration-300 z-10"
-                                        aria-label="Next events"
-                                    >
-                                        <ChevronRight className="h-6 w-6" />
-                                    </button>
-                                </>
-                            )}
-                        </div>
-
-                        {upcomingEvents.length > slidesPerView && (
-                            <div className="flex justify-center mt-8 gap-2">
-                                {Array.from({ length: maxIndex + 1 }).map((_, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => goToSlide(index)}
-                                        className={cn(
-                                            "w-3 h-3 rounded-full transition-all duration-300",
-                                            index === currentIndex ? "bg-blue-600 w-8" : "bg-gray-300 hover:bg-gray-400",
-                                        )}
-                                        aria-label={`Go to slide ${index + 1}`}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </>
-                )}
-            </div>
-        </section>
+      <section className="py-8 bg-black">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <EmptyState />
+        </div>
+      </section>
     )
+  }
+
+  const featured = upcomingAndRecentEvents[selectedIndex]
+  const timeDisplay = [featured.time.morning, featured.time.afternoon, featured.time.evening]
+    .filter(Boolean)
+    .join(" • ")
+
+  return (
+    <section className="py-24 bg-black">
+      <div className="container mx-auto px-4 max-w-5xl">
+
+        {/* Header */}
+        <motion.div
+          ref={headerRef}
+          className="mb-8 md:mb-10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="flex items-center gap-2 mb-2">
+            <Calendar className="h-4 w-4 text-gray-400" />
+            <p className="text-xs font-medium text-gray-400 uppercase tracking-wide">Events</p>
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{title}</h2>
+          <p className="text-gray-400 text-sm max-w-2xl">{subtitle}</p>
+          <div className="w-8 h-px bg-gray-700 mt-3" />
+        </motion.div>
+
+        {/* Main Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+
+          {/* Featured Event */}
+          <motion.div
+            className="lg:col-span-2"
+            key={featured.id}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <div className="relative w-full">
+
+
+              <img
+                src={featured.image || "/placeholder.svg"}
+                alt={featured.title}
+                className="w-full m-full object-cover rounded-lg"
+              />
+
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+            
+              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                {featured.category && (
+                  <p className="text-xs font-medium text-gray-300 uppercase tracking-widest mb-2">
+                    {featured.category}
+                  </p>
+                )}
+                <h3 className="text-lg md:text-xl font-bold text-white mb-3 leading-tight">
+                  {featured.title}
+                </h3>
+
+                <div className="space-y-2">
+                  {timeDisplay && (
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-3 w-3 text-gray-400 flex-shrink-0" />
+                      <span className="text-xs text-gray-300">{timeDisplay}</span>
+                    </div>
+                  )}
+                  {featured.location && (
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-3 w-3 text-gray-400 flex-shrink-0" />
+                      <span className="text-xs text-gray-300">{featured.location}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Timeline List */}
+          <motion.div
+            className="lg:col-span-1"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+          >
+            <div className="space-y-2 max-h-56 overflow-y-auto">
+              {upcomingAndRecentEvents.map((event, index) => (
+                <motion.button
+                  key={event.id}
+                  onClick={() => setSelectedIndex(index)}
+                  className={cn(
+                    "w-full text-left p-3 rounded-lg border transition-all duration-300",
+                    selectedIndex === index
+                      ? "bg-white text-black border-white"
+                      : "bg-gray-900/50 text-gray-100 border-gray-800 hover:border-gray-700",
+                  )}
+                  whileHover={{ x: selectedIndex === index ? 0 : 4 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="text-xs font-medium mb-1 line-clamp-2">{event.title}</div>
+                  <div className="text-xs text-gray-400 flex items-center gap-1">
+                    <Calendar className="h-3 w-3" />
+                    {new Date(event.date).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+
+        </div>
+      </div>
+    </section>
+  )
 }
