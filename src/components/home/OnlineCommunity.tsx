@@ -247,7 +247,7 @@ export default function OnlineCommunity() {
 
                 {/* Stats with Count Up */}
                 <motion.div
-                    className="bg-gray-900/70 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-gray-700/30 shadow-lg"
+                    className="bg-transparent backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg"
                     variants={{itemVariants}}
                 >
                     <h3 className="text-xl sm:text-2xl font-bold text-center mb-6 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">

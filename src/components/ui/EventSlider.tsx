@@ -56,12 +56,20 @@ export default function EventsSlider({
 
   const transformedEvents = transformEvents(events)
 
-  const upcomingEvents = transformedEvents.filter((event) => {
-    const eventDate = new Date(event.date)
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    return eventDate >= today
-  })
+const upcomingAndRecentEvents = transformedEvents.filter((event) => {
+  const eventDate = new Date(event.date)
+
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  // Create a date for 2 days ago
+  const twoDaysAgo = new Date(today)
+  twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
+
+  return eventDate >= twoDaysAgo
+})
+
+
 
   const [selectedIndex, setSelectedIndex] = useState(0)
   const headerRef = useRef<HTMLDivElement>(null)
@@ -70,7 +78,7 @@ export default function EventsSlider({
     amount: 0.3,
   })
 
-  if (upcomingEvents.length === 0) {
+  if (upcomingAndRecentEvents.length === 0) {
     return (
       <section className="py-8 bg-black">
         <div className="container mx-auto px-4 max-w-5xl">
@@ -80,7 +88,7 @@ export default function EventsSlider({
     )
   }
 
-  const featured = upcomingEvents[selectedIndex]
+  const featured = upcomingAndRecentEvents[selectedIndex]
   const timeDisplay = [featured.time.morning, featured.time.afternoon, featured.time.evening]
     .filter(Boolean)
     .join(" • ")
@@ -88,6 +96,7 @@ export default function EventsSlider({
   return (
     <section className="py-24 bg-black">
       <div className="container mx-auto px-4 max-w-5xl">
+
         {/* Header */}
         <motion.div
           ref={headerRef}
@@ -105,8 +114,9 @@ export default function EventsSlider({
           <div className="w-8 h-px bg-gray-700 mt-3" />
         </motion.div>
 
-        {/* Main Layout: Featured + Timeline */}
+        {/* Main Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+
           {/* Featured Event */}
           <motion.div
             className="lg:col-span-2"
@@ -115,26 +125,28 @@ export default function EventsSlider({
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <div className="relative rounded-lg ">
-              {featured.image && (
-                <img
-                  src={featured.image || "/placeholder.svg"}
-                  alt={featured.title}
-                 className="w-full h-auto object-contain rounded-lg"
-                />
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="relative w-full">
 
-              {/* Content over image */}
+
+              <img
+                src={featured.image || "/placeholder.svg"}
+                alt={featured.title}
+                className="w-full m-full object-cover rounded-lg"
+              />
+
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+            
               <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
                 {featured.category && (
                   <p className="text-xs font-medium text-gray-300 uppercase tracking-widest mb-2">
                     {featured.category}
                   </p>
                 )}
-                <h3 className="text-lg md:text-xl font-bold text-white mb-3 leading-tight">{featured.title}</h3>
+                <h3 className="text-lg md:text-xl font-bold text-white mb-3 leading-tight">
+                  {featured.title}
+                </h3>
 
-                {/* Event Info */}
                 <div className="space-y-2">
                   {timeDisplay && (
                     <div className="flex items-center gap-2">
@@ -161,7 +173,7 @@ export default function EventsSlider({
             transition={{ duration: 0.4, delay: 0.1 }}
           >
             <div className="space-y-2 max-h-56 overflow-y-auto">
-              {upcomingEvents.map((event, index) => (
+              {upcomingAndRecentEvents.map((event, index) => (
                 <motion.button
                   key={event.id}
                   onClick={() => setSelectedIndex(index)}
@@ -186,6 +198,7 @@ export default function EventsSlider({
               ))}
             </div>
           </motion.div>
+
         </div>
       </div>
     </section>
