@@ -1,10 +1,17 @@
+"use client"
+
 import type { Metadata } from "next"
 import { BooksData } from "@/data/booksData"
 import BooksPageContent from "@/components/books/BooksPageContent"
+import {Suspense} from "react"
+import {useSearchParams} from "next/navigation"
+import BookDetails from "@/components/books/BooksDetails";
+import BooksList from "@/components/books/BooksLists";
+import BooksStructuredData from "@/components/books/BooksStructuredData";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
 
-export async function generateMetadata({ searchParams }: { searchParams?: { id?: string } }): Promise<Metadata> {
+async function generateMetadata({ searchParams }: { searchParams?: { id?: string } }): Promise<Metadata> {
   const id = searchParams?.id
   if (id) {
     const book = BooksData.find((b) => String(b.id) === id)
