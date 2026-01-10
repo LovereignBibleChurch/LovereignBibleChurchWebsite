@@ -4,116 +4,23 @@ import {useState} from "react"
 import {AnimatePresence, motion} from "framer-motion"
 import {ChevronLeft, ChevronRight, X} from "lucide-react"
 import Image from "next/image"
+import { urlFor } from "@/sanity/lib/image"
 
 // Define the interface for gallery images
 interface GalleryImage {
-    id: number;
-    src: string;
+    _id: string;
+    title: string;
+    image: {
+        asset: {
+            _ref: string;
+        }
+    };
+    caption: string;
 }
 
-// Gallery data with actual church photos
-const galleryImages: GalleryImage[] = [
-    {
-        id: 1,
-        src: "/gallery/churchImage1.jpeg",
-    },
-    {
-        id: 2,
-        src: "/gallery/churchImage2.jpeg",
-    },
-    {
-        id: 3,
-        src: "/gallery/churchImage3.jpeg",
-    },
-    {
-        id: 4,
-        src: "/gallery/churchImage4.jpeg",
-    },
-    {
-        id: 5,
-        src: "/gallery/churchImage5.jpeg",
-    },
-    {
-        id: 6,
-        src: "/gallery/churchImage6.jpeg",
-    },
-    {
-        id: 7,
-        src: "/gallery/churchImage7.jpeg",
-    },
-    {
-        id: 8,
-        src: "/gallery/churchImage8.jpeg",
-    },
-    {
-        id: 9,
-        src: "/gallery/churchImage9.jpeg",
-    },
-    {
-        id: 10,
-        src: "/gallery/churchImage10.jpeg",
-    },
-    {
-        id: 11,
-        src: "/gallery/churchImage11.jpeg",
-    },
-    {
-        id: 12,
-        src: "/gallery/pastorImage1.jpeg",
-    },
-    {
-        id: 13,
-        src: "/gallery/pastorImage2.jpeg",
-    },
-    {
-        id: 14,
-        src: "/gallery/pastorImage3.jpeg",
-    },
-    {
-        id: 15,
-        src: "/gallery/pastorImage4.jpeg",
-    },
-    {
-        id: 16,
-        src: "/gallery/pastorImage5.jpeg",
-    },
-    {
-        id: 17,
-        src: "/gallery/pastorImage6.jpeg",
-    },
-    {
-        id: 18,
-        src: "/gallery/pastorImage7.jpeg",
-    },
-    {
-        id: 19,
-        src: "/gallery/pastorImage8.jpeg",
-    },
-    {
-        id: 20,
-        src: "/gallery/pastorImage9.jpeg",
-    },
-    {
-        id: 21,
-        src: "/gallery/pastorImage10.jpeg",
-    },
-    {
-        id: 22,
-        src: "/gallery/churchImage1.jpeg",
-    },
-    {
-        id: 23,
-        src: "/gallery/churchImage5.jpeg",
-    },
-    {
-        id: 24,
-        src: "/gallery/churchImage7.jpeg",
-    },
-]
-
-export default function PhotoGallery() {
+export default function PhotoGallery({galleryImages}: {galleryImages: GalleryImage[]}) {
     const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
-    const [hoveredImage, setHoveredImage] = useState<number | null>(null)
+    const [hoveredImage, setHoveredImage] = useState<string | null>(null)
 
     const openLightbox = (image: GalleryImage) => {
         setSelectedImage(image)
@@ -126,7 +33,7 @@ export default function PhotoGallery() {
     const navigateImage = (direction: "next" | "prev") => {
         if (!selectedImage) return
 
-        const currentIndex = galleryImages.findIndex((img) => img.id === selectedImage.id)
+        const currentIndex = galleryImages.findIndex((img) => img._id === selectedImage._id)
         let newIndex
 
         if (direction === "next") {
@@ -166,7 +73,7 @@ export default function PhotoGallery() {
                 >
                     {galleryImages.map((image, index) => (
                         <motion.div
-                            key={image.id}
+                            key={image._id}
                             initial={{ opacity: 0, scale: 0.8 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
@@ -174,25 +81,25 @@ export default function PhotoGallery() {
                             className={`relative group cursor-pointer overflow-hidden rounded-xl ${
                                 index % 7 === 0 || index % 7 === 3 ? "row-span-2" : ""
                             } ${index % 11 === 0 ? "col-span-2" : ""}`}
-                            onMouseEnter={() => setHoveredImage(image.id)}
+                            onMouseEnter={() => setHoveredImage(image._id)}
                             onMouseLeave={() => setHoveredImage(null)}
                             onClick={() => openLightbox(image)}
                             whileHover={{ scale: 1.02 }}
                         >
                             <div className="relative aspect-square overflow-hidden bg-gray-900">
                                 <Image
-                                    src={image.src || "/placeholder.svg"}
-                                    alt="Church photo"
+                                    src={urlFor(image.image).url()}
+                                    alt={image.title || "Church photo"}
                                     fill
                                     className={`object-cover transition-all duration-700 ${
-                                        hoveredImage === image.id ? "scale-110" : "scale-100"
+                                        hoveredImage === image._id ? "scale-110" : "scale-100"
                                     }`}
                                 />
 
                                 {/* Subtle hover overlay */}
                                 <div
                                     className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ${
-                                        hoveredImage === image.id ? "opacity-100" : "opacity-0"
+                                        hoveredImage === image._id ? "opacity-100" : "opacity-0"
                                     }`}
                                 />
                             </div>
@@ -245,8 +152,8 @@ export default function PhotoGallery() {
                             {/* Image */}
                             <div className="relative aspect-video w-full bg-gray-900 rounded-lg overflow-hidden">
                                 <Image
-                                    src={selectedImage.src || "/placeholder.svg"}
-                                    alt="Church photo"
+                                    src={urlFor(selectedImage.image).url()}
+                                    alt={selectedImage.title || "Church photo"}
                                     fill
                                     className="object-contain"
                                 />
