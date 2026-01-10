@@ -295,7 +295,36 @@ export const productBySlugQuery = groq`
   }
 `
 
+// Gallery Images Queries
+export const galleryImagesQuery = groq`
+  *[_type == "galleryImage"] | order(_createdAt desc) {
+    _id,
+    title,
+    image,
+    caption
+  }
+`
+
+// Bulk Upload Queries
+export const bulkUploadsQuery = groq`
+  *[_type == "bulkGalleryUpload"] | order(uploadedAt desc) {
+    _id,
+    title,
+    images,
+    uploadedAt,
+    autoGenerateTitles
+  }
+`
+
 // Fetch functions
+export async function getGalleryImages() {
+  return cached(() => client.fetch(galleryImagesQuery), ['sanity', 'galleryImages', 'all'], { revalidate: 300, tags: ['sanity', 'galleryImage'] })
+}
+
+export async function getBulkUploads() {
+  return cached(() => client.fetch(bulkUploadsQuery), ['sanity', 'bulkUploads', 'all'], { revalidate: 300, tags: ['sanity', 'bulkGalleryUpload'] })
+}
+
 export async function getTestimonials() {
   return cached(() => client.fetch(testimonialsQuery), ['sanity', 'testimonials', 'all'], { revalidate: 300, tags: ['sanity', 'testimonial'] })
 }

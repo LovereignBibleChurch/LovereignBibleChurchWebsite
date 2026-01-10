@@ -6,7 +6,9 @@ import branch from './branch'
 import sermon from './sermon'
 import announcement from './announcement'
 import product from './product'
+import galleryImage from './galleryImage'
+import bulkGalleryUpload from './bulkGalleryUpload'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [testimonial, event, leader, branch, sermon, announcement, product],
+  types: [testimonial, event, leader, branch, sermon, announcement, product, galleryImage, bulkGalleryUpload],
 }
