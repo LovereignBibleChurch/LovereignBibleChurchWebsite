@@ -1,8 +1,8 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { motion, useInView } from "framer-motion"
-import { Calendar, MapPin, Clock } from "lucide-react"
+import { Calendar, MapPin, Clock, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react"
 import type { EventItem } from "@/data/eventsData"
 import { cn } from "@/lib/utils"
 import { getImageUrl } from "@/sanity/lib/queries"
@@ -44,7 +44,7 @@ export default function EventsSlider({
             afternoon: event.time?.afternoon || "",
             evening: event.time?.evening || "",
           },
-          image: event.image ? getImageUrl(event.image, 400, 300) : "/placeholder.svg",
+          image: event.image ? getImageUrl(event.image, 600, 800) : "/placeholder.svg",
           description: event.description || "",
           location: event.location || "",
           category: event.category || "",
@@ -56,27 +56,55 @@ export default function EventsSlider({
 
   const transformedEvents = transformEvents(events)
 
-const upcomingAndRecentEvents = transformedEvents.filter((event) => {
-  const eventDate = new Date(event.date)
+  const upcomingAndRecentEvents = transformedEvents.filter((event) => {
+    const eventDate = new Date(event.date)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const twoDaysAgo = new Date(today)
+    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
+    return eventDate >= twoDaysAgo
+  })
 
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-
-  // Create a date for 2 days ago
-  const twoDaysAgo = new Date(today)
-  twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
-
-  return eventDate >= twoDaysAgo
-})
-
-
-
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  // State
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [itemsPerView, setItemsPerView] = useState(1)
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const headerRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(headerRef, {
     margin: "-100px",
-    amount: 0.3,
+    amount: 0.5,
   })
+
+  // Responsive items per view logic
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerView(window.innerWidth >= 1024 ? 2 : 1)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // Auto scroll
+  useEffect(() => {
+    // Stop autoplay if we don't have enough events to scroll
+    if (!isAutoPlaying || upcomingAndRecentEvents.length <= (window.innerWidth >= 1024 ? 3 : 1)) return
+    
+    const interval = setInterval(() => {
+      handleNext()
+    }, 5000)
+    
+    return () => clearInterval(interval)
+  }, [isAutoPlaying, currentIndex, upcomingAndRecentEvents.length])
+
+  // Navigation handlers
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % upcomingAndRecentEvents.length)
+  }
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + upcomingAndRecentEvents.length) % upcomingAndRecentEvents.length)
+  }
 
   if (upcomingAndRecentEvents.length === 0) {
     return (
@@ -88,118 +116,157 @@ const upcomingAndRecentEvents = transformedEvents.filter((event) => {
     )
   }
 
-  const featured = upcomingAndRecentEvents[selectedIndex]
-  const timeDisplay = [featured.time.morning, featured.time.afternoon, featured.time.evening]
-    .filter(Boolean)
-    .join(" • ")
+  // Always extend by 3 to support desktop view without whitespace
+  const extendedEvents = [...upcomingAndRecentEvents, ...upcomingAndRecentEvents.slice(0, 3)]
 
   return (
-    <section className="py-24 bg-black">
-      <div className="container mx-auto px-4 max-w-5xl">
+    <section className="py-24 bg-black overflow-hidden">
+      <div className="container mx-auto px-4 max-w-7xl">
 
         {/* Header */}
         <motion.div
           ref={headerRef}
-          className="mb-8 md:mb-10"
+          className="mb-8 md:mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex items-center gap-2 mb-2">
-            <Calendar className="h-4 w-4 text-gray-400" />
-            <p className="text-xs font-medium text-gray-400 uppercase tracking-wide">Events</p>
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <Calendar className="h-4 w-4 text-gray-400" />
+              <p className="text-xs font-medium text-gray-400 uppercase tracking-wide">Events</p>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{title}</h2>
+            <p className="text-gray-400 text-sm max-w-2xl">{subtitle}</p>
+            <div className="w-8 h-px bg-gray-700 mt-3" />
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{title}</h2>
-          <p className="text-gray-400 text-sm max-w-2xl">{subtitle}</p>
-          <div className="w-8 h-px bg-gray-700 mt-3" />
+
+          {/* Controls */}
+          <div className="flex items-center gap-2">
+        
+            <div className="w-px h-4 bg-gray-700 mx-1" />
+            <button 
+              onClick={handlePrev}
+              className="p-2 rounded-full bg-gray-800 text-white hover:bg-gray-700 transition-colors"
+              aria-label="Previous event"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button 
+              onClick={handleNext}
+              className="p-2 rounded-full bg-gray-800 text-white hover:bg-gray-700 transition-colors"
+              aria-label="Next event"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
         </motion.div>
 
-        {/* Main Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
-
-          {/* Featured Event */}
+        {/* Slider Viewport */}
+        <div 
+          className="relative overflow-hidden -mx-4 px-4 md:mx-0 md:px-0"
+          onMouseEnter={() => setIsAutoPlaying(false)}
+          onMouseLeave={() => setIsAutoPlaying(true)}
+        >
           <motion.div
-            className="lg:col-span-2"
-            key={featured.id}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
+            className="flex"
+            animate={{ 
+              x: `-${currentIndex * (100 / extendedEvents.length)}%`
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
-            <div className="relative w-full">
+            {extendedEvents.map((event, index) => {
+              const uniqueKey = `${event.id}-${index}`
+              
+              const timeDisplay = [event.time.morning, event.time.afternoon, event.time.evening]
+                .filter(Boolean)
+                .join(" • ")
 
-
-              <img
-                src={featured.image || "/placeholder.svg"}
-                alt={featured.title}
-                className="w-full m-full object-cover rounded-lg"
-              />
-
-              <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-            
-              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
-                {featured.category && (
-                  <p className="text-xs font-medium text-gray-300 uppercase tracking-widest mb-2">
-                    {featured.category}
-                  </p>
-                )}
-                <h3 className="text-lg md:text-xl font-bold text-white mb-3 leading-tight">
-                  {featured.title}
-                </h3>
-
-                <div className="space-y-2">
-                  {timeDisplay && (
-                    <div className="flex items-center gap-2">
-                      <Clock className="h-3 w-3 text-gray-400 flex-shrink-0" />
-                      <span className="text-xs text-gray-300">{timeDisplay}</span>
-                    </div>
-                  )}
-                  {featured.location && (
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-3 w-3 text-gray-400 flex-shrink-0" />
-                      <span className="text-xs text-gray-300">{featured.location}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Timeline List */}
-          <motion.div
-            className="lg:col-span-1"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-          >
-            <div className="space-y-2 max-h-56 overflow-y-auto">
-              {upcomingAndRecentEvents.map((event, index) => (
-                <motion.button
-                  key={event.id}
-                  onClick={() => setSelectedIndex(index)}
-                  className={cn(
-                    "w-full text-left p-3 rounded-lg border transition-all duration-300",
-                    selectedIndex === index
-                      ? "bg-white text-black border-white"
-                      : "bg-gray-900/50 text-gray-100 border-gray-800 hover:border-gray-700",
-                  )}
-                  whileHover={{ x: selectedIndex === index ? 0 : 4 }}
-                  transition={{ duration: 0.2 }}
+              return (
+                <div 
+                  key={uniqueKey}
+                  className="w-full lg:w-1/3 flex-shrink-0 px-2 md:px-3"
                 >
-                  <div className="text-xs font-medium mb-1 line-clamp-2">{event.title}</div>
-                  <div className="text-xs text-gray-400 flex items-center gap-1">
-                    <Calendar className="h-3 w-3" />
-                    {new Date(event.date).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </div>
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
+                  <div className="relative group overflow-hidden rounded-xl bg-gray-900 border border-gray-800 h-full flex flex-col">
+                    {/* Image Container - Aspect Ratio 4:5 for better portrait support */}
+                    <div className="aspect-[4/5] w-full overflow-hidden relative">
+                      <img
+                        src={event.image || "/placeholder.svg"}
+                        alt={event.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80" />
+                      
+                      {/* Category Badge */}
+                      {event.category && (
+                        <div className="absolute top-4 left-4">
+                          <span className="px-2 py-1 text-[10px] font-medium uppercase tracking-wider text-white bg-black/50 backdrop-blur-md rounded border border-white/10">
+                            {event.category}
+                          </span>
+                        </div>
+                      )}
+                    </div>
 
+                    {/* Content */}
+                    <div className="p-5 relative flex-1 flex flex-col justify-end -mt-20 z-10">
+                       {/* Date Badge (Floating overlap) */}
+                       <div className="absolute top-0 right-4 -translate-y-full mb-2 bg-white text-black p-2 rounded-lg shadow-lg text-center min-w-[3.5rem]">
+                        <div className="text-xs font-bold uppercase tracking-wide text-gray-500">
+                          {new Date(event.date).toLocaleDateString("en-US", { month: "short" })}
+                        </div>
+                        <div className="text-xl font-bold leading-none">
+                          {new Date(event.date).getDate()}
+                        </div>
+                      </div>
+
+                      <h3 className="text-lg font-bold text-white mb-2 line-clamp-1 pr-12" title={event.title}>
+                        {event.title}
+                      </h3>
+
+                      {/* Description/Subtitle */}
+                      {event.description && (
+                        <p className="text-sm text-gray-300 mb-3 line-clamp-2">
+                          {event.description}
+                        </p>
+                      )}
+
+                      <div className="space-y-2 text-sm text-gray-400 mt-auto">
+                        {timeDisplay && (
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-3.5 w-3.5 text-blue-400 flex-shrink-0" />
+                            <span className="truncate">{timeDisplay}</span>
+                          </div>
+                        )}
+                        {event.location && (
+                          <div className="flex items-center gap-2">
+                            <MapPin className="h-3.5 w-3.5 text-red-400 flex-shrink-0" />
+                            <span className="truncate">{event.location}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </motion.div>
         </div>
+        
+        {/* Pagination Dots */}
+        <div className="mt-8 flex justify-center gap-2">
+          {upcomingAndRecentEvents.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={cn(
+                "h-1.5 rounded-full transition-all duration-300",
+                currentIndex === idx ? "w-6 bg-white" : "w-1.5 bg-gray-700 hover:bg-gray-600"
+              )}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+
       </div>
     </section>
   )
