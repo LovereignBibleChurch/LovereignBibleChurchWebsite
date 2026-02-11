@@ -168,7 +168,7 @@ export const BooksData = [
     },
     {
         id: 6,
-        title: "The Law of Honour",
+        title: "Honour",
         image: bookImage6,
         description:
             "A church cannot grow beyond the honour practiced within it. This book explains why honour is a divine ordinance and eternal law, key to building and sustaining meaningful relationships within the body of Christ.",
