@@ -9,6 +9,7 @@ import TestimonyCorner from "@/components/home/TestimonyCorner";
 import { getTestimonials, getEvents } from "@/sanity/lib/queries";
 import CelebrationConfetti from "@/components/home/CelebrationConfetti";
 import BooksMiniCard from "@/components/books/BooksMiniCard";
+import PromoModal from "@/components/home/PromoModal";
 
 export default async function Home() {
   // Fetch data from Sanity
@@ -17,6 +18,7 @@ export default async function Home() {
 
   return (
     <div className="">
+        <PromoModal />
         <CelebrationConfetti message="Celebrating 12 Years!" />
         <Hero
           items={heroData}
