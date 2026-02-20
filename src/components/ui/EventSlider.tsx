@@ -1,8 +1,9 @@
 "use client"
 
-import { useRef, useState, useEffect } from "react"
-import { motion, useInView } from "framer-motion"
-import { Calendar, MapPin, Clock, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react"
+import { useState, useEffect, useMemo } from "react"
+import { motion } from "framer-motion"
+import { MapPin, Clock, ChevronLeft, ChevronRight } from "lucide-react"
+import Image from "next/image"
 import type { EventItem } from "@/data/eventsData"
 import { cn } from "@/lib/utils"
 import { getImageUrl } from "@/sanity/lib/queries"
@@ -13,260 +14,176 @@ interface EventsSliderProps {
   subtitle?: string
 }
 
-function EmptyState() {
-  return (
-    <motion.div
-      className="flex flex-col items-center justify-center py-12 px-4"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-    >
-      <h3 className="text-lg md:text-xl font-medium text-gray-300 text-center mb-2">No Upcoming Events</h3>
-      <p className="text-gray-400 text-xs text-center max-w-md">Check back soon for new events and activities.</p>
-    </motion.div>
-  )
-}
-
 export default function EventsSlider({
   events = [],
   title = "Upcoming Events",
-  subtitle = "Join us for these meaningful gatherings",
+  subtitle = "Join us for these gatherings",
 }: EventsSliderProps) {
-  const transformEvents = (events: any[]): EventItem[] => {
-    return events.map((event) => {
-      if (event._id) {
-        return {
-          id: event._id,
-          title: event.title,
-          date: event.date,
-          time: {
-            morning: event.time?.morning || "",
-            afternoon: event.time?.afternoon || "",
-            evening: event.time?.evening || "",
-          },
-          image: event.image ? getImageUrl(event.image, 600, 800) : "/placeholder.svg",
-          description: event.description || "",
-          location: event.location || "",
-          category: event.category || "",
-        } as EventItem
-      }
-      return event as EventItem
-    })
-  }
-
-  const transformedEvents = transformEvents(events)
-
-  const upcomingAndRecentEvents = transformedEvents.filter((event) => {
-    const eventDate = new Date(event.date)
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const twoDaysAgo = new Date(today)
-    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
-    return eventDate >= twoDaysAgo
-  })
-
-  // State
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [itemsPerView, setItemsPerView] = useState(1)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
-  const headerRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(headerRef, {
-    margin: "-100px",
-    amount: 0.5,
-  })
-
-  // Responsive items per view logic
+  const [itemsPerView, setItemsPerView] = useState(1)
+  
   useEffect(() => {
     const handleResize = () => {
-      setItemsPerView(window.innerWidth >= 1024 ? 2 : 1)
+      if (window.innerWidth >= 1280) setItemsPerView(3)
+      else if (window.innerWidth >= 768) setItemsPerView(2)
+      else setItemsPerView(1)
     }
     handleResize()
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Auto scroll
-  useEffect(() => {
-    // Stop autoplay if we don't have enough events to scroll
-    if (!isAutoPlaying || upcomingAndRecentEvents.length <= (window.innerWidth >= 1024 ? 3 : 1)) return
-    
-    const interval = setInterval(() => {
-      handleNext()
-    }, 5000)
-    
-    return () => clearInterval(interval)
-  }, [isAutoPlaying, currentIndex, upcomingAndRecentEvents.length])
+  const filteredEvents = useMemo(() => {
+    return events.filter((event) => {
+      const eventDate = new Date(event.date)
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      return eventDate >= new Date(today.setDate(today.getDate() - 2))
+    })
+  }, [events])
 
-  // Navigation handlers
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % upcomingAndRecentEvents.length)
+    setCurrentIndex((prev) => (prev + 1) % filteredEvents.length)
   }
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + upcomingAndRecentEvents.length) % upcomingAndRecentEvents.length)
+    setCurrentIndex((prev) => (prev - 1 + filteredEvents.length) % filteredEvents.length)
   }
 
-  if (upcomingAndRecentEvents.length === 0) {
-    return (
-      <section className="py-8 bg-black">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <EmptyState />
-        </div>
-      </section>
-    )
-  }
+  useEffect(() => {
+    if (!isAutoPlaying || filteredEvents.length <= itemsPerView) return
+    const interval = setInterval(handleNext, 5000)
+    return () => clearInterval(interval)
+  }, [isAutoPlaying, currentIndex, filteredEvents.length, itemsPerView])
 
-  // Always extend by 3 to support desktop view without whitespace
-  const extendedEvents = [...upcomingAndRecentEvents, ...upcomingAndRecentEvents.slice(0, 3)]
+  if (filteredEvents.length === 0) return null
 
   return (
-    <section className="py-24 bg-black overflow-hidden">
-      <div className="container mx-auto px-4 max-w-7xl">
-
-        {/* Header */}
-        <motion.div
-          ref={headerRef}
-          className="mb-8 md:mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Calendar className="h-4 w-4 text-gray-400" />
-              <p className="text-xs font-medium text-gray-400 uppercase tracking-wide">Events</p>
-            </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{title}</h2>
-            <p className="text-gray-400 text-sm max-w-2xl">{subtitle}</p>
-            <div className="w-8 h-px bg-gray-700 mt-3" />
+    <section className="py-20 bg-[#050505] text-white selection:bg-white selection:text-black">
+      <div className="container mx-auto px-6 max-w-7xl">
+        
+        {/* Minimalist Header */}
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+          <div className="max-w-xl">
+            <motion.span 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase mb-3 block"
+            >
+              Exclusively for you
+            </motion.span>
+            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4 italic">
+              {title}
+            </h2>
+            <p className="text-gray-400 font-light leading-relaxed">
+              {subtitle}
+            </p>
           </div>
 
-          {/* Controls */}
-          <div className="flex items-center gap-2">
-        
-            <div className="w-px h-4 bg-gray-700 mx-1" />
+          {/* Minimal Controls */}
+          <div className="hidden md:flex items-center gap-4">
             <button 
               onClick={handlePrev}
-              className="p-2 rounded-full bg-gray-800 text-white hover:bg-gray-700 transition-colors"
-              aria-label="Previous event"
+              className="w-12 h-12 rounded-full border border-gray-800 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
             </button>
             <button 
               onClick={handleNext}
-              className="p-2 rounded-full bg-gray-800 text-white hover:bg-gray-700 transition-colors"
-              aria-label="Next event"
+              className="w-12 h-12 rounded-full border border-gray-800 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300"
             >
-              <ChevronRight className="h-5 w-5" />
+              <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
             </button>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Slider Viewport */}
         <div 
-          className="relative overflow-hidden -mx-4 px-4 md:mx-0 md:px-0"
+          className="relative overflow-visible"
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
-          <motion.div
-            className="flex"
-            animate={{ 
-              x: `-${currentIndex * (100 / extendedEvents.length)}%`
-            }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          >
-            {extendedEvents.map((event, index) => {
-              const uniqueKey = `${event.id}-${index}`
-              
-              const timeDisplay = [event.time.morning, event.time.afternoon, event.time.evening]
-                .filter(Boolean)
-                .join(" • ")
-
-              return (
+          <div className="overflow-hidden">
+            <motion.div
+              className="flex"
+              animate={{ x: `-${currentIndex * (100 / itemsPerView)}%` }}
+              transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            >
+              {filteredEvents.map((event, idx) => (
                 <div 
-                  key={uniqueKey}
-                  className="w-full lg:w-1/3 flex-shrink-0 px-2 md:px-3"
+                  key={event._id || idx} 
+                  className={cn(
+                    "flex-shrink-0 px-3 transition-opacity duration-500",
+                    "w-full md:w-1/2 xl:w-1/3"
+                  )}
                 >
-                  <div className="relative group overflow-hidden rounded-xl bg-gray-900 border border-gray-800 h-full flex flex-col">
-                    {/* Image Container - Aspect Ratio 4:5 for better portrait support */}
-                    <div className="aspect-[4/5] w-full overflow-hidden relative">
-                      <img
-                        src={event.image || "/placeholder.svg"}
+                  <div className="cursor-pointer">
+                    <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-gray-900 shadow-2xl">
+                      <Image
+                        src={event.image ? getImageUrl(event.image, 960, 540) : "/placeholder.svg"}
                         alt={event.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        fill
+                        className="object-cover"
+                        sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80" />
-                      
-                      {/* Category Badge */}
-                      {event.category && (
-                        <div className="absolute top-4 left-4">
-                          <span className="px-2 py-1 text-[10px] font-medium uppercase tracking-wider text-white bg-black/50 backdrop-blur-md rounded border border-white/10">
-                            {event.category}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-5 relative flex-1 flex flex-col justify-end -mt-20 z-10">
-                       {/* Date Badge (Floating overlap) */}
-                       <div className="absolute top-0 right-4 -translate-y-full mb-2 bg-white text-black p-2 rounded-lg shadow-lg text-center min-w-[3.5rem]">
-                        <div className="text-xs font-bold uppercase tracking-wide text-gray-500">
+                      <div className="absolute top-6 left-6 bg-white/10 backdrop-blur-xl border border-white/20 p-3 rounded-xl text-center min-w-[50px]">
+                        <span className="block text-[10px] uppercase tracking-tighter text-gray-300">
                           {new Date(event.date).toLocaleDateString("en-US", { month: "short" })}
-                        </div>
-                        <div className="text-xl font-bold leading-none">
+                        </span>
+                        <span className="block text-xl font-bold">
                           {new Date(event.date).getDate()}
-                        </div>
+                        </span>
                       </div>
 
-                      <h3 className="text-lg font-bold text-white mb-2 line-clamp-1 pr-12" title={event.title}>
+                    </div>
+
+                    <div className="mt-6 space-y-3 px-1">
+                      <div className="flex items-center gap-2">
+                        <span className="h-[1px] w-4 bg-blue-500" />
+                        <span className="text-[10px] uppercase tracking-[0.2em] text-blue-500 font-bold">
+                          {event.category || "Gathering"}
+                        </span>
+                      </div>
+                      
+                      <h3 className="text-xl font-medium tracking-tight group-hover:text-blue-400 transition-colors line-clamp-1">
                         {event.title}
                       </h3>
+                      
+                      <p className="text-sm text-gray-500 font-light line-clamp-2 leading-relaxed h-10">
+                        {event.description}
+                      </p>
 
-                      {/* Description/Subtitle */}
-                      {event.description && (
-                        <p className="text-sm text-gray-300 mb-3 line-clamp-2">
-                          {event.description}
-                        </p>
-                      )}
-
-                      <div className="space-y-2 text-sm text-gray-400 mt-auto">
-                        {timeDisplay && (
-                          <div className="flex items-center gap-2">
-                            <Clock className="h-3.5 w-3.5 text-blue-400 flex-shrink-0" />
-                            <span className="truncate">{timeDisplay}</span>
-                          </div>
-                        )}
-                        {event.location && (
-                          <div className="flex items-center gap-2">
-                            <MapPin className="h-3.5 w-3.5 text-red-400 flex-shrink-0" />
-                            <span className="truncate">{event.location}</span>
-                          </div>
-                        )}
+                      <div className="flex items-center gap-4 pt-2">
+                        <div className="flex items-center gap-1.5 text-[11px] text-gray-400 uppercase tracking-wider">
+                          <Clock className="w-3 h-3 text-gray-600" />
+                          <span>{event.time?.morning || "TBA"}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-[11px] text-gray-400 uppercase tracking-wider">
+                          <MapPin className="w-3 h-3 text-gray-600" />
+                          <span className="truncate max-w-[120px]">{event.location}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              )
-            })}
-          </motion.div>
+              ))}
+            </motion.div>
+          </div>
         </div>
-        
-        {/* Pagination Dots */}
-        <div className="mt-8 flex justify-center gap-2">
-          {upcomingAndRecentEvents.map((_, idx) => (
+
+        {/* Minimal Pagination */}
+        <div className="mt-12 flex items-center justify-center gap-3">
+          {filteredEvents.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
               className={cn(
-                "h-1.5 rounded-full transition-all duration-300",
-                currentIndex === idx ? "w-6 bg-white" : "w-1.5 bg-gray-700 hover:bg-gray-600"
+                "h-1 transition-all duration-500 rounded-full",
+                currentIndex === idx ? "w-12 bg-white" : "w-2 bg-gray-800"
               )}
-              aria-label={`Go to slide ${idx + 1}`}
             />
           ))}
         </div>
-
       </div>
     </section>
   )
