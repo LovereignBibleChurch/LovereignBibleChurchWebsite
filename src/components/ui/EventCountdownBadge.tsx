@@ -145,7 +145,7 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
                   onClick={() => setIsOpen(false)}
               >
                 <motion.div
-                    className="bg-black rounded-xl overflow-hidden w-[90%] max-w-4xl relative"
+                    className="bg-black rounded-xl overflow-hidden w-[100%] max-w-4xl relative"
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.9, opacity: 0 }}
@@ -160,14 +160,15 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
 
                   {/* Image Container */}
                   <div className="flex flex-col items-center bg-transparent">
-                    <div className="w-full h-[60vh] relative">
+                    <div className="w-full h-[50vh] relative">
                       <Image
-                          src={nextEvent.image ? getImageUrl(nextEvent.image, 800, 600) || "/church_flyers/countdown.jpeg" : "/church_flyers/countdown.jpeg"}
+                          src={nextEvent.image ? getImageUrl(nextEvent.image, 960, 540) || "/church_flyers/countdown.jpeg" : "/church_flyers/countdown.jpeg"}
                           alt={nextEvent.title}
                           layout="fill"
-                          objectFit="contain"
+                          objectFit="cover"
                           className="rounded-t-xl"
                           priority
+                           sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
                       />
                     </div>
                   </div>
