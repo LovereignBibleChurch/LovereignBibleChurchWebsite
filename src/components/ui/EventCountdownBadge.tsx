@@ -5,6 +5,8 @@ import {AnimatePresence, motion} from "framer-motion";
 import {Calendar, X} from "lucide-react";
 import { getImageUrl } from "@/sanity/lib/queries";
 import Image from "next/image";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface EventItem {
     _id: string;
@@ -160,7 +162,15 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
 
                   {/* Image Container */}
                   <div className="flex flex-col items-center bg-transparent">
-                    <div className="w-full h-[50vh] relative">
+                    <Link 
+                      href={nextEvent.registrationLink || "#"} 
+                      target={nextEvent.registrationLink ? "_blank" : undefined}
+                      rel={nextEvent.registrationLink ? "noopener noreferrer" : undefined}
+                      className={cn(
+                        "w-full h-[50vh] relative",
+                        !nextEvent.registrationLink && "pointer-events-none"
+                      )}
+                    >
                       <Image
                           src={nextEvent.image ? getImageUrl(nextEvent.image, 960, 540) || "/church_flyers/countdown.jpeg" : "/church_flyers/countdown.jpeg"}
                           alt={nextEvent.title}
@@ -170,7 +180,7 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
                           priority
                            sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
                       />
-                    </div>
+                    </Link>
                   </div>
                 </motion.div>
               </motion.div>

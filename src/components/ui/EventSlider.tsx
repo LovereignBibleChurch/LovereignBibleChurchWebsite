@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react"
 import { motion } from "framer-motion"
 import { MapPin, Clock, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import type { EventItem } from "@/data/eventsData"
 import { cn } from "@/lib/utils"
 import { getImageUrl } from "@/sanity/lib/queries"
@@ -117,13 +118,21 @@ export default function EventsSlider({
                     "w-full md:w-1/2 xl:w-1/3"
                   )}
                 >
-                  <div className="cursor-pointer">
+                  <Link 
+                    href={event.registrationLink || "#"} 
+                    target={event.registrationLink ? "_blank" : undefined}
+                    rel={event.registrationLink ? "noopener noreferrer" : undefined}
+                    className={cn(
+                      "block cursor-pointer group",
+                      !event.registrationLink && "pointer-events-none"
+                    )}
+                  >
                     <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-gray-900 shadow-2xl">
                       <Image
                         src={event.image ? getImageUrl(event.image, 960, 540) : "/placeholder.svg"}
                         alt={event.title}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
                         sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
                       />
                       <div className="absolute top-6 left-6 bg-white/10 backdrop-blur-xl border border-white/20 p-3 rounded-xl text-center min-w-[50px]">
@@ -164,7 +173,7 @@ export default function EventsSlider({
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </div>
               ))}
             </motion.div>
