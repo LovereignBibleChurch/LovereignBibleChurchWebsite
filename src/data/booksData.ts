@@ -12,6 +12,7 @@ export const BooksData = [
     {
         id: 1,
         title: "The Gifts and Calling of God",
+        slug: "gifts-and-calling",
         image: bookImage1,
         description:
             "An insightful exploration of spiritual rebirth and the transformative journey of faith. This book delves into the profound meaning of being 'born again' and how it changes one's perspective on life.",
@@ -40,6 +41,7 @@ export const BooksData = [
     {
         id: 2,
         title: "Church Systems and Structures For Growth",
+        slug: "church-systems-and-structures-for-growth",
         image: bookImage2,
         description:
             "Church Systems and Structures for Growth equips church leaders with 13 essential systems to strengthen governance, develop leaders, and drive sustainable ministry growth. Rooted in biblical principles and real ministry experience, it offers practical tools for building a thriving church. Ideal for pastors, administrators, and anyone preparing for ministry.",
@@ -80,6 +82,7 @@ export const BooksData = [
     {
         id: 3,
         title: "The Work of Ministry",
+        slug: "the-work-of-ministry",
         image: bookImage3,
         description:
             "A comprehensive guide to understanding the various aspects of ministry work and how to effectively serve in your calling. This book offers wisdom for both new and experienced ministers.",
@@ -120,6 +123,7 @@ export const BooksData = [
     {
         id: 4,
         title: "Categories of Followers in the Church",
+        slug: "categories-of-followers-in-the-church",
         image: bookImage4,
         description:
             "Every ministry attracts people, but not all followers are the same. This book explores the various categories of followers in Jesus’ ministry, highlighting their distinct traits, behavioral patterns, and spiritual dispositions relevant for today’s church.",
@@ -147,6 +151,7 @@ export const BooksData = [
     {
         id: 5,
         title: "Excuses",
+        slug: "excuses",
         image: bookImage5,
         description:
             "Excuses do not exist, people make them up. This book uncovers the hidden cost of excuses, how they limit vision, weaken discipline, and delay success, challenging leaders to replace them with accountability and action.",
@@ -169,6 +174,7 @@ export const BooksData = [
     {
         id: 6,
         title: "Honour",
+        slug: "honor",
         image: bookImage6,
         description:
             "A church cannot grow beyond the honour practiced within it. This book explains why honour is a divine ordinance and eternal law, key to building and sustaining meaningful relationships within the body of Christ.",
@@ -192,6 +198,7 @@ export const BooksData = [
     {
         id: 7,
         title: "How We Got Our Bible",
+        slug: "how-we-got-our-bible",
         image: bookImage7,
         description:
             "The Bible is the world's most influential book. This book explores its divine origin, historical preservation, and the process of its formation, offering a clear window into the spirituality that shaped the Christian canon.",
@@ -214,6 +221,7 @@ export const BooksData = [
     {
         id: 8,
         title: "Offenses",
+        slug: "offenses",
         image: bookImage8,
         description:
             "Offense is inevitable, but how we respond determines the fate of our relationships. This book explores the anatomy of offense, its destructive power, and provides a guide to healing, forgiveness, and reconciliation.",
@@ -237,6 +245,7 @@ export const BooksData = [
     {
         id: 9,
         title: "Great Salvation",
+        slug: "great-salvation",
         image: bookImage9,
         description:
             "Eternity hangs in the balance. This book is an urgent summons to embrace the gospel of Christ, revealing the true path to salvation and equipping believers to live in the fullness of God’s grace.",

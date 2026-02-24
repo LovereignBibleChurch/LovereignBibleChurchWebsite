@@ -7,6 +7,7 @@ import {useState} from "react"
 interface Book {
     id: number
     title: string
+    slug: string
     image?: string
     sampleChapter?: {
         title: string
