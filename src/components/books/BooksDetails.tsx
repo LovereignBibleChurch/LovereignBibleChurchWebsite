@@ -111,7 +111,7 @@ export default function BookDetails({ bookId }: BookDetailsProps) {
                 <SampleChapterReader
                     book={book}
                     onClose={() => setShowSampleReader(false)}
-                    onContinueFullBook={() => setShowDownloadModal(true)}
+                    onContinueFullBook={() => window.open(`https://www.jwbm.lovereignbiblechurch.org/books/${book.slug}`, '_blank')}
                 />
                 <DownloadModal open={showDownloadModal} onClose={() => setShowDownloadModal(false)} />
             </>
@@ -205,7 +205,7 @@ export default function BookDetails({ bookId }: BookDetailsProps) {
                                 </button>
 
                                 <button
-                                    onClick={() => setShowDownloadModal(true)}
+                                    onClick={() => window.open(`https://www.jwbm.lovereignbiblechurch.org/books/${book.slug}`, '_blank')}
                                     className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-300"
                                 >
                                     <ShoppingCart className="h-5 w-5" />
