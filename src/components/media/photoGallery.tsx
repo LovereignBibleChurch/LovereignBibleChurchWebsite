@@ -71,40 +71,45 @@ export default function PhotoGallery({galleryImages}: {galleryImages: GalleryIma
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, delay: 0.2 }}
                 >
-                    {galleryImages.map((image, index) => (
-                        <motion.div
-                            key={image._id}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.4, delay: index * 0.05 }}
-                            className={`relative group cursor-pointer overflow-hidden rounded-xl ${
-                                index % 7 === 0 || index % 7 === 3 ? "row-span-2" : ""
-                            } ${index % 11 === 0 ? "col-span-2" : ""}`}
-                            onMouseEnter={() => setHoveredImage(image._id)}
-                            onMouseLeave={() => setHoveredImage(null)}
-                            onClick={() => openLightbox(image)}
-                            whileHover={{ scale: 1.02 }}
-                        >
-                            <div className="relative aspect-square overflow-hidden bg-gray-900">
-                                <Image
-                                    src={urlFor(image.image).url()}
-                                    alt={image.title || "Church photo"}
-                                    fill
-                                    className={`object-cover transition-all duration-700 ${
-                                        hoveredImage === image._id ? "scale-110" : "scale-100"
-                                    }`}
-                                />
+                    {galleryImages.map((image, index) => {
+                        // Skip any item that doesn't have a valid image asset to prevent runtime errors
+                        if (!image?.image?.asset?._ref) return null
 
-                                {/* Subtle hover overlay */}
-                                <div
-                                    className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ${
-                                        hoveredImage === image._id ? "opacity-100" : "opacity-0"
-                                    }`}
-                                />
-                            </div>
-                        </motion.div>
-                    ))}
+                        return (
+                            <motion.div
+                                key={image._id}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.4, delay: index * 0.05 }}
+                                className={`relative group cursor-pointer overflow-hidden rounded-xl ${
+                                    index % 7 === 0 || index % 7 === 3 ? "row-span-2" : ""
+                                } ${index % 11 === 0 ? "col-span-2" : ""}`}
+                                onMouseEnter={() => setHoveredImage(image._id)}
+                                onMouseLeave={() => setHoveredImage(null)}
+                                onClick={() => openLightbox(image)}
+                                whileHover={{ scale: 1.02 }}
+                            >
+                                <div className="relative aspect-square overflow-hidden bg-gray-900">
+                                    <Image
+                                        src={urlFor(image.image).url()}
+                                        alt={image.title || "Church photo"}
+                                        fill
+                                        className={`object-cover transition-all duration-700 ${
+                                            hoveredImage === image._id ? "scale-110" : "scale-100"
+                                        }`}
+                                    />
+
+                                    {/* Subtle hover overlay */}
+                                    <div
+                                        className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ${
+                                            hoveredImage === image._id ? "opacity-100" : "opacity-0"
+                                        }`}
+                                    />
+                                </div>
+                            </motion.div>
+                        )
+                    })}
                 </motion.div>
             </div>
 
