@@ -67,8 +67,8 @@ export default function PromoModal() {
               <X size={20} />
             </button>
 
-            {/* Slideshow Container - Changed to landscape aspect ratio */}
-            <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
+            {/* Slideshow Container */}
+            <div className="relative aspect-[4/5] sm:aspect-video w-full overflow-hidden bg-gray-900">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentIndex}
