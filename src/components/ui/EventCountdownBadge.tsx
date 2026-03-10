@@ -147,38 +147,38 @@ export default function EventCountdownBadge({ events }: EventCountdownBadgeProps
                   onClick={() => setIsOpen(false)}
               >
                 <motion.div
-                    className="bg-black rounded-xl overflow-hidden w-[100%] max-w-4xl relative"
+                    className="bg-black rounded-xl overflow-hidden w-[95%] sm:w-[90%] max-w-4xl relative max-h-[90vh]"
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.9, opacity: 0 }}
                     onClick={(e) => e.stopPropagation()}
                 >
                   <button
-                      className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 rounded-full p-2 z-10"
+                      className="absolute top-4 right-4 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full p-2 z-20"
                       onClick={() => setIsOpen(false)}
                   >
                     <X className="h-5 w-5 text-white" />
                   </button>
 
                   {/* Image Container */}
-                  <div className="flex flex-col items-center bg-transparent">
+                  <div className="flex flex-col items-center bg-black">
                     <Link 
                       href={nextEvent.registrationLink || "#"} 
                       target={nextEvent.registrationLink ? "_blank" : undefined}
                       rel={nextEvent.registrationLink ? "noopener noreferrer" : undefined}
                       className={cn(
-                        "w-full h-[50vh] relative",
+                        "w-full h-[70vh] sm:h-[80vh] relative",
                         !nextEvent.registrationLink && "pointer-events-none"
                       )}
                     >
                       <Image
-                          src={nextEvent.image ? getImageUrl(nextEvent.image, 960, 540) || "/church_flyers/countdown.jpeg" : "/church_flyers/countdown.jpeg"}
+                          src={nextEvent.image ? getImageUrl(nextEvent.image, 1080) || "/church_flyers/countdown.jpeg" : "/church_flyers/countdown.jpeg"}
                           alt={nextEvent.title}
                           layout="fill"
-                          objectFit="cover"
+                          objectFit="contain"
                           className="rounded-t-xl"
                           priority
-                           sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+                           sizes="(min-width: 1280px) 100vw, (min-width: 768px) 100vw, 100vw"
                       />
                     </Link>
                   </div>
