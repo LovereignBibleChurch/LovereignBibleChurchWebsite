@@ -135,7 +135,7 @@ export default function EventsSlider({
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                         sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
                       />
-                      <div className="absolute top-6 left-6 bg-white/10 backdrop-blur-xl border border-white/20 p-3 rounded-xl text-center min-w-[50px]">
+                      <div className="absolute top-1 left-1 bg-white/10 backdrop-blur-xl border border-white/20 p-3 rounded-xl text-center min-w-[50px]">
                         <span className="block text-[10px] uppercase tracking-tighter text-gray-300">
                           {new Date(event.date).toLocaleDateString("en-US", { month: "short" })}
                         </span>
