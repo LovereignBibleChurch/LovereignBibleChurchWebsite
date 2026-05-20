@@ -79,7 +79,7 @@ export default function PromoModal() {
                   className="absolute inset-0"
                 >
                   <Image
-                    src={flyers[currentIndex]}
+                    src={"/church_flyers/kindle.jpeg"}
                     alt={`Promo ${currentIndex + 1}`}
                     fill
                     className="object-contain"
