@@ -16,7 +16,7 @@ export const BooksData = [
         image: bookImage1,
         description:
             "An insightful exploration of spiritual rebirth and the transformative journey of faith. This book delves into the profound meaning of being 'born again' and how it changes one's perspective on life.",
-        price: "$20",
+        price: "GHC 132.00",
         pages: "214",
         year: "2025",
         category: "Spiritual Growth",
@@ -45,7 +45,7 @@ export const BooksData = [
         image: bookImage2,
         description:
             "Church Systems and Structures for Growth equips church leaders with 13 essential systems to strengthen governance, develop leaders, and drive sustainable ministry growth. Rooted in biblical principles and real ministry experience, it offers practical tools for building a thriving church. Ideal for pastors, administrators, and anyone preparing for ministry.",
-        price: "$20",
+        price: "GHC 165.00",
         pages: "347",
         year: "2025",
         category: "Church Leadership",
@@ -86,7 +86,7 @@ export const BooksData = [
         image: bookImage3,
         description:
             "A comprehensive guide to understanding the various aspects of ministry work and how to effectively serve in your calling. This book offers wisdom for both new and experienced ministers.",
-        price: "$20",
+        price: "GHC 165.00",
         pages: "576",
         year: "2025",
         category: "Ministry & Calling",
@@ -127,7 +127,7 @@ export const BooksData = [
         image: bookImage4,
         description:
             "Every ministry attracts people, but not all followers are the same. This book explores the various categories of followers in Jesus’ ministry, highlighting their distinct traits, behavioral patterns, and spiritual dispositions relevant for today’s church.",
-        price: "$20",
+        price: "GHC 110.00",
         pages: "250",
         year: "2025",
         category: "Leadership & Ministry",
@@ -155,7 +155,7 @@ export const BooksData = [
         image: bookImage5,
         description:
             "Excuses do not exist, people make them up. This book uncovers the hidden cost of excuses, how they limit vision, weaken discipline, and delay success, challenging leaders to replace them with accountability and action.",
-        price: "$20",
+        price: "GHC 110.00",
         pages: "180",
         year: "2025",
         category: "Self-Help & Leadership",
@@ -178,7 +178,7 @@ export const BooksData = [
         image: bookImage6,
         description:
             "A church cannot grow beyond the honour practiced within it. This book explains why honour is a divine ordinance and eternal law, key to building and sustaining meaningful relationships within the body of Christ.",
-        price: "$20",
+        price: "GHC 110.00",
         pages: "220",
         year: "2025",
         category: "Kingdom Principles",
@@ -202,7 +202,7 @@ export const BooksData = [
         image: bookImage7,
         description:
             "The Bible is the world's most influential book. This book explores its divine origin, historical preservation, and the process of its formation, offering a clear window into the spirituality that shaped the Christian canon.",
-        price: "$20",
+        price: "GHC 110.00",
         pages: "200",
         year: "2025",
         category: "Biblical Studies",
@@ -225,7 +225,7 @@ export const BooksData = [
         image: bookImage8,
         description:
             "Offense is inevitable, but how we respond determines the fate of our relationships. This book explores the anatomy of offense, its destructive power, and provides a guide to healing, forgiveness, and reconciliation.",
-        price: "$20",
+        price: "GHC 110.00",
         pages: "190",
         year: "2025",
         category: "Relationships & Healing",
@@ -249,7 +249,7 @@ export const BooksData = [
         image: bookImage9,
         description:
             "Eternity hangs in the balance. This book is an urgent summons to embrace the gospel of Christ, revealing the true path to salvation and equipping believers to live in the fullness of God’s grace.",
-        price: "$20",
+        price: "GHC 110.00",
         pages: "160",
         year: "2025",
         category: "The Gospel & Salvation",
