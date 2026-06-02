@@ -56,11 +56,9 @@ export default function PhotoGallery({galleryImages}: {galleryImages: GalleryIma
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
                 >
-                    <h2 className="text-4xl md:text-6xl font-bold mb-4">
-                        <span className="bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">Photo</span>
-                        <br />
-                        <span className="bg-gradient-to-r from-gray-400 to-gray-600 bg-clip-text text-transparent">Gallery</span>
-                    </h2>
+                    <span className="text-xs font-bold tracking-[0.2em] text-purple-400/70 uppercase block mb-4">Media</span>
+                    <h2 className="font-display text-4xl md:text-5xl font-semibold text-white mb-4">Photo Gallery</h2>
+                    <div className="divider-glow w-32 mx-auto" />
                 </motion.div>
 
                 {/* Gallery Grid */}

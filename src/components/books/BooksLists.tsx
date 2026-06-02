@@ -35,98 +35,60 @@ export default function BooksLists() {
     };
 
     return (
-        <div className="bg-gradient-to-b from-[#295264] to-[#152745] min-h-screen flex flex-col items-center px-4 md:px-12 pt-24 py-8 relative overflow-hidden">
-            {/* Decorative Elements - Smaller */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-1/4 left-10 w-32 h-32 rounded-full bg-blue-500/10 blur-2xl"></div>
-                <div className="absolute bottom-1/4 right-10 w-40 h-40 rounded-full bg-purple-500/10 blur-2xl"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('/placeholder.svg?height=10&width=10')] bg-repeat opacity-5"></div>
-            </div>
+        <div className="bg-black min-h-screen flex flex-col items-center px-4 md:px-12 pt-28 pb-20 relative overflow-hidden">
+            {/* Ambient orb */}
+            <div className="orb w-80 h-80 bg-purple-700/[0.06] top-0 left-0 -translate-x-1/3 -translate-y-1/3 pointer-events-none" />
 
-            {/* Title Section - Reduced sizes */}
+            {/* Title Section */}
             <motion.div
-                className="w-full max-w-4xl text-center md:text-left -ms-64 mb-8"
-                initial={{ opacity: 0, y: -20 }}
+                className="w-full max-w-3xl mb-12"
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 0.6 }}
             >
-                <div className="flex items-center justify-center md:justify-start mb-3">
-                    <div className="h-0.5 w-12 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full mr-3"></div>
-                    <span className="text-blue-300 uppercase tracking-wider text-xs font-medium">
-            Published Books
-          </span>
-                </div>
-
-                <h1 className="text-white text-xl sm:text-2xl md:text-3xl leading-tight font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white">
-                    Books By <br className="hidden md:block" /> Pastor John Winfred
+                <span className="text-xs font-bold tracking-[0.2em] text-purple-400/70 uppercase block mb-4">Published Works</span>
+                <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-4">
+                    Books By Pastor John Winfred
                 </h1>
-
-                <p className="text-blue-100/80 mt-4 max-w-xl mx-auto md:mx-0 text-sm">
-                    Explore spiritual wisdom and guidance through these transformative
-                    books that have touched thousands of lives around the world.
+                <div className="divider-glow w-40 mb-5" />
+                <p className="text-white/35 font-light text-sm max-w-xl">
+                    Explore spiritual wisdom and guidance through these transformative books that have touched thousands of lives around the world.
                 </p>
             </motion.div>
 
             {/* Books List */}
             <motion.div
-                className="w-full max-w-6xl"
+                className="w-full max-w-3xl space-y-0"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
             >
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {BooksData.map((book, index) => (
-                        <motion.div
-                            key={book.id || index}
-                            className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 flex flex-col h-full"
-                            variants={itemVariants}
-                        >
-                            <div className="relative h-48 overflow-hidden">
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10"></div>
-                                <img
-                                    src={book.image || "/placeholder.svg"}
-                                    alt={book.title}
-                                    className="w-full h-full object-cover"
-                                />
-                                <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
-                                    <h3 className="text-white text-lg font-bold">{book.title}</h3>
-                                    <p className="text-blue-200 text-sm mt-1">
-                                        {book.year} • {book.pages} pages
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="p-4 flex-1 flex flex-col">
-                                <p className="text-blue-100/90 text-sm mb-4 line-clamp-3">
-                                    {book.description}
-                                </p>
-
-                                <div className="grid grid-cols-2 gap-3 mb-4 mt-auto">
-                                    <div>
-                                        <h4 className="text-blue-300 text-xs font-medium mb-1">
-                                            Price
-                                        </h4>
-                                        <p className="text-white text-sm">{book.price}</p>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-blue-300 text-xs font-medium mb-1">
-                                            Formats
-                                        </h4>
-                                        <p className="text-white text-sm">{book.formats[0]}, ...</p>
-                                    </div>
-                                </div>
-
-                                <button
-                                    onClick={() => handleBookDetails(book.id)}
-                                    className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-sm transition-colors w-full"
-                                >
-                                    <ExternalLink size={14} />
-                                    <span>More Details</span>
-                                </button>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
+                {BooksData.map((book, index) => (
+                    <motion.div
+                        key={book.id || index}
+                        className="flex items-center gap-6 py-6 border-t border-white/[0.06] group cursor-pointer"
+                        variants={itemVariants}
+                        onClick={() => handleBookDetails(book.id)}
+                    >
+                        <div className="flex-shrink-0 w-14 h-20 rounded-lg overflow-hidden ring-1 ring-white/[0.07]">
+                            <img
+                                src={book.image || "/placeholder.svg"}
+                                alt={book.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                        </div>
+                        <div className="flex-grow min-w-0">
+                            <h3 className="font-display text-base md:text-lg font-medium text-white/85 group-hover:text-white transition-colors line-clamp-1">{book.title}</h3>
+                            <p className="text-white/30 text-xs mt-1 font-light">{book.year} · {book.pages} pages</p>
+                            <p className="text-white/40 text-xs mt-2 font-light line-clamp-2 hidden sm:block">{book.description}</p>
+                        </div>
+                        <div className="flex-shrink-0 text-right">
+                            <p className="text-white/70 text-sm font-medium">{book.price}</p>
+                            <ExternalLink className="text-white/20 group-hover:text-purple-300 transition-colors mt-2 ml-auto" size={14} />
+                        </div>
+                    </motion.div>
+                ))}
+                <div className="border-t border-white/[0.06]" />
             </motion.div>
         </div>
     );

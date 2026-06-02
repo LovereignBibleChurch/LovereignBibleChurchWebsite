@@ -31,48 +31,44 @@ function DownloadModal({ open, onClose }: { open: boolean; onClose: () => void }
                     exit={{ opacity: 0 }}
                 >
                     <motion.div
-                        className="relative bg-gradient-to-br from-white via-purple-50 to-purple-100 rounded-3xl shadow-2xl max-w-md w-full p-8 text-center border border-indigo-200/50"
-                        initial={{ scale: 0.85, opacity: 0, y: 40 }}
+                        className="relative bg-black border border-white/[0.08] rounded-2xl max-w-md w-full p-8 text-center"
+                        initial={{ scale: 0.9, opacity: 0, y: 20 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
-                        exit={{ scale: 0.85, opacity: 0, y: 40 }}
+                        exit={{ scale: 0.9, opacity: 0, y: 20 }}
                         transition={{ type: "spring", stiffness: 300, damping: 25 }}
                     >
                         <button
                             onClick={onClose}
-                            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-purple-100 hover:bg-purple-200 flex items-center justify-center text-indigo-700 text-2xl font-bold shadow transition"
+                            className="absolute top-4 right-4 w-8 h-8 rounded-full glass hover:bg-white/[0.07] flex items-center justify-center text-white/50 hover:text-white transition cursor-pointer"
                             aria-label="Close"
                         >
                             ×
                         </button>
                         <div className="mb-6">
-                            <h2 className="text-3xl font-extrabold mb-2 text-indigo-900 tracking-tight">Download Online</h2>
-                            <p className="text-lg text-indigo-700 mb-4 font-medium">Coming soon</p>
+                            <h2 className="font-display text-2xl font-semibold text-white mb-2">Download Online</h2>
+                            <p className="text-white/40 text-sm font-light">Coming soon</p>
                         </div>
                         <div className="mb-4">
-                            <p className="text-indigo-900 font-semibold mb-2">For physical copies contact:</p>
+                            <p className="text-white/50 text-sm mb-3">For physical copies contact:</p>
                             <button
                                 onClick={handleCopy}
-                                className={`mx-auto flex items-center gap-2 px-4 py-2 rounded-lg border border-indigo-300 bg-white hover:bg-indigo-50 active:bg-indigo-100 transition shadow text-indigo-700 font-bold text-lg`}
+                                className="mx-auto flex items-center gap-2 px-4 py-2.5 glass hover:bg-white/[0.07] rounded-xl transition text-white font-medium text-sm cursor-pointer"
                                 title="Click to copy"
                             >
                                 {phoneNumber}
                                 {copied ? (
-                                    <Check className="h-5 w-5 text-green-500" />
+                                    <Check className="h-4 w-4 text-amber-400" />
                                 ) : (
-                                    <Copy className="h-5 w-5 text-indigo-400" />
+                                    <Copy className="h-4 w-4 text-white/30" />
                                 )}
                             </button>
                             <div className="mt-2 h-5">
                                 {copied && (
-                                    <span className="text-green-600 text-xs font-medium animate-fade-in">
-                                        Number copied!
-                                    </span>
+                                    <span className="text-amber-400 text-xs font-medium">Number copied!</span>
                                 )}
                             </div>
                         </div>
-                        <div className="mt-8 text-xs text-indigo-500">
-                            Thank you for your interest! Online downloads will be available soon.
-                        </div>
+                        <p className="mt-6 text-white/20 text-xs">Thank you for your interest! Online downloads will be available soon.</p>
                     </motion.div>
                 </motion.div>
             )}
@@ -135,7 +131,7 @@ export default function BookDetails({ bookId }: BookDetailsProps) {
                     {/* Back Button */}
                     <button
                         onClick={() => router.push("/books")}
-                        className="inline-flex items-center gap-2 text-gray-300 hover:text-gray-100 transition-colors mb-8"
+                        className="inline-flex items-center gap-2 text-white/40 hover:text-white/80 transition-colors mb-8 text-sm cursor-pointer"
                     >
                         <ArrowLeft className="h-4 w-4" />
                         <span>Back to Books</span>
@@ -150,11 +146,10 @@ export default function BookDetails({ bookId }: BookDetailsProps) {
                             transition={{ duration: 0.8 }}
                         >
                             <div className="relative">
-                                <div className="absolute -inset-4 bg-gradient-to-r from-gray-700/20 to-gray-600/20 rounded-2xl blur-xl" />
                                 <img
                                     src={book.image || "/placeholder.svg?height=500&width=350"}
                                     alt={book.title}
-                                    className="relative w-80 h-auto rounded-lg shadow-2xl"
+                                    className="relative w-80 h-auto rounded-xl ring-1 ring-white/[0.08] shadow-2xl"
                                 />
                             </div>
                         </motion.div>
@@ -174,55 +169,55 @@ export default function BookDetails({ bookId }: BookDetailsProps) {
                                 <span className="text-gray-400 text-sm">(4.8/5 from 234 reviews)</span>
                             </div>
 
-                            <h1 className="text-4xl md:text-5xl font-bold text-gray-100 mb-4">{book.title}</h1>
+                            <h1 className="font-display text-4xl md:text-5xl font-semibold text-white mb-4">{book.title}</h1>
 
-                            <p className="text-xl text-gray-300 mb-6">by Pastor John Winfred</p>
+                            <p className="text-white/40 text-sm font-light mb-6">by Pastor John Winfred</p>
 
-                            <div className="flex flex-wrap gap-4 mb-6">
-                                <div className="flex items-center gap-2 bg-gray-800/50 px-3 py-1 rounded-full">
-                                    <Calendar className="h-4 w-4 text-gray-400" />
-                                    <span className="text-gray-300 text-sm">{book.year}</span>
+                            <div className="flex flex-wrap gap-3 mb-6">
+                                <div className="flex items-center gap-2 glass px-3 py-1.5 rounded-full">
+                                    <Calendar className="h-3.5 w-3.5 text-white/40" />
+                                    <span className="text-white/60 text-xs">{book.year}</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-gray-800/50 px-3 py-1 rounded-full">
-                                    <FileText className="h-4 w-4 text-gray-400" />
-                                    <span className="text-gray-300 text-sm">{book.pages} pages</span>
+                                <div className="flex items-center gap-2 glass px-3 py-1.5 rounded-full">
+                                    <FileText className="h-3.5 w-3.5 text-white/40" />
+                                    <span className="text-white/60 text-xs">{book.pages} pages</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-gray-800/50 px-3 py-1 rounded-full">
-                                    <Book className="h-4 w-4 text-gray-400" />
-                                    <span className="text-gray-300 text-sm">{book.category}</span>
+                                <div className="flex items-center gap-2 glass px-3 py-1.5 rounded-full">
+                                    <Book className="h-3.5 w-3.5 text-white/40" />
+                                    <span className="text-white/60 text-xs">{book.category}</span>
                                 </div>
                             </div>
 
-                            <p className="text-gray-300 text-lg leading-relaxed mb-8">{book.description}</p>
+                            <p className="text-white/55 text-base leading-relaxed mb-8 font-light">{book.description}</p>
 
-                            <div className="flex flex-wrap gap-4 mb-8">
+                            <div className="flex flex-wrap gap-3 mb-8">
                                 <button
                                     onClick={() => setShowSampleReader(true)}
-                                    className="flex items-center gap-2 bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-gray-100 px-6 py-3 rounded-full font-medium transition-all duration-300 border border-gray-600/30"
+                                    className="flex items-center gap-2 glass hover:bg-white/[0.07] text-white/80 hover:text-white px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer"
                                 >
-                                    <Eye className="h-5 w-5" />
+                                    <Eye className="h-4 w-4" />
                                     Read Sample
                                 </button>
 
                                 <button
                                     onClick={() => window.open(`https://www.jwbm.lovereignbiblechurch.org/books/${book.slug}`, '_blank')}
-                                    className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-300"
+                                    className="flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer"
                                 >
-                                    <ShoppingCart className="h-5 w-5" />
-                                    Buy Now - {book.price}
+                                    <ShoppingCart className="h-4 w-4" />
+                                    Buy Now · {book.price}
                                 </button>
                             </div>
 
-                            <div className="border-t border-gray-700 pt-6">
-                                <h3 className="text-lg font-semibold text-gray-100 mb-3">Available Formats:</h3>
+                            <div className="border-t border-white/[0.06] pt-5">
+                                <p className="text-white/30 text-xs uppercase tracking-widest mb-3">Available Formats</p>
                                 <div className="flex flex-wrap gap-2">
                                     {book.formats.map((format, index) => (
                                         <span
                                             key={index}
-                                            className="bg-gray-800/50 text-gray-300 px-3 py-1 rounded-full text-sm border border-gray-700/50"
+                                            className="glass text-white/50 px-3 py-1 rounded-full text-xs"
                                         >
-                      {format}
-                    </span>
+                                            {format}
+                                        </span>
                                     ))}
                                 </div>
                             </div>
@@ -233,34 +228,30 @@ export default function BookDetails({ bookId }: BookDetailsProps) {
 
             {/* Other Books Section */}
             {otherBooks.length > 0 && (
-                <div className="container mx-auto px-4 py-16">
-                    <h2 className="text-3xl font-bold text-gray-100 mb-8">Other Books by Pastor John</h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="container mx-auto px-4 py-16 max-w-3xl">
+                    <p className="text-white/30 text-xs uppercase tracking-widest mb-6">More by Pastor John</p>
+                    <div className="space-y-0">
                         {otherBooks.map((otherBook) => (
-                            <motion.div
+                            <div
                                 key={otherBook.id}
-                                className="bg-gray-900/70 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700/30 cursor-pointer group"
-                                whileHover={{ y: -5 }}
+                                className="flex items-center gap-5 py-5 border-t border-white/[0.06] group cursor-pointer"
                                 onClick={() => router.push(`/books?id=${otherBook.id}`)}
                             >
-                                <div className="relative h-48 overflow-hidden">
+                                <div className="flex-shrink-0 w-10 h-14 rounded-lg overflow-hidden ring-1 ring-white/[0.07]">
                                     <img
                                         src={otherBook.image || "/placeholder.svg?height=192&width=300"}
                                         alt={otherBook.title}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                                 </div>
-                                <div className="p-4">
-                                    <h3 className="text-lg font-semibold text-gray-100 mb-2">{otherBook.title}</h3>
-                                    <p className="text-gray-400 text-sm mb-3 line-clamp-2">{otherBook.description}</p>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-gray-300 font-medium">{otherBook.price}</span>
-                                        <span className="text-gray-500 text-sm">{otherBook.year}</span>
-                                    </div>
+                                <div className="flex-grow min-w-0">
+                                    <h3 className="font-display text-sm font-medium text-white/80 group-hover:text-white transition-colors line-clamp-1">{otherBook.title}</h3>
+                                    <p className="text-white/30 text-xs mt-0.5">{otherBook.year}</p>
                                 </div>
-                            </motion.div>
+                                <span className="flex-shrink-0 text-white/40 group-hover:text-white/70 text-sm font-medium transition-colors">{otherBook.price}</span>
+                            </div>
                         ))}
+                        <div className="border-t border-white/[0.06]" />
                     </div>
                 </div>
             )}
