@@ -35,13 +35,14 @@ export default function BooksLists() {
     };
 
     return (
-        <div className="bg-black min-h-screen flex flex-col items-center px-4 md:px-12 pt-28 pb-20 relative overflow-hidden">
-            {/* Ambient orb */}
-            <div className="orb w-80 h-80 bg-purple-700/[0.06] top-0 left-0 -translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+        <div className="bg-black min-h-screen flex flex-col items-center px-4 md:px-8 pt-28 pb-20 relative overflow-hidden">
+            {/* Ambient orbs */}
+            <div className="orb w-96 h-96 bg-purple-700/[0.07] top-0 left-0 -translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+            <div className="orb w-64 h-64 bg-amber-500/[0.04] bottom-0 right-0 translate-x-1/3 translate-y-1/3 pointer-events-none" />
 
             {/* Title Section */}
             <motion.div
-                className="w-full max-w-3xl mb-12"
+                className="w-full max-w-6xl mb-14"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
@@ -56,9 +57,9 @@ export default function BooksLists() {
                 </p>
             </motion.div>
 
-            {/* Books List */}
+            {/* Books Grid */}
             <motion.div
-                className="w-full max-w-3xl space-y-0"
+                className="w-full max-w-6xl grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
@@ -66,29 +67,44 @@ export default function BooksLists() {
                 {BooksData.map((book, index) => (
                     <motion.div
                         key={book.id || index}
-                        className="flex items-center gap-6 py-6 border-t border-white/[0.06] group cursor-pointer"
+                        className="group cursor-pointer"
                         variants={itemVariants}
                         onClick={() => handleBookDetails(book.id)}
+                        whileHover={{ y: -6 }}
+                        transition={{ duration: 0.25 }}
                     >
-                        <div className="flex-shrink-0 w-14 h-20 rounded-lg overflow-hidden ring-1 ring-white/[0.07]">
+                        {/* Cover */}
+                        <div className="relative rounded-xl overflow-hidden aspect-[2/3] mb-4 ring-1 ring-white/[0.07] group-hover:ring-purple-500/30 transition-all duration-300"
+                            style={{ boxShadow: "0 0 0 0 rgba(124,58,237,0)" }}
+                        >
                             <img
                                 src={book.image || "/placeholder.svg"}
                                 alt={book.title}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             />
+                            {/* Hover overlay with CTA */}
+                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                                <span className="flex items-center gap-1.5 text-white text-xs font-medium">
+                                    <ExternalLink size={12} />
+                                    View Details
+                                </span>
+                            </div>
+                            {/* Price badge */}
+                            <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-sm text-white/90 text-xs font-semibold px-2 py-1 rounded-full">
+                                {book.price}
+                            </div>
                         </div>
-                        <div className="flex-grow min-w-0">
-                            <h3 className="font-display text-base md:text-lg font-medium text-white/85 group-hover:text-white transition-colors line-clamp-1">{book.title}</h3>
-                            <p className="text-white/30 text-xs mt-1 font-light">{book.year} · {book.pages} pages</p>
-                            <p className="text-white/40 text-xs mt-2 font-light line-clamp-2 hidden sm:block">{book.description}</p>
-                        </div>
-                        <div className="flex-shrink-0 text-right">
-                            <p className="text-white/70 text-sm font-medium">{book.price}</p>
-                            <ExternalLink className="text-white/20 group-hover:text-purple-300 transition-colors mt-2 ml-auto" size={14} />
+
+                        {/* Info */}
+                        <div className="space-y-1 px-0.5">
+                            <h3 className="font-display text-sm font-medium text-white/85 group-hover:text-white transition-colors leading-snug line-clamp-2">
+                                {book.title}
+                            </h3>
+                            <p className="text-white/30 text-xs font-light">{book.year} · {book.pages} pages</p>
+                            <p className="text-white/25 text-xs font-light">{book.category}</p>
                         </div>
                     </motion.div>
                 ))}
-                <div className="border-t border-white/[0.06]" />
             </motion.div>
         </div>
     );

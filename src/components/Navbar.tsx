@@ -109,11 +109,11 @@ export default function Navbar() {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.25 }}
-            className="fixed top-16 left-0 right-0 z-40 glass-strong border-b border-white/[0.08] shadow-[0_16px_48px_rgba(0,0,0,0.5)] md:hidden"
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="fixed top-16 left-0 right-0 z-40 bg-black/95 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_16px_48px_rgba(0,0,0,0.8)] md:hidden"
           >
             <div className="px-4 py-4 space-y-1">
               {navLinks.map((link) => (
@@ -123,8 +123,8 @@ export default function Navbar() {
                   onClick={() => setIsMenuOpen(false)}
                   className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
                     isActive(link.href)
-                      ? "glass text-white"
-                      : "text-white/60 hover:text-white hover:bg-white/[0.04]"
+                      ? "bg-white/[0.08] border border-white/[0.1] text-white"
+                      : "text-white/70 hover:text-white hover:bg-white/[0.05]"
                   }`}
                 >
                   {link.name}
