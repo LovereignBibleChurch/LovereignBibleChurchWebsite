@@ -1,307 +1,191 @@
 "use client"
 
-import {useEffect, useState} from "react"
-import {motion} from "framer-motion"
-import {Facebook, Globe, Headphones, Instagram, MessageCircle, Music, PodcastIcon, Video, Youtube} from "lucide-react"
+import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
+import { Facebook, Globe, Headphones, Instagram, MessageCircle, Music, PodcastIcon, Video, Youtube } from "lucide-react"
 
-// Custom TikTok Icon (since it's not in Lucide)
 const TikTokIcon = ({ className }: { className?: string }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-.04-.1z" />
-    </svg>
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-.04-.1z" />
+  </svg>
 )
 
-// Custom X (Twitter) Icon
 const XIcon = ({ className }: { className?: string }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
 )
 
+const CountUp = ({ end, duration = 2500, suffix = "", delay = 0 }: { end: number; duration?: number; suffix?: string; delay?: number }) => {
+  const [count, setCount] = useState(0)
+  const [started, setStarted] = useState(false)
 
-// Enhanced CountUp component with better visibility and control
-const CountUp = ({ end, duration = 3000, prefix = "", suffix = "", delay = 0 }: { end: number; duration?: number; prefix?: string; suffix?: string; delay?: number }) => {
-    const [count, setCount] = useState(0)
-    const [hasStarted, setHasStarted] = useState(false)
+  useEffect(() => {
+    if (!started) return
+    const timer = setTimeout(() => {
+      let start: number
+      let raf: number
+      const step = (ts: number) => {
+        if (!start) start = ts
+        const progress = Math.min((ts - start) / duration, 1)
+        const ease = 1 - Math.pow(1 - progress, 4)
+        setCount(Math.floor(ease * end))
+        if (progress < 1) raf = requestAnimationFrame(step)
+      }
+      raf = requestAnimationFrame(step)
+      return () => cancelAnimationFrame(raf)
+    }, delay)
+    return () => clearTimeout(timer)
+  }, [started, end, duration, delay])
 
-    useEffect(() => {
-        if (!hasStarted) return
-
-        const startDelay = setTimeout(() => {
-            let startTime: number
-            let animationFrame: number
-
-            const updateCount = (timestamp: number) => {
-                if (!startTime) startTime = timestamp
-                const progress = timestamp - startTime
-
-                if (progress < duration) {
-                    const percentage = progress / duration
-                    // Easing function for smoother animation
-                    const easeOutQuart = 1 - Math.pow(1 - percentage, 4)
-                    setCount(Math.floor(easeOutQuart * end))
-                    animationFrame = requestAnimationFrame(updateCount)
-                } else {
-                    setCount(end)
-                }
-            }
-
-            animationFrame = requestAnimationFrame(updateCount)
-
-            return () => {
-                if (animationFrame) {
-                    cancelAnimationFrame(animationFrame)
-                }
-            }
-        }, delay)
-
-        return () => {
-            clearTimeout(startDelay)
-        }
-    }, [end, duration, delay, hasStarted])
-
-    // Function to start counting
-    const startCounting = () => {
-        if (!hasStarted) {
-            setHasStarted(true)
-        }
-    }
-
-    return (
-        <motion.span
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            onViewportEnter={startCounting}
-            viewport={{ once: true, margin: "-100px" }}
-        >
-            {prefix}
-            {count.toLocaleString()}
-            {suffix}
-        </motion.span>
-    )
+  return (
+    <motion.span
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      onViewportEnter={() => setStarted(true)}
+      viewport={{ once: true, margin: "-80px" }}
+    >
+      {count.toLocaleString()}{suffix}
+    </motion.span>
+  )
 }
 
 export default function OnlineCommunity() {
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-                delayChildren: 0.1,
-            },
-        },
-    }
+  const socialPlatforms = [
+    { name: "YouTube", icon: Youtube, url: "https://youtube.com/@lovereignbiblechurch?si=lExgqZKahNHcNtxS" },
+    { name: "Podbean", icon: PodcastIcon, url: "https://lovereignbiblechurch.podbean.com/?source=ad" },
+    { name: "TikTok", icon: TikTokIcon, url: "https://www.tiktok.com/@lovereignbiblechurch" },
+    { name: "Instagram", icon: Instagram, url: "https://www.instagram.com/lovereignbiblechurch" },
+    { name: "Facebook", icon: Facebook, url: "http://facebook.com/LOVEREIGNBIBLECHURCH" },
+    { name: "X", icon: XIcon, url: "https://x.com/lovereignchurch" },
+  ]
 
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut",
-            },
-        },
-    }
+  const stats = [
+    { title: "Sermons", value: 2000, icon: Video },
+    { title: "Messages", value: 1500, icon: MessageCircle },
+    { title: "Podcasts", value: 500, icon: Headphones },
+  ]
 
-    const socialPlatforms = [
-        {
-            name: "YouTube",
-            icon: Youtube,
-            url: "https://youtube.com/@lovereignbiblechurch?si=lExgqZKahNHcNtxS",
-            color: "text-gray-300 hover:text-gray-100",
-            bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
-        },
-        {
-            name: "Podbean",
-            icon: PodcastIcon,
-            url: "https://lovereignbiblechurch.podbean.com/?source=ad",
-            color: "text-gray-300 hover:text-gray-100",
-            bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
-        },
-        {
-            name: "TikTok",
-            icon: TikTokIcon,
-            url: "https://www.tiktok.com/@lovereignbiblechurch",
-            color: "text-gray-300 hover:text-gray-100",
-            bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
-        },
-        {
-            name: "Instagram",
-            icon: Instagram,
-            url: "https://www.instagram.com/lovereignbiblechurch",
-            color: "text-gray-300 hover:text-gray-100",
-            bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
-        },
-        {
-            name: "Facebook",
-            icon: Facebook,
-            url: "http://facebook.com/LOVEREIGNBIBLECHURCH",
-            color: "text-gray-300 hover:text-gray-100",
-            bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
-        },
-        {
-            name: "X",
-            icon: XIcon,
-            url: "https://x.com/lovereignchurch",
-            color: "text-gray-300 hover:text-gray-100",
-            bgColor: "bg-gray-800/50 hover:bg-gray-700/50",
-        },
-    ]
+  return (
+    <section className="py-24 relative overflow-hidden bg-black">
+      {/* Background orbs */}
+      <div className="orb w-[500px] h-[500px] bg-purple-700/[0.08] top-0 right-0 translate-x-1/2 -translate-y-1/2" />
+      <div className="orb w-80 h-80 bg-amber-500/[0.05] bottom-0 left-0 -translate-x-1/4 translate-y-1/4" />
 
-    const stats = [
-        {
-            title: "Sermons",
-            value: 2000,
-            icon: Video,
-            color: "text-gray-300",
-            bgColor: "bg-gray-800/50",
-        },
-        {
-            title: "Messages",
-            value: 1500,
-            icon: MessageCircle,
-            color: "text-gray-300",
-            bgColor: "bg-gray-800/50",
-        },
-        {
-            title: "Podcasts",
-            value: 500,
-            icon: Headphones,
-            color: "text-gray-300",
-            bgColor: "bg-gray-800/50",
-        },
-    ]
+      <motion.div
+        className="container mx-auto px-6 relative z-10"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
+      >
+        {/* Header */}
+        <motion.div
+          className="text-center mb-16"
+          variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
+        >
+          <motion.div
+            className="inline-flex items-center justify-center w-16 h-16 glass rounded-2xl mb-6 glow-purple cursor-default"
+            whileHover={{ scale: 1.08, rotate: 360, transition: { duration: 0.6 } }}
+          >
+            <Globe className="h-7 w-7 text-purple-300" />
+          </motion.div>
 
-    return (
-        <section className="py-20 relative overflow-hidden bg-black">
-            {/* Background Elements */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/30 to-black" />
-            <div className="absolute top-20 right-20 w-40 h-40 bg-gray-800/20 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 left-20 w-32 h-32 bg-gray-700/20 rounded-full blur-3xl" />
+          <span className="text-xs font-bold tracking-[0.2em] text-purple-400/80 uppercase block mb-4">
+            Connect With Us
+          </span>
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold mb-5">
+            <span className="text-gradient-white">Join Our </span>
+            <span className="text-gradient-purple">Online Community</span>
+          </h2>
+          <div className="divider-glow w-48 mx-auto mb-6" />
+          <p className="text-white/50 text-base md:text-lg font-light max-w-xl mx-auto">
+            Connect with us on social media and access our growing library of spiritual content
+          </p>
+        </motion.div>
 
-            <motion.div
-                className="container mx-auto px-4 relative z-10"
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-            >
-                {/* Header */}
-                <motion.div className="text-center mb-12" variants={{itemVariants}}>
-                    {/* Reduce icon size */}
-                    <motion.div
-                        className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-gray-800/50 to-gray-700/50 backdrop-blur-sm rounded-2xl mb-4 sm:mb-6 border border-gray-600/20"
-                        whileHover={{
-                            scale: 1.05,
-                            rotate: 360,
-                            transition: { duration: 0.6 },
-                        }}
-                    >
-                        <Globe className="h-6 w-6 sm:h-7 sm:w-7 text-gray-300" />
-                    </motion.div>
+        {/* Social Icons */}
+        <motion.div
+          className="flex flex-wrap justify-center gap-4 mb-16"
+          variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+        >
+          {socialPlatforms.map((platform) => {
+            const Icon = platform.icon
+            return (
+              <motion.a
+                key={platform.name}
+                href={platform.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={platform.name}
+                className="group relative flex items-center justify-center w-12 h-12 rounded-2xl glass glass-hover text-white/50 hover:text-white transition-colors duration-200 cursor-pointer"
+                whileHover={{ y: -4, scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Icon className="h-5 w-5" />
+                <span className="sr-only">{platform.name}</span>
+                {/* Tooltip */}
+                <span className="absolute -top-9 left-1/2 -translate-x-1/2 glass text-white/80 text-[10px] px-2.5 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                  {platform.name}
+                </span>
+              </motion.a>
+            )
+          })}
+        </motion.div>
 
-                    {/* Reduce heading size */}
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
-                        <span className="bg-gradient-to-r from-gray-100 via-gray-300 to-gray-100 bg-clip-text text-transparent">
-                            Join Our{" "}
-                        </span>
-                        <span className="bg-gradient-to-r from-gray-400 to-gray-500 bg-clip-text text-transparent">
-                            Online Community
-                        </span>
-                    </h2>
-
-                    {/* Adjust description text */}
-                    <p className="text-base sm:text-lg text-gray-400 mt-4 max-w-2xl mx-auto font-light">
-                        Connect with us on social media and access our growing library of spiritual content
-                    </p>
-                </motion.div>
-
-                {/* Social Media Icons */}
-                <motion.div className="flex flex-wrap justify-center items-center gap-3 sm:gap-4 mb-12" variants={{itemVariants}}>
-                    {socialPlatforms.map((platform, index) => {
-                        const IconComponent = platform.icon
-                        return (
-                            <motion.a
-                                key={platform.name}
-                                href={platform.url}
-                                className={`group relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl transition-all duration-300 ${platform.bgColor} ${platform.color} border border-gray-700/30`}
-                                whileHover={{ y: -2, scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                variants={{itemVariants}}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                title={platform.name}
-                            >
-                                <IconComponent className="h-5 w-5 sm:h-6 sm:w-6" />
-
-                                {/* Smaller tooltip */}
-                                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-gray-100 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap border border-gray-600">
-                                    {platform.name}
-                                </div>
-                            </motion.a>
-                        )
-                    })}
-                </motion.div>
-
-                {/* Stats with Count Up */}
+        {/* Stats grid */}
+        <motion.div
+          className="glass rounded-3xl p-8 md:p-10 max-w-3xl mx-auto mb-12"
+          variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
+        >
+          <h3 className="font-display text-xl md:text-2xl font-semibold text-center mb-8 text-gradient-white">
+            Our Growing Content Library
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {stats.map((stat, index) => {
+              const Icon = stat.icon
+              return (
                 <motion.div
-                    className="bg-transparent backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg"
-                    variants={{itemVariants}}
+                  key={stat.title}
+                  className="flex flex-col items-center text-center group"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.15 }}
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 >
-                    <h3 className="text-xl sm:text-2xl font-bold text-center mb-6 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
-                        Our Growing Content Library
-                    </h3>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {stats.map((stat, index) => {
-                            const IconComponent = stat.icon
-                            return (
-                                <motion.div
-                                    key={stat.title}
-                                    className="flex flex-col items-center text-center"
-                                    whileHover={{ y: -2 }}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, margin: "-50px" }}
-                                    transition={{ duration: 0.5, delay: index * 0.2 }}
-                                >
-                                    <div
-                                        className={`w-12 h-12 sm:w-14 sm:h-14 ${stat.bgColor} rounded-xl flex items-center justify-center mb-3 border border-gray-700/30`}
-                                    >
-                                        <IconComponent className={`h-6 w-6 sm:h-7 sm:w-7 ${stat.color}`} />
-                                    </div>
-
-                                    <h4 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
-                                        <CountUp end={stat.value} prefix="" suffix="+" duration={2000} delay={index * 200} />
-                                    </h4>
-
-                                    <p className="text-sm sm:text-base text-gray-400 font-medium">{stat.title}</p>
-                                </motion.div>
-                            )
-                        })}
-                    </div>
+                  <div className="w-14 h-14 rounded-2xl bg-purple-600/15 border border-purple-500/20 flex items-center justify-center mb-4 group-hover:bg-purple-600/25 group-hover:border-purple-500/40 transition-all duration-300">
+                    <Icon className="h-6 w-6 text-purple-300" />
+                  </div>
+                  <div className="font-display text-3xl md:text-4xl font-bold mb-2 text-gradient-gold">
+                    <CountUp end={stat.value} suffix="+" delay={index * 200} />
+                  </div>
+                  <p className="text-white/50 text-sm font-medium">{stat.title}</p>
                 </motion.div>
+              )
+            })}
+          </div>
+        </motion.div>
 
-                {/* CTA */}
-                <motion.div className="text-center mt-8 sm:mt-10" variants={{itemVariants}}>
-                    <motion.a
-                        href="/media"
-                        className="inline-flex items-center gap-2 bg-gradient-to-r from-gray-700 to-gray-800 text-gray-100 px-6 py-3 rounded-xl font-medium text-base sm:text-lg shadow-lg hover:shadow-xl hover:shadow-gray-900/30 transition-all duration-300 border border-gray-600/30"
-                        whileHover={{
-                            scale: 1.02,
-                            boxShadow: "0 15px 30px rgba(0, 0, 0, 0.2)",
-                        }}
-                        whileTap={{ scale: 0.98 }}
-                    >
-                        <Music className="h-4 w-4 sm:h-5 sm:w-5" />
-                        <span>Explore Our Content</span>
-                    </motion.a>
-
-                    <p className="text-xs sm:text-sm text-gray-500 mt-3 font-light">New content added weekly</p>
-                </motion.div>
-            </motion.div>
-        </section>
-    )
+        {/* CTA */}
+        <motion.div
+          className="text-center"
+          variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+        >
+          <motion.a
+            href="/media"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl glass glass-hover text-white font-medium text-base border border-purple-500/30 hover:border-purple-400/50 transition-all duration-300 cursor-pointer glow-purple"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Music className="h-5 w-5 text-purple-300" />
+            <span>Explore Our Content</span>
+          </motion.a>
+          <p className="text-white/25 text-xs mt-4 font-light tracking-wider uppercase">
+            New content added weekly
+          </p>
+        </motion.div>
+      </motion.div>
+    </section>
+  )
 }

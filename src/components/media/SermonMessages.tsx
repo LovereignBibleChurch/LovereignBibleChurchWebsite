@@ -79,7 +79,7 @@ export default function SermonMessages({ sermons = [] }: SermonMessagesProps) {
             <div className="w-full bg-black text-white px-4 py-16">
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
+                        <h2 className="font-display text-3xl md:text-4xl font-semibold text-white mb-4">
                             Latest Sermons
                         </h2>
                         <p className="text-gray-400 max-w-2xl mx-auto">
@@ -100,7 +100,7 @@ export default function SermonMessages({ sermons = [] }: SermonMessagesProps) {
             <div className="w-full bg-black text-white px-4 py-16">
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
+                        <h2 className="font-display text-3xl md:text-4xl font-semibold text-white mb-4">
                             Latest Sermons
                         </h2>
                         <p className="text-gray-400 max-w-2xl mx-auto">
@@ -120,7 +120,7 @@ export default function SermonMessages({ sermons = [] }: SermonMessagesProps) {
         <div className="w-full bg-black text-white px-4 py-16">
             <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
+                    <h2 className="font-display text-3xl md:text-4xl font-semibold text-white mb-4">
                         Latest Sermons
                     </h2>
                     <p className="text-gray-400 max-w-2xl mx-auto">

@@ -131,7 +131,7 @@ export default function SampleChapterReader({ book, onClose, onContinueFullBook 
                 <div className="flex items-center justify-center gap-4">
                     <button
                         onClick={onContinueFullBook}
-                        className="px-6 py-2 bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-gray-100 rounded-full transition-all duration-300 border border-gray-600/30"
+                        className="px-6 py-2 glass hover:bg-white/[0.07] text-white/80 hover:text-white rounded-full transition-all duration-200 text-sm cursor-pointer"
                     >
                         Continue Reading Full Book
                     </button>

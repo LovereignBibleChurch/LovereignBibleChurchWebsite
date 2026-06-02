@@ -6,59 +6,65 @@ import { services } from "@/data/serviceData"
 
 export default function ServiceTimes() {
   return (
-    <section className="py-12 bg-black">
-      <div className="max-w-3xl mx-auto px-4">
+    <section className="py-20 relative overflow-hidden bg-black">
+      {/* Subtle background orbs */}
+      <div className="orb w-80 h-80 bg-purple-700/10 -top-20 right-0" />
+      <div className="orb w-60 h-60 bg-amber-500/[0.06] bottom-0 left-10" />
+
+      <div className="relative z-10 max-w-3xl mx-auto px-6">
         {/* Header */}
         <motion.div
-          className="mb-8"
-          initial={{ opacity: 0, y: 10 }}
+          className="mb-12"
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-bold text-white mb-2">Join Us for Worship</h2>
-          <p className="text-gray-400 text-sm">Experience God's presence with us throughout the week</p>
+          <span className="text-xs font-bold tracking-[0.2em] text-purple-400/80 uppercase mb-3 block">
+            Weekly Schedule
+          </span>
+          <h2 className="font-display text-3xl md:text-4xl font-semibold text-white mb-3">
+            Join Us for Worship
+          </h2>
+          <div className="divider-glow w-32 mt-4" />
+          <p className="text-white/50 text-sm mt-4 font-light">
+            Experience God&apos;s presence with us throughout the week
+          </p>
         </motion.div>
 
         {/* Services List */}
-        <motion.div
-          className="space-y-3"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, staggerChildren: 0.1 }}
-        >
+        <div className="space-y-3">
           {services.map((service, index) => {
             const IconComponent = service.icon
             return (
               <motion.div
                 key={service.id}
-                className="group flex items-start gap-4 p-4 rounded-lg border border-gray-800 hover:border-gray-700 hover:bg-gray-900/30 transition-all duration-300"
-                initial={{ opacity: 0, x: -10 }}
+                className="group glass glass-hover rounded-2xl p-5 flex items-start gap-5 cursor-default"
+                initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
+                transition={{ delay: index * 0.08, duration: 0.5 }}
               >
-                {/* Icon */}
-                <div className="flex-shrink-0 mt-1">
-                  <IconComponent className="h-5 w-5 text-gray-400 group-hover:text-gray-300 transition-colors" />
+                {/* Icon bubble */}
+                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/20 flex items-center justify-center group-hover:bg-purple-600/30 transition-colors duration-300">
+                  <IconComponent className="h-5 w-5 text-purple-300" />
                 </div>
 
                 {/* Content */}
                 <div className="flex-grow min-w-0">
-                  <h3 className="font-semibold text-white text-sm md:text-base mb-1 group-hover:text-gray-100 transition-colors">
+                  <h3 className="font-semibold text-white text-sm md:text-base mb-1 group-hover:text-purple-200 transition-colors">
                     {service.title}
                   </h3>
-                  <p className="text-gray-400 text-xs md:text-sm">{service.description}</p>
+                  <p className="text-white/40 text-xs md:text-sm font-light">{service.description}</p>
                 </div>
 
                 {/* Time */}
                 <div className="flex-shrink-0 text-right">
-                  <div className="flex items-center gap-1 text-gray-300 text-sm mb-1 whitespace-nowrap">
-                    <Clock className="h-4 w-4" />
-                    <span className="font-medium">{service.time}</span>
+                  <div className="flex items-center gap-1.5 text-amber-400/90 text-sm mb-1 whitespace-nowrap justify-end">
+                    <Clock className="h-3.5 w-3.5" />
+                    <span className="font-medium text-xs">{service.time}</span>
                   </div>
-                  <div className="flex items-center gap-1 text-gray-500 text-xs whitespace-nowrap">
+                  <div className="flex items-center gap-1 text-white/30 text-xs whitespace-nowrap justify-end">
                     <MapPin className="h-3 w-3" />
                     <span>{service.location}</span>
                   </div>
@@ -66,17 +72,16 @@ export default function ServiceTimes() {
               </motion.div>
             )
           })}
-        </motion.div>
+        </div>
 
-        {/* Bottom message */}
         <motion.p
-          className="text-center text-gray-500 text-xs mt-8"
+          className="text-center text-white/25 text-xs mt-10 font-light tracking-wider uppercase"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.5 }}
         >
-          We can't wait to worship with you
+          We can&apos;t wait to worship with you
         </motion.p>
       </div>
     </section>

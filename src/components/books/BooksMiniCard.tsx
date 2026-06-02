@@ -2,57 +2,84 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { BooksData } from "@/data/booksData"
 import { useEffect, useState } from "react"
+import { ArrowRight } from "lucide-react"
 
 export default function BooksMiniCard() {
-
   const [index, setIndex] = useState(0)
 
-useEffect(() => {
-  const interval = setInterval(() => {
-    setIndex(prev => (prev + 1) % BooksData.length)
-  }, 3000)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % BooksData.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [])
 
-  return () => clearInterval(interval)
-}, [])
-
-const featured = BooksData[index]
+  const featured = BooksData[index]
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className="mx-auto max-w-5xl px-6"
+      transition={{ duration: 0.6 }}
+      className="mx-auto max-w-5xl px-6 py-6"
     >
-      <div className="relative overflow-hidden rounded-md border border-white/10 bg-gradient-to-br from-zinc-900/60 to-zinc-800/40">
-        <div className="grid grid-cols-1 md:grid-cols-[220px_1fr_auto] gap-6 md:gap-8 p-6 md:p-8 items-center">
-          <div className="relative h-40 md:h-36 w-full">
-            <Image
-              src={featured.image}
-              alt={featured.title}
-              fill
-              sizes="(max-width: 768px) 100vw, 220px"
-              className="object-cover rounded"
-            />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={featured.id}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="glass rounded-2xl overflow-hidden"
+          style={{ boxShadow: "0 0 60px rgba(124,58,237,0.08), inset 0 1px 0 rgba(255,255,255,0.05)" }}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_auto] gap-6 md:gap-8 p-6 md:p-8 items-center">
+            {/* Book cover */}
+            <div className="relative h-36 md:h-32 w-full md:w-auto rounded-xl overflow-hidden ring-1 ring-white/10">
+              <Image
+                src={featured.image}
+                alt={featured.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 200px"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+            </div>
+
+            {/* Info */}
+            <div>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-purple-400/80 font-bold block mb-2">
+                From our bookstore
+              </span>
+              <h3 className="font-display text-lg md:text-xl text-white font-semibold mb-2 leading-snug">
+                {featured.title}
+              </h3>
+              <p className="text-sm text-white/45 font-light line-clamp-2 leading-relaxed">{featured.description}</p>
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-row md:flex-col gap-3 items-start md:items-end">
+              <Link
+                href="/books"
+                className="inline-flex items-center gap-2 px-5 py-2.5 glass glass-hover rounded-xl text-white text-sm font-medium border border-purple-500/25 hover:border-purple-400/50 transition-all duration-200 cursor-pointer"
+              >
+                Explore Books
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              <Link
+                href={`/books?id=${featured.id}`}
+                className="text-purple-300/70 hover:text-purple-200 text-xs font-light transition-colors cursor-pointer"
+              >
+                View this title
+              </Link>
+            </div>
           </div>
-          <div>
-            <div className="text-xs uppercase tracking-wide text-blue-200/80 mb-2">From our bookstore</div>
-            <h3 className="text-lg md:text-xl text-white font-semibold mb-2">{featured.title}</h3>
-            <p className="text-sm text-gray-300 line-clamp-2 md:line-clamp-2">{featured.description}</p>
-          </div>
-          <div className="flex flex-col gap-3 items-end">
-            <Link href="/books" className="inline-flex items-center px-4 py-2 rounded-sm border border-white/20 hover:border-white/40 text-white transition-colors">
-              Explore Books
-            </Link>
-            <Link href={`/books?id=${featured.id}`} className="text-blue-200 hover:text-white text-sm">View this title</Link>
-          </div>
-        </div>
-      </div>
+        </motion.div>
+      </AnimatePresence>
     </motion.div>
   )
 }
-

@@ -1,133 +1,95 @@
 "use client"
 
-
-import {motion} from "framer-motion";
-import {BooksData} from "@/data/booksData";
-import {ExternalLink} from "lucide-react";
-import {useRouter} from "next/navigation";
+import { motion } from "framer-motion"
+import { BooksData } from "@/data/booksData"
+import { ArrowRight } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export default function Books() {
-    const router = useRouter(); // Hook for programmatic navigation
+  const router = useRouter()
 
-    // Function to handle navigation to book details
-    const handleBookDetails = (bookId: number) => {
-        router.push(`/books?id=${bookId}`);
-    };
+  return (
+    <section className="bg-black py-24 relative overflow-hidden">
+      <div className="orb w-64 h-64 bg-amber-500/[0.05] top-0 right-0 translate-x-1/2" />
 
-    // Animation variants
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-            },
-        },
-    };
+      <div className="container mx-auto px-6 max-w-5xl relative z-10">
 
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6 },
-        },
-    };
+        {/* Header */}
+        <motion.div
+          className="mb-16"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="text-xs font-bold tracking-[0.2em] text-amber-400/60 uppercase block mb-4">Published Works</span>
+          <h2 className="font-display text-3xl md:text-4xl font-semibold text-white">
+            Books by Pastor John Winfred
+          </h2>
+          <div className="divider-glow w-40 mt-4 mb-4" />
+          <p className="text-white/35 text-sm font-light max-w-lg">
+            Transformative books on ministry, leadership, and spiritual growth, touching thousands of lives worldwide.
+          </p>
+        </motion.div>
 
-    return (
-        <div className="bg-gradient-to-b from-[#295264] to-[#152745] min-h-screen flex flex-col items-center px-4 md:px-6 py-8 relative overflow-hidden">
-            {/* Decorative Elements - Smaller */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-1/4 left-10 w-32 h-32 rounded-full bg-blue-500/10 blur-2xl"></div>
-                <div className="absolute bottom-1/4 right-10 w-40 h-40 rounded-full bg-purple-500/10 blur-2xl"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('/placeholder.svg?height=10&width=10')] bg-repeat opacity-5"></div>
-            </div>
-
-            {/* Title Section - Reduced sizes */}
+        {/* Books list — horizontal rows, no heavy cards */}
+        <div className="space-y-0">
+          {BooksData.map((book, index) => (
             <motion.div
-                className="w-full max-w-4xl text-center md:text-left -ms-64 mb-8"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
+              key={book.id}
+              className="group flex items-center gap-6 py-6 border-t border-white/[0.05] cursor-pointer hover:border-white/[0.1] transition-colors"
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.06, duration: 0.5 }}
+              onClick={() => router.push(`/books?id=${book.id}`)}
             >
-                <div className="flex items-center justify-center md:justify-start mb-3">
-                    <div className="h-0.5 w-12 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full mr-3"></div>
-                    <span className="text-blue-300 uppercase tracking-wider text-xs font-medium">
-            Published Books
-          </span>
-                </div>
+              {/* Cover thumbnail */}
+              <div className="flex-shrink-0 w-14 h-20 rounded-lg overflow-hidden ring-1 ring-white/[0.07] group-hover:ring-white/[0.12] transition-all">
+                <img
+                  src={book.image}
+                  alt={book.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
 
-                <h1 className="text-white text-xl sm:text-2xl md:text-3xl leading-tight font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white">
-                    Books By <br className="hidden md:block" /> Pastor John Winfred
-                </h1>
+              {/* Info */}
+              <div className="flex-grow min-w-0">
+                <p className="text-[10px] text-white/25 uppercase tracking-widest mb-1">{book.year} &middot; {book.pages} pages</p>
+                <h3 className="font-display text-base md:text-lg font-medium text-white/85 group-hover:text-white transition-colors line-clamp-1">
+                  {book.title}
+                </h3>
+                <p className="text-white/35 text-sm font-light mt-1 line-clamp-1">{book.description}</p>
+              </div>
 
-                <p className="text-blue-100/80 mt-4 max-w-xl mx-auto md:mx-0 text-sm">
-                    Explore spiritual wisdom and guidance through these transformative
-                    books that have touched thousands of lives around the world.
-                </p>
+              {/* Price + arrow */}
+              <div className="flex-shrink-0 flex items-center gap-4 text-right">
+                <span className="text-sm text-white/50">{book.price}</span>
+                <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-purple-300 group-hover:translate-x-1 transition-all duration-200" />
+              </div>
             </motion.div>
-
-            {/* Books List */}
-            <motion.div
-                className="w-full max-w-6xl"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-            >
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {BooksData.map((book, index) => (
-                        <motion.div
-                            key={book.id || index}
-                            className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 flex flex-col h-full"
-                            variants={itemVariants}
-                        >
-                            <div className="relative h-48 overflow-hidden">
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10"></div>
-                                <img
-                                    src={book.image || "/placeholder.svg"}
-                                    alt={book.title}
-                                    className="w-full h-full object-cover"
-                                />
-                                <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
-                                    <h3 className="text-white text-lg font-bold">{book.title}</h3>
-                                    <p className="text-blue-200 text-sm mt-1">
-                                        {book.year} • {book.pages} pages
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="p-4 flex-1 flex flex-col">
-                                <p className="text-blue-100/90 text-sm mb-4 line-clamp-3">
-                                    {book.description}
-                                </p>
-
-                                <div className="grid grid-cols-2 gap-3 mb-4 mt-auto">
-                                    <div>
-                                        <h4 className="text-blue-300 text-xs font-medium mb-1">
-                                            Price
-                                        </h4>
-                                        <p className="text-white text-sm">{book.price}</p>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-blue-300 text-xs font-medium mb-1">
-                                            Formats
-                                        </h4>
-                                        <p className="text-white text-sm">{book.formats[0]}, ...</p>
-                                    </div>
-                                </div>
-
-                                <button
-                                    onClick={() => handleBookDetails(book.id)}
-                                    className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-sm transition-colors w-full"
-                                >
-                                    <ExternalLink size={14} />
-                                    <span>More Details</span>
-                                </button>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-            </motion.div>
+          ))}
+          <div className="border-t border-white/[0.05]" />
         </div>
-    );
+
+        {/* CTA */}
+        <motion.div
+          className="mt-12 text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+        >
+          <button
+            onClick={() => router.push("/books")}
+            className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors group cursor-pointer"
+          >
+            View all books in our bookstore
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </button>
+        </motion.div>
+
+      </div>
+    </section>
+  )
 }

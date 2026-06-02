@@ -61,38 +61,42 @@ export default function EventsSlider({
   if (filteredEvents.length === 0) return null
 
   return (
-    <section className="py-20 bg-[#050505] text-white selection:bg-white selection:text-black">
-      <div className="container mx-auto px-6 max-w-7xl">
-        
-        {/* Minimalist Header */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+    <section className="py-20 bg-black text-white relative overflow-hidden">
+      {/* Background orb */}
+      <div className="orb w-80 h-80 bg-purple-700/[0.08] top-0 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
+
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-end mb-14 gap-6">
           <div className="max-w-xl">
-            <motion.span 
+            <motion.span
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase mb-3 block"
+              className="text-xs font-bold tracking-[0.2em] text-purple-400/80 uppercase mb-3 block"
             >
               Exclusively for you
             </motion.span>
-            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4 italic">
+            <h2 className="font-display text-4xl md:text-5xl font-semibold tracking-tight mb-4 italic text-white">
               {title}
             </h2>
-            <p className="text-gray-400 font-light leading-relaxed">
+            <div className="divider-glow w-32 mb-4" />
+            <p className="text-white/45 font-light leading-relaxed">
               {subtitle}
             </p>
           </div>
 
-          {/* Minimal Controls */}
-          <div className="hidden md:flex items-center gap-4">
-            <button 
+          {/* Controls */}
+          <div className="hidden md:flex items-center gap-3">
+            <button
               onClick={handlePrev}
-              className="w-12 h-12 rounded-full border border-gray-800 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300"
+              className="w-11 h-11 rounded-full glass glass-hover flex items-center justify-center text-white/60 hover:text-white transition-all duration-200 cursor-pointer"
             >
               <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
             </button>
-            <button 
+            <button
               onClick={handleNext}
-              className="w-12 h-12 rounded-full border border-gray-800 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300"
+              className="w-11 h-11 rounded-full glass glass-hover flex items-center justify-center text-white/60 hover:text-white transition-all duration-200 cursor-pointer"
             >
               <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
             </button>
@@ -135,11 +139,11 @@ export default function EventsSlider({
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                         sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
                       />
-                      <div className="absolute top-1 left-1 bg-white/10 backdrop-blur-xl border border-white/20 p-3 rounded-xl text-center min-w-[50px]">
-                        <span className="block text-[10px] uppercase tracking-tighter text-gray-300">
+                      <div className="absolute top-2 left-2 glass p-3 rounded-xl text-center min-w-[52px]">
+                        <span className="block text-[10px] uppercase tracking-wider text-white/60">
                           {new Date(event.date).toLocaleDateString("en-US", { month: "short" })}
                         </span>
-                        <span className="block text-xl font-bold">
+                        <span className="block text-xl font-bold text-white">
                           {new Date(event.date).getDate()}
                         </span>
                       </div>
@@ -148,13 +152,13 @@ export default function EventsSlider({
 
                     <div className="mt-6 space-y-3 px-1">
                       <div className="flex items-center gap-2">
-                        <span className="h-[1px] w-4 bg-blue-500" />
-                        <span className="text-[10px] uppercase tracking-[0.2em] text-blue-500 font-bold">
+                        <span className="h-[1px] w-4 bg-purple-400" />
+                        <span className="text-[10px] uppercase tracking-[0.2em] text-purple-400 font-bold">
                           {event.category || "Gathering"}
                         </span>
                       </div>
-                      
-                      <h3 className="text-xl font-medium tracking-tight group-hover:text-blue-400 transition-colors line-clamp-1">
+
+                      <h3 className="font-display text-xl font-semibold tracking-tight group-hover:text-purple-300 transition-colors line-clamp-1">
                         {event.title}
                       </h3>
                       
@@ -180,15 +184,15 @@ export default function EventsSlider({
           </div>
         </div>
 
-        {/* Minimal Pagination */}
-        <div className="mt-12 flex items-center justify-center gap-3">
+        {/* Pagination */}
+        <div className="mt-12 flex items-center justify-center gap-2">
           {filteredEvents.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
               className={cn(
-                "h-1 transition-all duration-500 rounded-full",
-                currentIndex === idx ? "w-12 bg-white" : "w-2 bg-gray-800"
+                "h-1 transition-all duration-500 rounded-full cursor-pointer",
+                currentIndex === idx ? "w-10 bg-purple-400" : "w-2 bg-white/10 hover:bg-white/20"
               )}
             />
           ))}
