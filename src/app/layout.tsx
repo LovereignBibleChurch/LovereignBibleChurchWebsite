@@ -1,5 +1,5 @@
 import type React from "react"
-import {Inter} from "next/font/google"
+import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
@@ -13,7 +13,13 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
 import GlobalPromoRibbon from "@/components/ui/GlobalPromoRibbon"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
+})
 
 export const metadata = {
   title: "Lovereign Bible Church",
@@ -29,7 +35,7 @@ export default async function RootLayout({
   
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${playfair.variable} font-sans`}>
         <CartProvider>
           <div className="flex flex-col min-h-screen bg-black">
             <GlobalPromoRibbon />
