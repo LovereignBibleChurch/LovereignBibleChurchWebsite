@@ -1,3 +1,21 @@
+export interface Book {
+    id: number;
+    title: string;
+    slug: string;
+    image: string;
+    description: string;
+    price: string;
+    pages: string;
+    year: string;
+    category: string;
+    availableAt: string[];
+    formats: string[];
+    sampleChapter?: {
+        title: string;
+        content: string[];
+    };
+}
+
 const bookImage1 = "/books/giftsandcalling.jpg"
 const bookImage2 = "/books/systems_structures.jpg"
 const bookImage3 = "/books/work_of_ministry.jpg"
@@ -9,7 +27,7 @@ const bookImage8 = "/books/offences.png"
 const bookImage9 = "/books/salvation.png"
 const bookImage10 = "/books/ahitophel.png"
 
-export const BooksData = [
+export const BooksData: Book[] = [
     {
         id: 1,
         title: "The Gifts and Calling of God",
@@ -266,7 +284,8 @@ export const BooksData = [
                 "Earthly pleasures fade, but salvation in Christ endures forever. Whoever you are, Jesus can save you—He is the same yesterday, today, and forever, and He is still willing and ready to save all who come to Him.",
             ],
         },
-    },,    {
+    },
+    {
         id: 10,
         title: "Ahithophel: Who Is He?",
         slug: "ahthophel-who-is-he",

@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   for (const book of BooksData) {
     routes.push({
-      url: `${siteUrl}/books?id=${book.id}`,
+      url: `${siteUrl}/books?id=${book!.id}`,
       changeFrequency: "weekly",
       priority: 0.85,
     })
