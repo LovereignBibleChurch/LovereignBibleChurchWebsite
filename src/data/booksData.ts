@@ -7,6 +7,7 @@ const bookImage6 = "/books/honor.png"
 const bookImage7 = "/books/howwegotourbible.png"
 const bookImage8 = "/books/offences.png"
 const bookImage9 = "/books/salvation.png"
+const bookImage10 = "/books/ahitophel.png"
 
 export const BooksData = [
     {
@@ -265,5 +266,28 @@ export const BooksData = [
                 "Earthly pleasures fade, but salvation in Christ endures forever. Whoever you are, Jesus can save you—He is the same yesterday, today, and forever, and He is still willing and ready to save all who come to Him.",
             ],
         },
-    },
+    },,    {
+        id: 10,
+        title: "Ahithophel: Who Is He?",
+        slug: "ahthophel-who-is-he",
+        image: bookImage10,
+        description:
+            "Ahithophel was one of King David’s most revered counsellors, whose wisdom was regarded as if one had inquired at the oracle of God. This book explores his influence, the personal grievances that fueled his betrayal, and the tragic end of a man whose wisdom was ultimately destroyed by bitterness.",
+        price: "GHC 110.00",
+        pages: "107",
+        year: "2026",
+        category: "Christian Life",
+        availableAt: ["Amazon", "Church Bookstore", "Christian Bookshops"],
+        formats: ["Hardcover", "Paperback", "E-Book"],
+        sampleChapter: {
+            title: "Ahithophel: Who Is He?",
+            content: [
+                "Ahithophel was a courtier, one of the most revered counsellors in King David's royal court. His wisdom was so esteemed that the Bible says his counsel was regarded 'as if one had inquired at the oracle of God' (2 Samuel 16:23). He was not merely a strategist; he was a voice of precision and insight with clear authority in matters of governance and warfare.",
+                "Originating from Giloh, a town in Judah (2 Samuel 15:12), Ahithophel held a position of immense influence. His advice shaped decisions at the highest level of leadership. Yet, despite his brilliance, he instigated one of the most devastating betrayals in biblical history and died like an ordinary man devoid of the wisdom earlier attributed to him.",
+                "When Absalom rebelled against his father David, Ahithophel defected and offered strategic counsel to ensure David's downfall. His advice to publicly violate David's concubines (2 Samuel 16:21–22) and to strike David swiftly (2 Samuel 17:1–3) reveals both tactical genius and a deeply personal vendetta.",
+                "Many scholars suggest that his betrayal may have been fueled by unresolved offense, possibly connected to Bathsheba, who was likely his granddaughter (2 Samuel 11:3; 23:34). Though the Bible does not explicitly state his motives, historical and theological analysis points to personal grievance as a contributing factor.",
+                "When his counsel was rejected in favor of Hushai the Archite, Ahithophel foresaw the collapse of Absalom's rebellion. In a final act of calculated despair, he returned home, set his affairs in order, and took his own life (2 Samuel 17:23).",
+            ],
+        },
+    }
 ]
