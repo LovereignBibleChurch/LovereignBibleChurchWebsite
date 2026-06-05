@@ -1,8 +1,8 @@
 "use client"
 
 import {AnimatePresence, motion} from "framer-motion"
-import {BooksData} from "@/data/booksData"
-import {ArrowLeft, Book, Calendar, Check, Copy, Eye, FileText, ShoppingCart, Star} from "lucide-react"
+import {Book, BooksData} from "@/data/booksData"
+import {ArrowLeft, Book as BookIcon, Calendar, Check, Copy, Eye, FileText, ShoppingCart, Star} from "lucide-react"
 import {useRouter} from "next/navigation"
 import {useState} from "react"
 import SampleChapterReader from "./SampleChapterReader"
@@ -82,7 +82,7 @@ export default function BookDetails({ bookId }: BookDetailsProps) {
     const [showDownloadModal, setShowDownloadModal] = useState(false)
 
     const book = BooksData.find((b) => b.id === bookId)
-    const otherBooks = BooksData.filter((b) => b.id !== bookId).slice(0, 3)
+    const otherBooks = BooksData.filter((b): b is Book => b !== undefined && b.id !== bookId).slice(0, 3)
 
     if (!book) {
         return (
@@ -183,7 +183,7 @@ export default function BookDetails({ bookId }: BookDetailsProps) {
                                     <span className="text-white/60 text-xs">{book.pages} pages</span>
                                 </div>
                                 <div className="flex items-center gap-2 glass px-3 py-1.5 rounded-full">
-                                    <Book className="h-3.5 w-3.5 text-white/40" />
+                                    <BookIcon className="h-3.5 w-3.5 text-white/40" />
                                     <span className="text-white/60 text-xs">{book.category}</span>
                                 </div>
                             </div>

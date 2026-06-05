@@ -14,7 +14,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
 async function generateMetadata({ searchParams }: { searchParams?: { id?: string } }): Promise<Metadata> {
   const id = searchParams?.id
   if (id) {
-    const book = BooksData.find((b) => String(b.id) === id)
+    const book = BooksData.find((b) => String(b!.id) === id)
     if (book) {
       const title = `${book.title} | Lovereign Bible Church Books`
       const description = book.description
