@@ -2,7 +2,6 @@ import type React from "react"
 import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/Navbar"
-import Footer from "@/components/Footer"
 import PartnerBadge from "@/components/partner/JWBMPartnerBadge";
 import TrilogyBadge from "@/components/partner/TrilogyBadge"
 import EventCountdownBadge from "@/components/ui/EventCountdownBadge"
@@ -11,7 +10,6 @@ import { CartProvider } from "@/components/cart/CartProvider"
 import FooterSwitch from "@/components/FooterSwitch"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
-import GlobalPromoRibbon from "@/components/ui/GlobalPromoRibbon"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const playfair = Playfair_Display({
@@ -24,6 +22,7 @@ const playfair = Playfair_Display({
 export const metadata = {
   title: "Lovereign Bible Church",
   description: "Making a people ready for God",
+  themeColor: "#0b0b0a",
 }
 
 export default async function RootLayout({
@@ -38,9 +37,9 @@ export default async function RootLayout({
       <body className={`${inter.variable} ${playfair.variable} font-sans`}>
         <CartProvider>
           <div className="flex flex-col min-h-screen bg-black">
-            <GlobalPromoRibbon />
+            <a href="#main-content" className="skip-link">Skip to content</a>
             <Navbar />
-            <main className="flex-grow">{children}</main>
+            <main id="main-content" className="flex-grow">{children}</main>
             <FooterSwitch />
           </div>
           <TrilogyBadge />
