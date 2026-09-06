@@ -1,139 +1,47 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
-import CartIconInline from "@/components/cart/CartIconInline";
-import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link"
+import { useState } from "react"
+import { usePathname } from "next/navigation"
+import { Menu, X } from "lucide-react"
+import CartIconInline from "@/components/cart/CartIconInline"
+
+const navLinks = [
+  { name: "Home", href: "/" }, { name: "Our Story", href: "/our-story" },
+  { name: "Branches", href: "/church-branches" }, { name: "Founder", href: "/founder" },
+  { name: "Books", href: "/books" }, { name: "Media", href: "/media" },
+  { name: "Give", href: "/give" }, { name: "Contact", href: "/contact-us" },
+]
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const pathname = usePathname();
-  const showCartIcon = pathname?.startsWith("/shop");
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Our Story", href: "/our-story" },
-    { name: "Branches", href: "/church-branches" },
-    { name: "Founder", href: "/founder" },
-    { name: "Books", href: "/books" },
-    { name: "Media", href: "/media" },
-    { name: "Give", href: "/give" },
-    { name: "Contact", href: "/contact-us" },
-  ];
-
-  const isActive = (path: string) => pathname === path;
+  const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+  const showCartIcon = pathname?.startsWith("/shop")
 
   return (
-    <>
-      <motion.nav
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? "mx-0 mt-0 glass-strong shadow-[0_8px_32px_rgba(0,0,0,0.4)] border-b border-white/[0.06]"
-            : "bg-transparent"
-        }`}
-      >
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-purple-500/20 rounded-full blur-md group-hover:bg-purple-500/30 transition-all duration-300" />
-                <img
-                  src="/logos/logo.png"
-                  alt="Lovereign Bible Church"
-                  className="relative w-9 h-9 md:w-10 md:h-10 rounded-full object-cover"
-                />
-              </div>
-              <span className="hidden md:block font-display font-semibold text-base text-white/90 group-hover:text-white transition-colors tracking-wide">
-                Lovereign Bible Church
-              </span>
-            </Link>
-
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`relative px-3 py-2 text-sm font-medium transition-all duration-200 rounded-lg cursor-pointer ${
-                    isActive(link.href)
-                      ? "text-white"
-                      : "text-white/60 hover:text-white"
-                  }`}
-                >
-                  {isActive(link.href) && (
-                    <motion.span
-                      layoutId="nav-active"
-                      className="absolute inset-0 glass rounded-lg"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
-                    />
-                  )}
-                  <span className="relative z-10">{link.name}</span>
-                </Link>
-              ))}
-              {showCartIcon && (
-                <div className="ml-2">
-                  <CartIconInline />
-                </div>
-              )}
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden flex items-center gap-3">
-              {showCartIcon && <CartIconInline />}
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2 rounded-xl glass glass-hover text-white/70 hover:text-white transition-colors cursor-pointer"
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
-          </div>
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0b0b0a]">
+      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:h-[4.5rem] md:px-8" aria-label="Primary navigation">
+        <Link href="/" className="flex items-center gap-3 text-white" onClick={() => setOpen(false)}>
+          <img src="/logos/logo.png" alt="Lovereign Bible Church" className="h-9 w-9 rounded-sm object-cover" />
+          <span className="hidden font-display text-[1.05rem] font-semibold tracking-wide sm:block">Lovereign Bible Church</span>
+        </Link>
+        <div className="hidden items-center gap-1 lg:flex">
+          {navLinks.map((link) => {
+            const active = pathname === link.href
+            return <Link key={link.href} href={link.href} aria-current={active ? "page" : undefined} className={`border-b px-3 py-2 text-sm transition-colors ${active ? "border-[#d8b267] text-white" : "border-transparent text-white/65 hover:border-white/30 hover:text-white"}`}>{link.name}</Link>
+          })}
+          {showCartIcon && <div className="ml-3 border-l border-white/10 pl-3"><CartIconInline /></div>}
         </div>
-      </motion.nav>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }}
-            className="fixed top-16 left-0 right-0 z-40 bg-black/95 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_16px_48px_rgba(0,0,0,0.8)] md:hidden"
-          >
-            <div className="px-4 py-4 space-y-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
-                    isActive(link.href)
-                      ? "bg-white/[0.08] border border-white/[0.1] text-white"
-                      : "text-white/70 hover:text-white hover:bg-white/[0.05]"
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  );
+        <div className="flex items-center gap-3 lg:hidden">
+          {showCartIcon && <CartIconInline />}
+          <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-controls="mobile-navigation" aria-label={open ? "Close navigation" : "Open navigation"} className="grid h-10 w-10 place-items-center border border-white/20 text-white hover:border-[#d8b267] hover:text-[#f0cf82]">
+            {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
+          </button>
+        </div>
+      </nav>
+      {open && <div id="mobile-navigation" className="border-t border-white/10 bg-[#121210] px-5 py-3 lg:hidden">
+        {navLinks.map((link) => <Link key={link.href} href={link.href} onClick={() => setOpen(false)} className={`block border-b border-white/10 py-3 text-sm ${pathname === link.href ? "text-[#f0cf82]" : "text-white/75"}`}>{link.name}</Link>)}
+      </div>}
+    </header>
+  )
 }
