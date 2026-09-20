@@ -46,6 +46,8 @@ export default async function RootLayout({
           <PartnerBadge />
         </CartProvider>
         <EventCountdownBadge events={events} />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
