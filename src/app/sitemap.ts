@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/our-story`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteUrl}/shop`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteUrl}/contact-us`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${siteUrl}/policy`, changeFrequency: "yearly", priority: 0.3 },
   ]
 
   for (const book of BooksData) {
